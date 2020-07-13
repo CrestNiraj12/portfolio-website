@@ -59,7 +59,7 @@ Makes use of [node-sass](https://www.npmjs.com/package/node-sass) package. Minif
 
 Makes use of [npm-run-all](https://www.npmjs.com/package/npm-run-all) package. Runs the compile and compress script.
 
-## Learn More :pencil2:
+## :pencil2: Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
