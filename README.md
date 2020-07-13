@@ -4,6 +4,14 @@ or two online courses.
 
 - ⚡ Fun fact: I already have the same website made from scratch using only HTML, CSS and JS with JQuery 🤯 [HERE](https://github.com/CrestNiraj12/Final-Website-Assignment)
 
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start`
+
+Runs the server to start responding for requests.
+
 ### Other Accounts 📫
 
 You can find and get touch with me on these accounts!
