@@ -1,0 +1,19 @@
+.preloader__wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #263133;
+  z-index: 1000;
+  transition: opacity 1s ease-in;
+}
+
+.preloader__content {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

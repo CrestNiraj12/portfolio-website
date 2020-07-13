@@ -1,0 +1,140 @@
+@mixin formatBg($image, $url, $size, $pos, $repeat) {
+  background#{$image}: $url;
+  background-position: $pos;
+  background-size: $size;
+  background-repeat: $repeat;
+}
+
+.navbar {
+  position: absolute;
+  min-width: 100%;
+  display: flex;
+  flex-shrink: 0;
+  padding: 10%;
+  align-items: center;
+  justify-content: center;
+
+  &__show-items {
+    width: 30px;
+    display: block;
+    margin-left: 10px;
+    position: absolute;
+    left: 5%;
+    cursor: pointer;
+
+    &--line {
+      display: flex;
+      height: 1.3px;
+      background-color: #fff;
+      width: 100%;
+      margin-top: 5px;
+    }
+  }
+
+  &__hide-items {
+    position: absolute;
+    top: 7%;
+    right: 10%;
+  }
+
+  &__items--portrait {
+    position: absolute;
+    background-color: $darkblue;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    z-index: 999;
+    width: 15rem;
+    list-style: none;
+    padding: 10%;
+
+    &--logo {
+      margin-bottom: 15%;
+    }
+
+    &-link,
+    &-link--button {
+      @include formatLink(#fff, "Baloo Paaji 2", 0.8rem, 700, uppercase);
+      display: flex;
+      font-size: 1em;
+      margin-top: 20%;
+
+      svg {
+        width: 15px;
+        height: auto;
+        margin-right: 5%;
+      }
+    }
+
+    &--active {
+      border-bottom: 1.5px solid $blue;
+    }
+  }
+
+  &__logo {
+    width: 100px;
+    height: auto;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .navbar {
+    padding: 2% 10%;
+    align-items: center;
+    justify-content: space-between;
+
+    &__logo {
+      width: 150px;
+    }
+
+    &__items--landscape {
+      display: flex;
+      flex-shrink: 0;
+      width: 30%;
+      justify-content: space-evenly;
+      list-style: none;
+
+      &--logo,
+      &--icon {
+        display: none;
+      }
+
+      &--active {
+        border-bottom: 1.5px solid $blue;
+
+        &:hover {
+          border-bottom: none;
+        }
+      }
+
+      &-link {
+        @include formatLink(#fff, "Baloo Paaji 2", 0.8rem, 700, uppercase);
+
+        &:hover {
+          @include formatBg(
+            "-image",
+            url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%2396cdef' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E"),
+            auto 4px,
+            0 100%,
+            repeat-x
+          );
+        }
+
+        &--button {
+          @include formatLink(#fff, "Baloo Paaji 2", 0.8rem, 700, uppercase);
+          @include customButton(10% 30%, 1px solid #fff, 0.3s, #fff, #000);
+
+          &--active {
+            border-color: $blue;
+            color: $blue;
+
+            &:hover {
+              @include buttonHover($blue, #000);
+            }
+          }
+        }
+      }
+    }
+  }
+}

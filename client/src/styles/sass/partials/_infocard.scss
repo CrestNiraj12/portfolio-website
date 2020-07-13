@@ -1,0 +1,89 @@
+%hr {
+  border-bottom: 0.8px solid $gray;
+}
+
+@mixin pad($dir, $val) {
+  padding-#{$dir}: $val;
+}
+
+.info__card {
+  display: flex;
+  flex-direction: column;
+
+  &--social {
+    display: flex;
+    justify-content: flex-start;
+    @include pad("bottom", 15px);
+    @extend %hr;
+
+    &-icon:hover {
+      filter: brightness(1.5);
+    }
+  }
+
+  &--desc {
+    display: flex;
+    flex-direction: column;
+    @extend %hr;
+    @include pad("top", 15px);
+    @include pad("bottom", 15px);
+
+    span {
+      @include text($gray, "Baloo Paaji 2", 0.5px, 0.65em);
+    }
+  }
+
+  &--contact {
+    &-mail {
+      @extend %hr;
+    }
+
+    &-mail,
+    &-call {
+      @include pad("top", 15px);
+    }
+
+    &__mail-link,
+    &__call-link {
+      @include formatLink($gray, "Baloo Paaji 2", 0.65em, normal, none);
+
+      p {
+        margin-bottom: 15px;
+        margin-top: 0;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &--icon,
+  &--social-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .info__card {
+    &--desc {
+      span {
+        @include text($gray, "Baloo Paaji 2", 0.5px, 0.8em);
+      }
+    }
+
+    &--contact {
+      &__mail-link,
+      &__call-link {
+        @include formatLink($gray, "Baloo Paaji 2", 0.8em, normal, none);
+      }
+    }
+
+    &--icon,
+    &--social-icon {
+      width: 25px;
+      height: 25px;
+    }
+  }
+}

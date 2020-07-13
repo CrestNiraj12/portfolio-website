@@ -1,0 +1,86 @@
+$gray: #8a8a8a;
+
+@import "./infocard";
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 70vh;
+  background: no-repeat center center url(../../images/footer.jpg);
+  background-size: cover;
+  margin: 0;
+  padding: 10% 5%;
+  overflow: hidden;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+  }
+
+  &__go-top {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    height: 11%;
+    @include customButton(0.5% 5%, 1px solid $blue, 0.3s, $blue, #000);
+    color: $blue;
+    font-family: "Galada";
+    font-size: 0.8em;
+
+    &--icon {
+      width: 30px;
+      transform: rotate(-90deg);
+    }
+
+    &:hover .st0 {
+      fill: #000;
+    }
+  }
+
+  &__links {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    @include text($gray, "Kurale", 0, 0.55em);
+
+    &--link,
+    &--copy {
+      @include formatLink($gray, "Kurale", 0.55rem, normal, none);
+      letter-spacing: 0.5px;
+      margin: 0 1%;
+      text-transform: capitalize;
+    }
+
+    &--link:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .footer {
+    padding: 5% 10%;
+
+    &__go-top {
+      height: 12%;
+      font-size: 1em;
+      @include customButton(0.5% 2.5%, 1px solid $blue, 0.3s, $blue, #000);
+    }
+
+    &__links {
+      justify-content: flex-end;
+      @include text($gray, "Kurale", 0, 0.8em);
+
+      &--link,
+      &--copy {
+        @include formatLink($gray, "Kurale", 0.9em, normal, none);
+      }
+    }
+  }
+}

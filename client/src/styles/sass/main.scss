@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@500;700&family=Galada&family=Kurale&family=Encode+Sans+Expanded:wght@600&display=swap");
+
+$blue: #96cdef;
+$darkblue: #263133;
+
+@mixin buttonHover($bg, $color) {
+  background-color: $bg;
+  color: $color;
+}
+
+@mixin formatLink($color, $fontFamily, $font-size, $font-weight, $text_t) {
+  color: $color;
+  text-decoration: none;
+  font-family: $fontFamily, cursive;
+  text-transform: $text_t;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  letter-spacing: 1px;
+}
+
+@mixin customButton($pad, $border, $t_time, $bg, $hoverColor) {
+  padding: $pad;
+  border: $border;
+  transition: background-color $t_time ease-in, color $t_time ease-in,
+    transform $t_time ease-in;
+  cursor: pointer;
+
+  &:hover {
+    @include buttonHover($bg, $hoverColor);
+  }
+}
+
+@mixin text($color, $fontFamily, $spacing, $size) {
+  color: $color;
+  font-family: $fontFamily, sans-serif;
+  letter-spacing: $spacing;
+  font-size: $size;
+}
+
+@import "./partials/navbar";
+@import "./partials/home";
+@import "./partials/footer";
