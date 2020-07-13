@@ -1,3 +1,6 @@
+[![Awesome Badges](https://img.shields.io/badge/badges-awesome-green.svg)](https://github.com/Naereen/badges)
+[![ISC license](https://img.shields.io/badge/License-ISC-blue.svg)](https://lbesson.mit-license.org/)
+
 # Portfolio Website
 
 My personal website and a personal project to challenge myself to build a website with ReactJS frontend while using Redux, Sass and NodeJS with Express for the backend after one
