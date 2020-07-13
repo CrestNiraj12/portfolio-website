@@ -1,8 +1,12 @@
 {
-  "name": "Portfolio Website",
+  "name": "portfolio-website",
   "version": "1.0.0",
   "description": "My Personal website",
   "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CrestNiraj12/portfolio-website.git"
+  },
   "scripts": {
     "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"

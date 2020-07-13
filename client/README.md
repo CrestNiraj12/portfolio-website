@@ -1,5 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -37,32 +35,32 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+### `npm run serve`
+
+Makes use of [serve package](https://www.npmjs.com/package/serve). Serves the bundled React build folder to run locally.
+
+### `npm run watch-sass`
+
+Makes use of [node-sass](https://www.npmjs.com/package/node-sass) package to keep watching the sass file for any changes and compile it to style.comp.css in css folder.
+
+### `npm run compile-sass`
+
+Makes use of [node-sass](https://www.npmjs.com/package/node-sass) package for one time compilation of main.scss file to style.comp.css.
+
+### `npm run concat-css`
+
+Makes use of [concat](https://www.npmjs.com/package/concat) package. Concatenates two css files style.comp.css and additional.css into single style.comp.css
+
+### `npm run compress-css`
+
+Makes use of [node-sass](https://www.npmjs.com/package/node-sass) package. Minifies the style.comp.css
+
+### `npm run build-css`
+
+Makes use of [npm-run-all](https://www.npmjs.com/package/npm-run-all) package. Runs the compile and compress script.
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
