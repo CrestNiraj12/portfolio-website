@@ -2,16 +2,12 @@ const router = require("express").Router();
 const Post = require("../models/post.model");
 
 router.route("/").get((req, res) => {
-  console.log("here");
   Post.find()
     .then((posts) => res.json(posts))
-    .catch((err) => {
-      res.status(400).json("Error: " + err);
-    });
+    .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/add").post((req, res) => {
-  console.log(req.body);
+router.route("/:role/add").post((req, res) => {
   const newPost = new Post(req.body);
 
   newPost
@@ -27,13 +23,13 @@ router.route("/:title").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:id").delete((req, res) => {
+router.route("/:role/:id").delete((req, res) => {
   Post.findByIdAndDelete(req.params.id)
     .then(() => res.json("Post Deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/update/:id").post((req, res) => {
+router.route("/:role/update/:id").post((req, res) => {
   Post.findById(req.params.id).then((post) => {
     post.title = req.body.title;
     post.description = req.body.description;

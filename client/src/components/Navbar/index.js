@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.png";
 import store from "../../store";
@@ -9,20 +9,29 @@ import { ReactComponent as Portfolio } from "./candidate.svg";
 import { ReactComponent as CloseIcon } from "./close-icon.svg";
 
 const Navbar = ({ page }) => {
+  const [navActive, setNavActive] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  const handleNavActive = useCallback(() => {
+    const body = document.body;
+    const navStatus = document.getElementById("navStatus");
+    if (navActive) {
+      navStatus.classList.remove("hide");
+      body.style.overflow = "hidden";
+    } else {
+      navStatus.classList.add("hide");
+      body.style.overflow = "visible";
+    }
+  }, [navActive]);
+
   useEffect(() => {
     store.subscribe(() => {
-      const navActive = store.getState().activeNav;
-      const body = document.body;
-      const navStatus = document.getElementById("navStatus");
-      if (navActive) {
-        navStatus.classList.remove("hide");
-        body.style.overflow = "hidden";
-      } else {
-        navStatus.classList.add("hide");
-        body.style.overflow = "visible";
-      }
+      const state = store.getState();
+      setNavActive(state.activeNav);
+      setIsLandscape(state.isLandscape);
     });
-  });
+    handleNavActive();
+  }, [handleNavActive]);
 
   const isActivePage = (p) => page === p;
 
@@ -33,8 +42,6 @@ const Navbar = ({ page }) => {
     }
     return lines;
   };
-
-  const isLandscape = store.getState().isLandscape;
 
   const orientedNavClass = () => {
     if (isLandscape) return "navbar__items--landscape";

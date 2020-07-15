@@ -18,6 +18,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.22",
+    "mongoose-id-assigner": "^3.1.0",
     "serve": "^11.3.2"
   },
   "devDependencies": {}

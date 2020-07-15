@@ -1,25 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import profileImage from "../../images/profile.jpg";
 import profileImageLow from "../../images/profile-low.jpg";
 import store from "../../store";
+import FeaturedBlog from "./FeaturedBlog";
+import { setPosts } from "../../actions";
 
 const Content = () => {
-  const state = store.getState();
-  const posts = [];
+  const [postList, setPostList] = useState([]);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("/posts")
+      .then((res) => {
+        store.dispatch(setPosts(res.data));
+      })
+      .catch((err) => console.log("Error: " + err));
+
+    store.subscribe(() => {
+      const state = store.getState();
+      setPostList(state.posts);
+      setIsLandscape(state.isLandscape);
+    });
+  }, []);
 
   return (
     <main>
       <section
         className="section__bio"
-        style={posts.length >= 1 ? { height: "110vh" } : { height: "90vh" }}
+        style={postList.length > 0 ? { height: "110vh" } : { height: "90vh" }}
       >
         <div className="section__bio-wrapper">
           <div className="section__bio-wrapper__corner-top"></div>
           <div className="section__bio-wrapper__content">
             <img
               className="section__bio-wrapper__content-image"
-              src={state.isLandscape ? profileImage : profileImageLow}
+              src={isLandscape ? profileImage : profileImageLow}
               alt="Profile"
             />
             <div className="section__bio-wrapper__content-wrapper">
@@ -39,7 +57,7 @@ const Content = () => {
                   Portfolio
                 </Link>
 
-                {state.isLandscape && (
+                {isLandscape && (
                   <Link
                     className="section__bio-wrapper__button-item"
                     to="/contact"
@@ -52,13 +70,17 @@ const Content = () => {
           </div>
           <div className="section__bio-wrapper__corner-bottom"></div>
         </div>
-        {posts.length >= 1 && (
+        {postList.length >= 1 && (
           <div className="section__bio--headings">
             <h2>Almost made in time</h2>
-            <h3>Check out some of my blog posts</h3>
+            <h3>
+              Check out
+              {postList.length > 2 ? " some of my blog posts" : " my blog post"}
+            </h3>
           </div>
         )}
       </section>
+      {postList.length >= 1 && <FeaturedBlog posts={postList} />}
     </main>
   );
 };

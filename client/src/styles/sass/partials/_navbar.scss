@@ -11,6 +11,7 @@
   display: flex;
   flex-shrink: 0;
   padding: 10%;
+  z-index: 999;
   align-items: center;
   justify-content: center;
 
@@ -35,6 +36,7 @@
     position: absolute;
     top: 7%;
     right: 10%;
+    cursor: pointer;
   }
 
   &__items--portrait {

@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 
 const postsRouter = require("./backend/routes/posts");
 
-app.use(cors);
+app.use(cors());
 app.use(express.json());
 
 const url = process.env.ATLAS_URL;
@@ -30,10 +30,6 @@ connection
   })
   .catch((err) => console.log(err));
 
-app.get("/", function (req, res) {
-  res.set("Content-Type", "text/plain");
-  res.send("hello");
-});
 app.use("/posts", postsRouter);
 
 if (process.env.NODE_ENV === "production") {

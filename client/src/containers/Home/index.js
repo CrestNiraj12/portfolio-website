@@ -9,14 +9,12 @@ const Home = ({ page }) => {
 
   useEffect(() => {
     store.dispatch(setPage(0));
-  }, []);
 
-  useEffect(() => {
     store.subscribe(() => {
       const navActive = store.getState().activeNav;
       setActiveNav(navActive);
     });
-  });
+  }, []);
 
   return (
     <>

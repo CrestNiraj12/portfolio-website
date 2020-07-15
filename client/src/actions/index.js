@@ -1,4 +1,4 @@
-import { SET_PAGE, ACTIVE_NAV, IS_LANDSCAPE } from "../constants";
+import { SET_PAGE, ACTIVE_NAV, IS_LANDSCAPE, SET_POSTS } from "../constants";
 
 export const setPage = (page) => ({
   type: SET_PAGE,
@@ -13,4 +13,9 @@ export const activeNav = (active) => ({
 export const isLandscape = (confirm) => ({
   type: IS_LANDSCAPE,
   payload: confirm,
+});
+
+export const setPosts = (posts) => ({
+  type: SET_POSTS,
+  payload: posts,
 });

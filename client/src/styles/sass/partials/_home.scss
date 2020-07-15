@@ -29,6 +29,7 @@
 .header {
   &__home {
     @include headerBackground(url(../../images/header-bg-portrait.jpg), 100vh);
+    position: relative;
   }
 
   &__content-wrapper {
@@ -114,7 +115,7 @@
   }
 
   &--headings {
-    margin: 20% 5% 0 5%;
+    margin: 30% 10%;
 
     h2 {
       @include text($blue, "Galada", 1px, 0.8em);
@@ -172,7 +173,7 @@
         &-desc {
           text-align: left;
           margin: 2.5% 0;
-          @include text(#fff, "Kurale", 1px, 1.5em);
+          @include text(#fff, "Kurale", 1px, 1.25em);
         }
       }
 
@@ -190,13 +191,13 @@
     }
 
     &--headings {
-      margin-top: 10%;
+      margin: 10%;
 
       h2 {
-        @include text($blue, "Galada", 1.5px, 1.35em);
+        @include text($blue, "Galada", 1.5px, 1.1em);
       }
       h3 {
-        @include text(#fff, "Roboto", 1px, 1.65em);
+        @include text(#fff, "Roboto", 1px, 1.3em);
         margin-top: 2%;
       }
     }

@@ -5,6 +5,7 @@
   display: flex;
   flex-shrink: 0;
   padding: 10%;
+  z-index: 999;
   align-items: center;
   justify-content: center; }
   .navbar__show-items {
@@ -23,7 +24,8 @@
   .navbar__hide-items {
     position: absolute;
     top: 7%;
-    right: 10%; }
+    right: 10%;
+    cursor: pointer; }
   .navbar__items--portrait {
     position: absolute;
     background-color: #263133;
@@ -124,7 +126,8 @@
 .header__home {
   background: no-repeat url(../../images/header-bg-portrait.jpg);
   background-size: cover;
-  height: 100vh; }
+  height: 100vh;
+  position: relative; }
 
 .header__content-wrapper {
   width: 100%;
@@ -231,7 +234,7 @@
       .section__bio-wrapper__button-item:hover {
         transform: scale(1.1); }
   .section__bio--headings {
-    margin: 20% 5% 0 5%; }
+    margin: 30% 10%; }
     .section__bio--headings h2 {
       color: #96cdef;
       font-family: "Galada", sans-serif;
@@ -286,7 +289,7 @@
         color: #fff;
         font-family: "Kurale", sans-serif;
         letter-spacing: 1px;
-        font-size: 1.5em; }
+        font-size: 1.25em; }
     .section__bio-wrapper__button {
       width: 100%;
       display: flex;
@@ -296,18 +299,95 @@
         width: 30%;
         margin-right: 5%; }
     .section__bio--headings {
-      margin-top: 10%; }
+      margin: 10%; }
       .section__bio--headings h2 {
         color: #96cdef;
         font-family: "Galada", sans-serif;
         letter-spacing: 1.5px;
-        font-size: 1.35em; }
+        font-size: 1.1em; }
       .section__bio--headings h3 {
         color: #fff;
         font-family: "Roboto", sans-serif;
         letter-spacing: 1px;
-        font-size: 1.65em;
+        font-size: 1.3em;
         margin-top: 2%; } }
+
+.featured__posts--large, .featured__posts--small {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+.featured__posts--large, .featured__posts--small-item {
+  margin-bottom: 15%;
+  color: #fff;
+  text-decoration: none; }
+
+.featured__posts--large__text-wrapper h3, .featured__posts--small-item__text-wrapper h3 {
+  font-family: "Galada", cursive;
+  font-size: 0.85em;
+  font-weight: normal;
+  color: #add0e9; }
+
+.featured__posts--large__text-wrapper h1, .featured__posts--small-item__text-wrapper h1 {
+  margin: 1% 0;
+  text-decoration: underline;
+  text-decoration-color: #add0e9;
+  font-size: 1.2em; }
+
+.featured__posts--large__text-wrapper p, .featured__posts--small-item__text-wrapper p {
+  text-overflow: ellipsis;
+  line-height: 1.3em;
+  font-size: 0.8em;
+  color: #afb8bc;
+  max-height: 3.9em;
+  overflow: hidden; }
+
+.featured__posts {
+  display: flex;
+  flex-direction: column; }
+  .featured__posts--large {
+    margin-top: -5%; }
+    .featured__posts--large__thumbnail {
+      align-self: center;
+      object-fit: cover;
+      width: 80%;
+      max-height: 60%; }
+    .featured__posts--large__text-wrapper {
+      margin: 0 10%; }
+  .featured__posts--small-item {
+    width: 80%; }
+    .featured__posts--small-item__thumbnail {
+      object-fit: cover;
+      width: 100%;
+      max-height: 60%; }
+
+@media screen and (orientation: landscape) {
+  .featured__posts--large__text-wrapper h3, .featured__posts--small-item__text-wrapper h3 {
+    font-size: 1em; }
+  .featured__posts--large__text-wrapper h1, .featured__posts--small-item__text-wrapper h1 {
+    font-size: 1.5em; }
+  .featured__posts--large__text-wrapper p, .featured__posts--small-item__text-wrapper p {
+    text-overflow: ellipsis;
+    line-height: 1.3em;
+    font-size: 1em;
+    color: #afb8bc;
+    max-height: 3.9em;
+    overflow: hidden; }
+  .featured__posts--large {
+    margin-bottom: 5%; }
+    .featured__posts--large__thumbnail {
+      align-self: center;
+      width: 80%;
+      max-height: 60%; }
+  .featured__posts--small {
+    flex-direction: row;
+    margin: 0 10%;
+    justify-content: space-between; }
+    .featured__posts--small-item {
+      width: 48%; }
+      .featured__posts--small-item__thumbnail {
+        width: 100%;
+        max-height: 60%; } }
 
 .info__card--social, .info__card--desc, .info__card--contact-mail {
   border-bottom: 0.8px solid #8a8a8a; }
@@ -430,7 +510,8 @@
 
 @media screen and (orientation: landscape) {
   .footer {
-    padding: 5% 10%; }
+    padding: 5% 10%;
+    margin-top: 10%; }
     .footer__go-top {
       height: 12%;
       font-size: 1em;

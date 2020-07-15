@@ -6,7 +6,7 @@ import { ReactComponent as Arrow } from "./arrow.svg";
 const Footer = () => {
   const handleTopScroll = () => {
     window.scrollTo({
-      top: 0,
+      top: -100,
       behavior: "smooth",
     });
   };
