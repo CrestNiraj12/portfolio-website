@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Home from "./containers/Home";
 import Contact from "./containers/Contact";
@@ -15,12 +15,13 @@ import store from "./store";
 import { activeNav } from "./actions";
 import { isLandscape } from "./actions/index";
 
-import { ReactComponent as Preloader } from "./preloader.svg";
+import PageNotFound from "./components/PageNotFound";
+import Login from "./containers/Login";
+import Signup from "./containers/Signup";
+import Dashboard from "./containers/Dashboard";
 
 function App() {
   const state = store.getState();
-
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     store.dispatch(isLandscape(window.innerWidth > window.innerHeight));
@@ -30,32 +31,22 @@ function App() {
     { path: "/", component: Home, isExact: true },
     { path: "/contact", component: Contact, isExact: false },
     { path: "/portfolio", component: Portfolio, isExact: false },
-    { path: "/post/:id", component: Post, isExact: false },
+    { path: "/posts/:id", component: Post, isExact: false },
+    { path: "/auth/login", component: Login, isExact: true },
+    { path: "/auth/register", component: Signup, isExact: true },
+    { path: "/user/dashboard", component: Dashboard, isExact: false },
+    { path: "*", component: PageNotFound, isExact: false },
   ];
 
   const handleClick = () => {
     store.dispatch(activeNav(false));
   };
 
-  const handleBodyLoad = () => {
-    const preloader = document.querySelector(".preloader__wrapper");
-    if (preloader) preloader.style.opacity = 0;
-    setTimeout(() => {
-      setIsLoading(false);
-      document.body.style.overflow = "visible";
-    }, 500);
-  };
-
   return (
     <Router>
-      {isLoading && (
-        <div className="preloader__wrapper">
-          <Preloader className="preloader__content" />
-        </div>
-      )}
-      <>
-        <Navbar page={state.page} />
-        <div onClick={handleClick} onLoad={handleBodyLoad}>
+      <Navbar page={state.page} />
+      <div onClick={handleClick}>
+        <Switch>
           {routes.map(({ path, component, isExact }) => (
             <Route
               key={path}
@@ -64,9 +55,9 @@ function App() {
               component={component}
             />
           ))}
-          <Footer />
-        </div>
-      </>
+        </Switch>
+        <Footer />
+      </div>
     </Router>
   );
 }

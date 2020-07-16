@@ -41,3 +41,11 @@ $darkblue: #263133;
 @import "./partials/home";
 @import "./partials/featuredPosts";
 @import "./partials/footer";
+
+.test {
+  height: 100vh;
+  top: 50vh;
+  left: 20%;
+  width: max-content;
+  position: relative;
+}

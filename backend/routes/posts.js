@@ -1,35 +1,26 @@
 const router = require("express").Router();
 const Post = require("../models/post.model");
 
-router.route("/").get((req, res) => {
+router.get("/", (req, res) => {
   Post.find()
     .then((posts) => res.json(posts))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:role/add").post((req, res) => {
-  const newPost = new Post(req.body);
-
-  newPost
-    .save()
-    .then(() => res.json("Post Added!"))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
-
-router.route("/:title").get((req, res) => {
+router.get("/:title", (req, res) => {
   const id = req.params.title.split("-").pop();
   Post.findById(id)
     .then((post) => res.json(post))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:role/:id").delete((req, res) => {
+router.delete("/:id", (req, res) => {
   Post.findByIdAndDelete(req.params.id)
     .then(() => res.json("Post Deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:role/update/:id").post((req, res) => {
+router.put("/update/:id", (req, res) => {
   Post.findById(req.params.id).then((post) => {
     post.title = req.body.title;
     post.description = req.body.description;

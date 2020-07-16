@@ -6,9 +6,11 @@ const postSchema = new mongoose.Schema(
     description: { type: String, required: true },
     thumbnail: { type: String, required: true },
     content: { type: [String], default: [], required: true },
-    images: { type: [String], default: [], required: true },
-    author: { type: String, required: true },
-    url: { type: String, required: true },
+    authorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );

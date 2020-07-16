@@ -62,6 +62,7 @@ $lightblue: #add0e9;
 
   &--small {
     @extend %align-post;
+    flex-wrap: wrap;
 
     &-item {
       @extend %content-wrapper;
