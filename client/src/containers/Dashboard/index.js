@@ -3,11 +3,14 @@ import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 import store from "../../store";
 import { setPage } from "../../actions";
-import { ReactComponent as User } from "./avatar.svg";
-import { ReactComponent as Post } from "./paper.svg";
+import { ReactComponent as LinkIcon } from "./link.svg";
+import { ReactComponent as UserIcon } from "./avatar.svg";
+import { ReactComponent as PostIcon } from "./paper.svg";
+import { ReactComponent as ControlIcon } from "./control.svg";
 
 const Dashboard = ({ match }) => {
   const [redirect, setRedirect] = useState(null);
+  const [isLanscape, setIsLandscape] = useState(false);
   const [details, setDetails] = useState({
     fullname: "",
     email: "",
@@ -17,16 +20,20 @@ const Dashboard = ({ match }) => {
   });
 
   const features = [
-    { url: "/posts", text: "All Posts", Svg: Post },
-    { url: "/user/all", text: "All Users", Svg: User },
+    { url: "/posts", text: "All Posts", Svg: PostIcon },
+    { url: "/user/all", text: "All Users", Svg: UserIcon },
   ];
 
   useEffect(() => {
     store.dispatch(setPage(6));
     const isAuthenticated = localStorage.getItem("isAuthenticated");
-    if (isAuthenticated === "false") setRedirect("../auth/login");
+    if (isAuthenticated === "false") setRedirect("../../auth/login");
     axios.get(`/user/${match.params.id}`).then((user) => {
       setDetails(user.data);
+    });
+
+    store.subscribe(() => {
+      setIsLandscape(store.getState().isLandscape);
     });
   }, [match.params.id]);
 
@@ -37,7 +44,10 @@ const Dashboard = ({ match }) => {
   const handleFormSubmit = () => {
     axios
       .put(`/user/${match.params.id}`, details)
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        console.log(res);
+        handleLogout();
+      })
       .catch((err) => console.log(err));
     document.querySelector(".dashboard__head-profile__view").style.display =
       "flex";
@@ -81,13 +91,22 @@ const Dashboard = ({ match }) => {
     e.target.style.visibility = "visible";
   };
 
+  const handleDeletePost = (authorId, postId) => {
+    axios
+      .delete(`/posts/${authorId}/${postId}`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <main className="dashboard">
         {redirect && <Redirect to={redirect} />}
         <section className="dashboard__head">
           <h1>
-            Welcome !
+            {!isLanscape && "Welcome!"}
             <button
               className="dashboard__head-button__logout"
               style={{ cursor: "pointer" }}
@@ -107,12 +126,14 @@ const Dashboard = ({ match }) => {
               />
             </div>
 
-            <p className="dashboard__head-profile-role">{details.role}</p>
             <div className="dashboard__head-profile__view">
+              <p className="dashboard__head-profile-role">{details.role},</p>
               <h3 className="dashboard__head-profile__view-fullname">
                 {details.fullname}
               </h3>
+
               <p className="dashboard__head-profile__view-email">
+                <LinkIcon className="dashboard__head-profile__view-email__icon" />
                 {details.email}
               </p>
               <button
@@ -170,7 +191,10 @@ const Dashboard = ({ match }) => {
         </section>
 
         <section className="dashboard__content">
-          <h2 style={{ color: "#fff" }}>Control Center</h2>
+          <div className="dashboard__content-heading">
+            <ControlIcon />
+            <h2 style={{ color: "#fff" }}>Control Center</h2>
+          </div>
           <div className="dashboard__content-features">
             {features.map(({ url, text, Svg }) => (
               <Link key={url} to={url}>
@@ -181,11 +205,34 @@ const Dashboard = ({ match }) => {
               </Link>
             ))}
           </div>
-          <div>
-            <h1>Your Posts</h1>
-            <div className="">
-              {details.posts.length > 1 ? (
-                details.posts.map((post) => <Link key={post.title}></Link>)
+          <div className="dashboard__content-posts">
+            <h1>
+              Your Posts{" "}
+              {details.posts.length > 0 && `(${details.posts.length})`}
+            </h1>
+            <div className="dashboard__content-posts__wrapper">
+              {details.posts.length > 0 ? (
+                details.posts.map((post) => (
+                  <div
+                    key={post._id}
+                    className="dashboard__content-posts__wrapper-item"
+                  >
+                    <Link
+                      to={`/posts/${post.title
+                        .toLowerCase()
+                        .split(" ")
+                        .join("-")}-${post._id}`}
+                    >
+                      {post.title}
+                    </Link>
+                    <button>Edit</button>
+                    <button
+                      onClick={() => handleDeletePost(post.authorId, post._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))
               ) : (
                 <p style={{ fontFamily: "Kurale", color: "#9b9b9b" }}>
                   You have not posted anything!

@@ -23,13 +23,22 @@ router.put("/:id", (req, res) => {
 
     user
       .save()
-      .then(() => res.json("User updated!"))
+      .then(() => {
+        return res.json("User updated!");
+      })
+
       .catch((err) => res.status(400).json("Error: " + err));
   });
 });
 
 router.get("/:id", (req, res) => {
-  User.findById(req.params.id).then((user) => res.json(user));
+  User.findById(req.params.id)
+    .populate("posts")
+    .exec((err, user) => {
+      if (err) res.status(400).json("Error: " + err);
+      console.log(user);
+      return res.json(user);
+    });
 });
 
 router.delete("/:id", (req, res) => {

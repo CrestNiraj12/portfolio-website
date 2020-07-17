@@ -13,7 +13,8 @@ const AuthenticationForm = ({ page, pageTitle }) => {
   useEffect(() => {
     store.dispatch(setPage(page));
     const isAuthenticated = localStorage.getItem("isAuthenticated");
-    if (isAuthenticated === "true") setRedirect("../user/dashboard");
+    if (isAuthenticated === "true")
+      setRedirect(`../user/${localStorage.getItem("id")}/dashboard`);
   }, [page]);
 
   const handleFormSubmit = (e) => {
@@ -21,10 +22,11 @@ const AuthenticationForm = ({ page, pageTitle }) => {
     axios
       .post(`/auth/${pageTitle}`, details)
       .then((res) => {
-        const id = res.data.user.id;
+        localStorage.setItem("id", res.data.user.id);
         const isAuthenticated = res.data.user.isAuthenticated;
         localStorage.setItem("isAuthenticated", isAuthenticated);
-        if (isAuthenticated) setRedirect(`../user/${id}/dashboard`);
+        if (isAuthenticated)
+          setRedirect(`../user/${localStorage.getItem("id")}/dashboard`);
       })
       .catch((err) => console.log("Error: " + err));
   };
@@ -88,7 +90,6 @@ const AuthenticationForm = ({ page, pageTitle }) => {
             <option value="editor">Editor</option>
           </select>
         )}
-
         <button>Submit</button>
         {page === 5 ? (
           <p>
@@ -99,6 +100,23 @@ const AuthenticationForm = ({ page, pageTitle }) => {
             Create an account? <Link to="./register">Sign up</Link>
           </p>
         )}
+        <p style={{ fontSize: "0.6em" }}>
+          <a
+            href="https://iconscout.com/icons/eye"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Eye Icon
+          </a>{" "}
+          by{" "}
+          <a
+            href="https://iconscout.com/contributors/dario-ferrando"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Dario Ferrando
+          </a>
+        </p>
       </form>
     </main>
   );

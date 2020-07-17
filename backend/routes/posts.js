@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Post = require("../models/post.model");
+const User = require("../models/user.model");
 
 router.get("/", (req, res) => {
   Post.find()
@@ -10,14 +11,27 @@ router.get("/", (req, res) => {
 router.get("/:title", (req, res) => {
   const id = req.params.title.split("-").pop();
   Post.findById(id)
-    .then((post) => res.json(post))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .populate("authorId")
+    .exec((err, post) => {
+      if (err) res.status(400).json("Error: " + err);
+      return res.json(post);
+    });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:userId/:id", (req, res) => {
   Post.findByIdAndDelete(req.params.id)
     .then(() => res.json("Post Deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
+
+  User.findByIdAndUpdate(
+    req.params.userId,
+    { $pull: { posts: { _id: req.params.id } } },
+    { safe: true, upsert: true },
+    (err, msg) => {
+      if (err) return res.status(400).json("Error: " + err);
+      return res.json(msg);
+    }
+  );
 });
 
 router.put("/update/:id", (req, res) => {

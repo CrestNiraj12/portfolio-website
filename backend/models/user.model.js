@@ -18,7 +18,8 @@ userSchema.methods = {
   hashPassword: (password) =>
     bcrypt.hashSync(password, bcrypt.genSaltSync(8), null),
   checkPassword: function (password) {
-    return bcrypt.compareSync(password, this.password);
+    if (password !== undefined)
+      return bcrypt.compareSync(password, this.password);
   },
 };
 

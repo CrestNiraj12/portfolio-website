@@ -1,10 +1,10 @@
-@mixin button($margin, $color, $hoverColor) {
+@mixin button($padding, $margin, $color, $hoverColor) {
   background: none;
   color: $color;
   border-radius: 12px;
   outline: none;
   margin: $margin;
-  @include customButton(2% 4%, 1px solid $color, 0.3s, $color, $hoverColor);
+  @include customButton($padding, 1px solid $color, 0.3s, $color, $hoverColor);
 }
 
 $red: #ff3939;
@@ -38,10 +38,11 @@ $gray: #c3c3c3;
         position: relative;
         display: flex;
         flex-direction: column;
+        $size: 200px;
 
         img {
-          width: 200px;
-          height: 200px;
+          width: $size;
+          height: $size;
           object-fit: cover;
           border-radius: 50%;
           margin: 10% 0;
@@ -51,8 +52,8 @@ $gray: #c3c3c3;
         }
 
         &-loader {
-          width: 200px;
-          height: 200px;
+          width: $size;
+          height: $size;
           margin-top: 10%;
           align-self: center;
           background: $gray;
@@ -61,12 +62,15 @@ $gray: #c3c3c3;
       }
 
       &-role {
+        font-size: 1.2em;
+        margin: 3% 0;
         text-align: center;
         text-transform: capitalize;
         font-family: Galada;
         color: $blue;
       }
 
+      $padding: 2% 4%;
       &__view {
         display: flex;
         flex-direction: column;
@@ -81,18 +85,25 @@ $gray: #c3c3c3;
           font-size: 0.75em;
           color: $gray;
           font-family: "Encode Sans Expanded";
+
+          &__icon {
+            display: inline-flex;
+            margin-right: 2%;
+            width: 12px;
+            fill: $blue;
+          }
         }
 
         &-button__edit {
-          @include button(5% 0 2% 0, #fff, #000);
+          @include button($padding, 5% 0 2% 0, #fff, #000);
         }
 
         &-button__delete {
-          @include button(2% 0 5% 0, $red, #fff);
+          @include button($padding, 2% 0 5% 0, $red, #fff);
         }
       }
       &-button__update {
-        @include button(5% 0, #fff, #000);
+        @include button($padding, 5% 0, #fff, #000);
       }
     }
 
@@ -114,6 +125,15 @@ $gray: #c3c3c3;
 
   &__content {
     margin-top: 10%;
+
+    &-heading {
+      display: flex;
+
+      svg {
+        width: 25px;
+        margin-right: 2%;
+      }
+    }
 
     &-features {
       display: flex;
@@ -139,6 +159,142 @@ $gray: #c3c3c3;
         &-icon {
           width: 50px;
           margin-bottom: 10%;
+        }
+      }
+    }
+
+    &-posts {
+      &__wrapper {
+        &-item {
+          display: flex;
+          width: 100%;
+          a {
+            color: #fff;
+            text-decoration: none;
+            width: 80%;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .dashboard {
+    &__head {
+      h1 {
+        font-size: 2em;
+      }
+
+      &-button__logout {
+        outline: none;
+        @include customButton(0.5% 2%, 1px solid $red, 0.3s, $red, #fff);
+      }
+
+      &-profile {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+
+        &__img {
+          $size: 350px;
+          z-index: 2;
+          margin: 5% 10% 0 0;
+
+          img {
+            width: $size;
+            height: $size;
+          }
+
+          &-loader {
+            width: $size;
+            height: $size;
+          }
+        }
+
+        &-role {
+          font-size: 1.5em;
+          align-self: center;
+          margin-top: -50px;
+        }
+
+        $padding: 1% 3%;
+        &__view {
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: left;
+          align-content: center;
+          margin-top: 7.5%;
+
+          $width: 100%;
+          &-fullname {
+            font-size: 4em;
+            width: $width;
+            margin: 0 0 0 5%;
+            align-self: center;
+          }
+
+          &-email {
+            font-size: 0.8em;
+            width: $width;
+            margin: 5% 0 0 5%;
+            align-self: center;
+          }
+
+          $margin: 5% 0 0 5%;
+          &-button__edit {
+            @include button($padding, $margin, #fff, #000);
+            font-size: 0.7em;
+          }
+
+          &-button__delete {
+            @include button($padding, $margin, $red, #fff);
+            font-size: 0.7em;
+          }
+        }
+        &-button__update {
+          @include button($padding, 5% 0, #fff, #000);
+        }
+      }
+
+      form {
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: fit-content;
+        justify-content: space-between;
+        align-self: center;
+        margin-top: 10%;
+
+        input {
+          width: 45%;
+          font-size: 1.2em;
+        }
+
+        button {
+          width: 45%;
+        }
+
+        input {
+          margin: 5% 0;
+        }
+      }
+    }
+
+    &__content {
+      margin-top: 5%;
+
+      &-features {
+        flex-direction: row;
+        margin-bottom: 5%;
+
+        a {
+          margin: 3% 5% 0 0;
+        }
+
+        &__card {
+          height: 10rem;
+          width: 15rem;
         }
       }
     }
