@@ -1,0 +1,119 @@
+.form__wrapper {
+  margin: 15%;
+  padding: 5% 10% 10% 10%;
+  background: #fff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 18px 20px 1px #263133;
+  align-items: center;
+  position: absolute;
+  top: 12%;
+  width: 70%;
+
+  h1 {
+    font-size: 1.5em;
+    font-family: "Galada";
+  }
+
+  .form__authentication {
+    width: 100%;
+
+    input {
+      border: none;
+      border-bottom: 1px solid #000;
+      margin: 7% 0;
+      width: 100%;
+      outline: none;
+      font-family: inherit;
+    }
+
+    select {
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      option {
+        background: #263133;
+        color: #fff;
+        font-size: 0.9em;
+        padding: 5% 0;
+      }
+    }
+
+    &-password {
+      position: relative;
+    }
+
+    svg {
+      width: 15px;
+      position: absolute;
+      right: 0;
+
+      cursor: pointer;
+    }
+
+    svg#showPassword {
+      top: 40%;
+    }
+
+    svg#hidePassword {
+      top: 37%;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      text-align: center;
+      margin: 10% 0;
+      background: $darkblue;
+      color: #fff;
+      padding: 3%;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #90b0b5;
+    }
+
+    p {
+      font-size: 0.6em;
+      text-align: center;
+
+      a {
+        color: $darkblue;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: $blue;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .form__wrapper {
+    margin: 2% 35%;
+    padding: 2% 4%;
+    width: 25%;
+
+    .form__authentication {
+      input {
+        margin: 5% 0;
+      }
+
+      button {
+        margin: 5% 0;
+      }
+
+      p {
+        font-size: 0.8em;
+      }
+    }
+  }
+}

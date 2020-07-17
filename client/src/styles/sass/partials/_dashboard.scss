@@ -1,0 +1,146 @@
+@mixin button($margin, $color, $hoverColor) {
+  background: none;
+  color: $color;
+  border-radius: 12px;
+  outline: none;
+  margin: $margin;
+  @include customButton(2% 4%, 1px solid $color, 0.3s, $color, $hoverColor);
+}
+
+$red: #ff3939;
+$gray: #c3c3c3;
+
+.dashboard {
+  display: flex;
+  padding: 5% 10%;
+  flex-direction: column;
+  background-color: $darkblue;
+  color: #fff;
+
+  &__head {
+    h1 {
+      overflow-wrap: anywhere;
+    }
+
+    &-button__logout {
+      float: right;
+      background: none;
+
+      font-size: 0.4em;
+      color: $red;
+      outline: none;
+      @include customButton(1% 4%, 1px solid $red, 0.3s, $red, #fff);
+      border-radius: 10px;
+    }
+
+    &-profile {
+      &__img {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        img {
+          width: 200px;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 50%;
+          margin: 10% 0;
+          align-self: center;
+          position: absolute;
+          visibility: hidden;
+        }
+
+        &-loader {
+          width: 200px;
+          height: 200px;
+          margin-top: 10%;
+          align-self: center;
+          background: $gray;
+          border-radius: 50%;
+        }
+      }
+
+      &-role {
+        text-align: center;
+        text-transform: capitalize;
+        font-family: Galada;
+        color: $blue;
+      }
+
+      &__view {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        &-fullname {
+          font-size: 1.8em;
+          margin-bottom: 2%;
+        }
+
+        &-email {
+          font-size: 0.75em;
+          color: $gray;
+          font-family: "Encode Sans Expanded";
+        }
+
+        &-button__edit {
+          @include button(5% 0 2% 0, #fff, #000);
+        }
+
+        &-button__delete {
+          @include button(2% 0 5% 0, $red, #fff);
+        }
+      }
+      &-button__update {
+        @include button(5% 0, #fff, #000);
+      }
+    }
+
+    form {
+      flex-direction: column;
+      justify-content: space-evenly;
+      display: none;
+
+      input {
+        margin: 5% 0;
+        border: none;
+        border-bottom: 1px solid #fff;
+        background-color: $darkblue;
+        color: #fff;
+        outline: none;
+      }
+    }
+  }
+
+  &__content {
+    margin-top: 10%;
+
+    &-features {
+      display: flex;
+      flex-direction: column;
+
+      a {
+        text-decoration-color: $darkblue;
+        margin: 5% 0;
+      }
+
+      &__card {
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        border-radius: 12px;
+        color: $darkblue;
+
+        align-items: center;
+        font-family: "Galada";
+        font-size: 1.2em;
+        cursor: pointer;
+
+        &-icon {
+          width: 50px;
+          margin-bottom: 10%;
+        }
+      }
+    }
+  }
+}

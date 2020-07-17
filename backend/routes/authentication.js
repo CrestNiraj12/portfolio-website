@@ -32,6 +32,7 @@ const authenticate = (auth, req, res, next) => {
         return res.json({
           message: `User ${auth === "register" ? "registered" : "logged in"}!`,
           user: {
+            id: user.id,
             email: user.email,
             isAuthenticated,
             flash: req.flash("error"),

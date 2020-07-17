@@ -3,6 +3,7 @@ import store from "../../store";
 import { setPage } from "../../actions";
 import Header from "./header";
 import Content from "./content";
+import Footer from "../../components/Footer";
 
 const Home = ({ page }) => {
   const [activeNav, setActiveNav] = useState(false);
@@ -21,6 +22,7 @@ const Home = ({ page }) => {
       {activeNav && <div className="body__overlay"></div>}
       <Header />
       <Content />
+      <Footer />
     </>
   );
 };

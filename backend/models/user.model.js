@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, required: true },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+  image: {
+    type: String,
+    default: "https://api.adorable.io/avatars/285/abott@adorable.png",
+  },
 });
 
 userSchema.methods = {

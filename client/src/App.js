@@ -7,12 +7,10 @@ import Portfolio from "./containers/Portfolio";
 import Post from "./containers/Post";
 
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 
 import "./styles/css/App.css";
 import "./styles/css/style.comp.css";
 import store from "./store";
-import { activeNav } from "./actions";
 import { isLandscape } from "./actions/index";
 
 import PageNotFound from "./components/PageNotFound";
@@ -25,7 +23,11 @@ function App() {
 
   useEffect(() => {
     store.dispatch(isLandscape(window.innerWidth > window.innerHeight));
-  }, []);
+    if (state.page === 0)
+      document.querySelector(".navbar").style.position = "absolute";
+    else if (![4, 5, 6].includes(state.page))
+      document.querySelector(".navbar").style.position = "initial";
+  }, [state.page]);
 
   const routes = [
     { path: "/", component: Home, isExact: true },
@@ -34,30 +36,18 @@ function App() {
     { path: "/posts/:id", component: Post, isExact: false },
     { path: "/auth/login", component: Login, isExact: true },
     { path: "/auth/register", component: Signup, isExact: true },
-    { path: "/user/dashboard", component: Dashboard, isExact: false },
+    { path: "/user/:id/dashboard", component: Dashboard, isExact: false },
     { path: "*", component: PageNotFound, isExact: false },
   ];
 
-  const handleClick = () => {
-    store.dispatch(activeNav(false));
-  };
-
   return (
     <Router>
-      <Navbar page={state.page} />
-      <div onClick={handleClick}>
-        <Switch>
-          {routes.map(({ path, component, isExact }) => (
-            <Route
-              key={path}
-              path={path}
-              exact={isExact}
-              component={component}
-            />
-          ))}
-        </Switch>
-        <Footer />
-      </div>
+      {![4, 5, 6].includes(state.page) && <Navbar page={state.page} />}
+      <Switch>
+        {routes.map(({ path, component, isExact }) => (
+          <Route key={path} path={path} exact={isExact} component={component} />
+        ))}
+      </Switch>
     </Router>
   );
 }

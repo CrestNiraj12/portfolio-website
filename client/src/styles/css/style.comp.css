@@ -391,6 +391,216 @@
         width: 100%;
         max-height: 60%; } }
 
+.form__wrapper {
+  margin: 15%;
+  padding: 5% 10% 10% 10%;
+  background: #fff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 18px 20px 1px #263133;
+  align-items: center;
+  position: absolute;
+  top: 12%;
+  width: 70%; }
+  .form__wrapper h1 {
+    font-size: 1.5em;
+    font-family: "Galada"; }
+  .form__wrapper .form__authentication {
+    width: 100%; }
+    .form__wrapper .form__authentication input {
+      border: none;
+      border-bottom: 1px solid #000;
+      margin: 7% 0;
+      width: 100%;
+      outline: none;
+      font-family: inherit; }
+    .form__wrapper .form__authentication select {
+      border: none;
+      outline: none;
+      cursor: pointer; }
+      .form__wrapper .form__authentication select option {
+        background: #263133;
+        color: #fff;
+        font-size: 0.9em;
+        padding: 5% 0; }
+    .form__wrapper .form__authentication-password {
+      position: relative; }
+    .form__wrapper .form__authentication svg {
+      width: 15px;
+      position: absolute;
+      right: 0;
+      cursor: pointer; }
+    .form__wrapper .form__authentication svg#showPassword {
+      top: 40%; }
+    .form__wrapper .form__authentication svg#hidePassword {
+      top: 37%;
+      display: none; }
+    .form__wrapper .form__authentication button {
+      width: 100%;
+      text-align: center;
+      margin: 10% 0;
+      background: #263133;
+      color: #fff;
+      padding: 3%;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      cursor: pointer; }
+    .form__wrapper .form__authentication button:hover {
+      background: #90b0b5; }
+    .form__wrapper .form__authentication p {
+      font-size: 0.6em;
+      text-align: center; }
+      .form__wrapper .form__authentication p a {
+        color: #263133;
+        text-decoration: none; }
+      .form__wrapper .form__authentication p a:hover {
+        color: #96cdef;
+        text-decoration: underline; }
+
+@media screen and (orientation: landscape) {
+  .form__wrapper {
+    margin: 2% 35%;
+    padding: 2% 4%;
+    width: 25%; }
+    .form__wrapper .form__authentication input {
+      margin: 5% 0; }
+    .form__wrapper .form__authentication button {
+      margin: 5% 0; }
+    .form__wrapper .form__authentication p {
+      font-size: 0.8em; } }
+
+.dashboard {
+  display: flex;
+  padding: 5% 10%;
+  flex-direction: column;
+  background-color: #263133;
+  color: #fff; }
+  .dashboard__head h1 {
+    overflow-wrap: anywhere; }
+  .dashboard__head-button__logout {
+    float: right;
+    background: none;
+    font-size: 0.4em;
+    color: #ff3939;
+    outline: none;
+    padding: 1% 4%;
+    border: 1px solid #ff3939;
+    transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+    cursor: pointer;
+    border-radius: 10px; }
+    .dashboard__head-button__logout:hover {
+      background-color: #ff3939;
+      color: #fff; }
+  .dashboard__head-profile__img {
+    position: relative;
+    display: flex;
+    flex-direction: column; }
+    .dashboard__head-profile__img img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 10% 0;
+      align-self: center;
+      position: absolute;
+      visibility: hidden; }
+    .dashboard__head-profile__img-loader {
+      width: 200px;
+      height: 200px;
+      margin-top: 10%;
+      align-self: center;
+      background: #c3c3c3;
+      border-radius: 50%; }
+  .dashboard__head-profile-role {
+    text-align: center;
+    text-transform: capitalize;
+    font-family: Galada;
+    color: #96cdef; }
+  .dashboard__head-profile__view {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly; }
+    .dashboard__head-profile__view-fullname {
+      font-size: 1.8em;
+      margin-bottom: 2%; }
+    .dashboard__head-profile__view-email {
+      font-size: 0.75em;
+      color: #c3c3c3;
+      font-family: "Encode Sans Expanded"; }
+    .dashboard__head-profile__view-button__edit {
+      background: none;
+      color: #fff;
+      border-radius: 12px;
+      outline: none;
+      margin: 5% 0 2% 0;
+      padding: 2% 4%;
+      border: 1px solid #fff;
+      transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+      cursor: pointer; }
+      .dashboard__head-profile__view-button__edit:hover {
+        background-color: #fff;
+        color: #000; }
+    .dashboard__head-profile__view-button__delete {
+      background: none;
+      color: #ff3939;
+      border-radius: 12px;
+      outline: none;
+      margin: 2% 0 5% 0;
+      padding: 2% 4%;
+      border: 1px solid #ff3939;
+      transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+      cursor: pointer; }
+      .dashboard__head-profile__view-button__delete:hover {
+        background-color: #ff3939;
+        color: #fff; }
+  .dashboard__head-profile-button__update {
+    background: none;
+    color: #fff;
+    border-radius: 12px;
+    outline: none;
+    margin: 5% 0;
+    padding: 2% 4%;
+    border: 1px solid #fff;
+    transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+    cursor: pointer; }
+    .dashboard__head-profile-button__update:hover {
+      background-color: #fff;
+      color: #000; }
+  .dashboard__head form {
+    flex-direction: column;
+    justify-content: space-evenly;
+    display: none; }
+    .dashboard__head form input {
+      margin: 5% 0;
+      border: none;
+      border-bottom: 1px solid #fff;
+      background-color: #263133;
+      color: #fff;
+      outline: none; }
+  .dashboard__content {
+    margin-top: 10%; }
+    .dashboard__content-features {
+      display: flex;
+      flex-direction: column; }
+      .dashboard__content-features a {
+        text-decoration-color: #263133;
+        margin: 5% 0; }
+      .dashboard__content-features__card {
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        border-radius: 12px;
+        color: #263133;
+        align-items: center;
+        font-family: "Galada";
+        font-size: 1.2em;
+        cursor: pointer; }
+        .dashboard__content-features__card-icon {
+          width: 50px;
+          margin-bottom: 10%; }
+
 .info__card--social, .info__card--desc, .info__card--contact-mail {
   border-bottom: 0.8px solid #8a8a8a; }
 
@@ -538,10 +748,3 @@
         font-size: 0.9em;
         font-weight: normal;
         letter-spacing: 1px; } }
-
-.test {
-  height: 100vh;
-  top: 50vh;
-  left: 20%;
-  width: max-content;
-  position: relative; }
