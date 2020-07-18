@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const mongoose = require("mongoose");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
 
@@ -19,17 +20,22 @@ router.get("/:title", (req, res) => {
 });
 
 router.delete("/:userId/:id", (req, res) => {
+  const messages = { message: [] };
   Post.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Post Deleted!"))
+    .then(() => (messages.message = "Post Deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
 
   User.findByIdAndUpdate(
     req.params.userId,
-    { $pull: { posts: { _id: req.params.id } } },
+    { $pull: { posts: mongoose.mongo.ObjectId(req.params.id) } },
     { safe: true, upsert: true },
-    (err, msg) => {
-      if (err) return res.status(400).json("Error: " + err);
-      return res.json(msg);
+    (err, obj) => {
+      if (err)
+        return res
+          .status(400)
+          .json("Messages: " + messages + "\nError: " + err);
+      messages.prevObject = obj;
+      return res.json(messages);
     }
   );
 });

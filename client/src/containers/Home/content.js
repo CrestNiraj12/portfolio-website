@@ -12,18 +12,24 @@ const Content = () => {
   const [isLandscape, setIsLandscape] = useState(false);
 
   useEffect(() => {
+    var mounted = true;
     axios
       .get("/posts")
       .then((res) => {
-        store.dispatch(setPosts(res.data));
+        if (mounted) {
+          store.dispatch(setPosts(res.data));
+        }
       })
       .catch((err) => console.log("Error: " + err));
 
     store.subscribe(() => {
-      const state = store.getState();
-      setPostList(state.posts);
-      setIsLandscape(state.isLandscape);
+      if (mounted) {
+        const state = store.getState();
+        setPostList(state.posts);
+        setIsLandscape(state.isLandscape);
+      }
     });
+    return () => (mounted = false);
   }, []);
 
   return (

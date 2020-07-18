@@ -586,6 +586,17 @@
       background-color: #263133;
       color: #fff;
       outline: none; }
+    .dashboard__head form div {
+      display: flex;
+      width: 100%;
+      flex-direction: column; }
+      .dashboard__head form div label {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #96cdef; }
+      .dashboard__head form div input {
+        width: 100%;
+        font-size: 0.8em; }
   .dashboard__content {
     margin-top: 10%; }
     .dashboard__content-heading {
@@ -614,12 +625,48 @@
           margin-bottom: 10%; }
     .dashboard__content-posts__wrapper-item {
       display: flex;
-      width: 100%; }
+      justify-content: space-between;
+      align-items: center; }
       .dashboard__content-posts__wrapper-item a {
         color: #fff;
-        text-decoration: none;
-        width: 80%;
-        justify-content: space-between; }
+        align-self: center;
+        text-decoration: none; }
+        .dashboard__content-posts__wrapper-item a:hover {
+          color: #96cdef;
+          text-decoration: underline; }
+        .dashboard__content-posts__wrapper-item a p {
+          align-self: center;
+          font-size: 1.5em; }
+      .dashboard__content-posts__wrapper-item__button {
+        display: flex;
+        margin-right: 20%; }
+        .dashboard__content-posts__wrapper-item__button-edit {
+          background: none;
+          color: #fff;
+          border-radius: 12px;
+          outline: none;
+          margin: 0;
+          padding: 3% 20%;
+          border: 1px solid #fff;
+          transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+          cursor: pointer;
+          margin-right: 5%; }
+          .dashboard__content-posts__wrapper-item__button-edit:hover {
+            background-color: #fff;
+            color: #000; }
+        .dashboard__content-posts__wrapper-item__button-delete {
+          background: none;
+          color: #ff3939;
+          border-radius: 12px;
+          outline: none;
+          margin: 0;
+          padding: 3% 20%;
+          border: 1px solid #ff3939;
+          transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+          cursor: pointer; }
+          .dashboard__content-posts__wrapper-item__button-delete:hover {
+            background-color: #ff3939;
+            color: #000; }
 
 @media screen and (orientation: landscape) {
   .dashboard__head h1 {
@@ -717,10 +764,14 @@
     .dashboard__head form input {
       width: 45%;
       font-size: 1.2em; }
+    .dashboard__head form input[disabled] {
+      border: none; }
     .dashboard__head form button {
       width: 45%; }
     .dashboard__head form input {
       margin: 5% 0; }
+    .dashboard__head form div {
+      width: 45%; }
   .dashboard__content {
     margin-top: 5%; }
     .dashboard__content-features {
@@ -730,7 +781,35 @@
         margin: 3% 5% 0 0; }
       .dashboard__content-features__card {
         height: 10rem;
-        width: 15rem; } }
+        width: 15rem; }
+    .dashboard__content-posts__wrapper-item__button {
+      margin-right: 25%; }
+      .dashboard__content-posts__wrapper-item__button-edit {
+        background: none;
+        color: #fff;
+        border-radius: 12px;
+        outline: none;
+        margin: 0% 10% 0 0;
+        padding: 3% 40%;
+        border: 1px solid #fff;
+        transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+        cursor: pointer; }
+        .dashboard__content-posts__wrapper-item__button-edit:hover {
+          background-color: #fff;
+          color: #000; }
+      .dashboard__content-posts__wrapper-item__button-delete {
+        background: none;
+        color: #ff3939;
+        border-radius: 12px;
+        outline: none;
+        margin: 0;
+        padding: 3% 40%;
+        border: 1px solid #ff3939;
+        transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+        cursor: pointer; }
+        .dashboard__content-posts__wrapper-item__button-delete:hover {
+          background-color: #ff3939;
+          color: #000; } }
 
 .info__card--social, .info__card--desc, .info__card--contact-mail {
   border-bottom: 0.8px solid #8a8a8a; }

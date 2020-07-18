@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
-const { pass } = require("../config/passport/LoginStrategy");
+const path = require("path");
+const multer = require("multer");
 
 router.get("/all", (req, res) => {
   User.find()
@@ -9,27 +10,72 @@ router.get("/all", (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.get("/:id/dashboard", (req, res) => res.json("In dashboard"));
-
-router.put("/:id", (req, res) => {
-  User.findById(req.params.id).then((user) => {
-    user.fullname = req.body.fullname;
-    const password = req.body.password;
-    if (user.checkPassword(req.body.oldPassword)) {
-      if (password === req.body.confirmPassword) {
-        user.password = password;
-      } else return res.status(400).json("New passwords do not match!");
-    } else return res.status(400).json("Wrong password!");
-
-    user
-      .save()
-      .then(() => {
-        return res.json("User updated!");
-      })
-
-      .catch((err) => res.status(400).json("Error: " + err));
-  });
+const storage = multer.diskStorage({
+  destination: "./client/public/images/",
+  filename: (req, file, cb) => {
+    console.log(req.body);
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
 });
+
+const checkFileType = (file, cb) => {
+  const filetypes = /jpeg|png|jpg|gif/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (extname && mimetype) return cb(null, true);
+  else return cb("Error: Images only!");
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  },
+}).single("image");
+
+router.put(
+  "/:id/changePassword/:passChange/imageUpload/:imageUpload",
+  (req, res) => {
+    User.findById(req.params.id).then((user) => {
+      upload(req, res, (err) => {
+        if (err) return res.status(400).json(err);
+
+        user.fullname = req.body.fullname;
+
+        if (req.params.passChange === "true") {
+          const prevPassword = req.body.password;
+          const newPassword = req.body.newPassword;
+
+          if (user.checkPassword(prevPassword)) {
+            user.password = newPassword;
+          } else return res.status(400).json("Wrong password!");
+        }
+
+        var filename;
+        if (req.params.imageUpload === "true") {
+          if (req.file) {
+            filename = req.file.filename;
+            user.image = filename;
+            console.log(user);
+          } else {
+            return res.status(400).json("Image upload failed!");
+          }
+        }
+
+        user
+          .save()
+          .then(() => {
+            return res.json({ message: "User updated!", filename });
+          })
+          .catch((err) => res.status(400).json("Error: " + err));
+      });
+    });
+  }
+);
 
 router.get("/:id", (req, res) => {
   User.findById(req.params.id)

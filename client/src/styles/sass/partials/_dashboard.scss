@@ -120,6 +120,23 @@ $gray: #c3c3c3;
         color: #fff;
         outline: none;
       }
+
+      div {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+
+        label {
+          font-size: 1.2em;
+          font-weight: bold;
+          color: #96cdef;
+        }
+
+        input {
+          width: 100%;
+          font-size: 0.8em;
+        }
+      }
     }
   }
 
@@ -167,12 +184,38 @@ $gray: #c3c3c3;
       &__wrapper {
         &-item {
           display: flex;
-          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+
           a {
             color: #fff;
+            align-self: center;
             text-decoration: none;
-            width: 80%;
-            justify-content: space-between;
+
+            &:hover {
+              color: #96cdef;
+              text-decoration: underline;
+            }
+
+            p {
+              align-self: center;
+              font-size: 1.5em;
+            }
+          }
+
+          &__button {
+            display: flex;
+            margin-right: 20%;
+
+            &-edit {
+              @include button(3% 20%, 0, #fff, #000);
+
+              margin-right: 5%;
+            }
+
+            &-delete {
+              @include button(3% 20%, 0, $red, #000);
+            }
           }
         }
       }
@@ -271,12 +314,20 @@ $gray: #c3c3c3;
           font-size: 1.2em;
         }
 
+        input[disabled] {
+          border: none;
+        }
+
         button {
           width: 45%;
         }
 
         input {
           margin: 5% 0;
+        }
+
+        div {
+          width: 45%;
         }
       }
     }
@@ -295,6 +346,24 @@ $gray: #c3c3c3;
         &__card {
           height: 10rem;
           width: 15rem;
+        }
+      }
+
+      &-posts {
+        &__wrapper {
+          &-item {
+            &__button {
+              margin-right: 25%;
+
+              &-edit {
+                @include button(3% 40%, 0% 10% 0 0, #fff, #000);
+              }
+
+              &-delete {
+                @include button(3% 40%, 0, $red, #000);
+              }
+            }
+          }
         }
       }
     }

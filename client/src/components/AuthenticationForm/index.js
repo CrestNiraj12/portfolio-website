@@ -9,16 +9,29 @@ import { ReactComponent as EyeCloseIcon } from "./close-eye.svg";
 const AuthenticationForm = ({ page, pageTitle }) => {
   const [details, setDetails] = useState({});
   const [redirect, setRedirect] = useState(null);
+  const [usersCount, setUsersCount] = useState(0);
 
   useEffect(() => {
+    var mounted = true;
     store.dispatch(setPage(page));
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (isAuthenticated === "true")
       setRedirect(`../user/${localStorage.getItem("id")}/dashboard`);
+
+    axios
+      .get("/user/all")
+      .then((users) => {
+        if (mounted) setUsersCount(users.data.length);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+    return () => (mounted = false);
   }, [page]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    console.log(details);
     axios
       .post(`/auth/${pageTitle}`, details)
       .then((res) => {
@@ -28,7 +41,7 @@ const AuthenticationForm = ({ page, pageTitle }) => {
         if (isAuthenticated)
           setRedirect(`../user/${localStorage.getItem("id")}/dashboard`);
       })
-      .catch((err) => console.log("Error: " + err));
+      .catch((err) => console.log(err.response.data));
   };
 
   const handleInputChange = (e) => {
@@ -60,6 +73,7 @@ const AuthenticationForm = ({ page, pageTitle }) => {
             name="fullname"
             placeholder="Full Name"
             onChange={handleInputChange}
+            required
           />
         )}
         <input
@@ -67,6 +81,7 @@ const AuthenticationForm = ({ page, pageTitle }) => {
           name="email"
           placeholder="Email"
           onChange={handleInputChange}
+          required
         />
         <div className="form__authentication-password">
           <input
@@ -75,6 +90,7 @@ const AuthenticationForm = ({ page, pageTitle }) => {
             id="password"
             placeholder="Password"
             onChange={handleInputChange}
+            required
           />
           <EyeIcon id="showPassword" onClick={handleShowPassword} />
           <EyeCloseIcon id="hidePassword" onClick={handleHidePassword} />
@@ -84,10 +100,12 @@ const AuthenticationForm = ({ page, pageTitle }) => {
             name="role"
             onChange={handleInputChange}
             value={details.value}
+            required
           >
             <option value="">Select Role</option>
-            <option value="admin">Admin</option>
+            {usersCount === 0 && <option value="admin">Admin</option>}
             <option value="editor">Editor</option>
+            <option value="tester">Tester</option>
           </select>
         )}
         <button>Submit</button>

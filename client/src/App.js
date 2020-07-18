@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Home from "./containers/Home";
 import Contact from "./containers/Contact";
 import Portfolio from "./containers/Portfolio";
+import Posts from "./containers/Posts";
 import Post from "./containers/Post";
 
 import Navbar from "./components/Navbar";
@@ -17,17 +18,22 @@ import PageNotFound from "./components/PageNotFound";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Dashboard from "./containers/Dashboard";
+import Users from "./containers/Users";
 
 function App() {
-  const state = store.getState();
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     store.dispatch(isLandscape(window.innerWidth > window.innerHeight));
-    if (state.page === 0)
+
+    const state = store.getState();
+    setPage(state.page);
+
+    if (page === 0)
       document.querySelector(".navbar").style.position = "absolute";
-    else if (![4, 5, 6].includes(state.page))
+    else if (![4, 5, 6, 7, 8].includes(page))
       document.querySelector(".navbar").style.position = "initial";
-  }, [state.page]);
+  }, [page]);
 
   const routes = [
     { path: "/", component: Home, isExact: true },
@@ -37,12 +43,14 @@ function App() {
     { path: "/auth/login", component: Login, isExact: true },
     { path: "/auth/register", component: Signup, isExact: true },
     { path: "/user/:id/dashboard", component: Dashboard, isExact: false },
+    { path: "/posts", component: Posts, isExact: false },
+    { path: "/user/all", component: Users, isExact: false },
     { path: "*", component: PageNotFound, isExact: false },
   ];
 
   return (
     <Router>
-      {![4, 5, 6].includes(state.page) && <Navbar page={state.page} />}
+      {![4, 5, 6, 7, 8].includes(page) && <Navbar page={page} />}
       <Switch>
         {routes.map(({ path, component, isExact }) => (
           <Route key={path} path={path} exact={isExact} component={component} />

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("./backend/config/passport");
 const flash = require("connect-flash");
 const cookieSession = require("cookie-session");
+const multer = require("multer");
 
 require("dotenv").config();
 
@@ -15,6 +16,7 @@ const usersRouter = require("./backend/routes/users");
 const authenticationRouter = require("./backend/routes/authentication");
 
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(

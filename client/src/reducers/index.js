@@ -4,4 +4,9 @@ import activeNav from "./activeNav";
 import isLandscape from "./isLandscape";
 import posts from "./setPosts";
 
-export default combineReducers({ page, activeNav, isLandscape, posts });
+export default combineReducers({
+  page,
+  activeNav,
+  isLandscape,
+  posts,
+});

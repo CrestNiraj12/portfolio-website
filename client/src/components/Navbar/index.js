@@ -25,12 +25,16 @@ const Navbar = ({ page }) => {
   }, [navActive]);
 
   useEffect(() => {
+    var mounted = true;
     store.subscribe(() => {
-      const state = store.getState();
-      setNavActive(state.activeNav);
-      setIsLandscape(state.isLandscape);
+      if (mounted) {
+        const state = store.getState();
+        setNavActive(state.activeNav);
+        setIsLandscape(state.isLandscape);
+      }
     });
     handleNavActive();
+    return () => (mounted = false);
   }, [handleNavActive]);
 
   const isActivePage = (p) => page === p;
