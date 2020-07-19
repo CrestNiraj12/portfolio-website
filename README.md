@@ -1,5 +1,5 @@
 [![Awesome Badges](https://img.shields.io/badge/badges-awesome-green.svg)](https://github.com/Naereen/badges)
-[![ISC license](https://img.shields.io/badge/License-ISC-blue.svg)](https://https://www.isc.org//)
+[![ISC license](https://img.shields.io/badge/License-ISC-blue.svg)](https://www.isc.org/)
 
 # Portfolio Website
 
