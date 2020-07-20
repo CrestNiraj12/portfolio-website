@@ -66,10 +66,15 @@ router.put(
           }
         }
 
+        console.log(user);
+
         user
           .save()
           .then(() => {
-            return res.json({ message: "User updated!", filename });
+            return res.json({
+              message: "User updated successfully!",
+              filename,
+            });
           })
           .catch((err) => res.status(400).json("Error: " + err));
       });

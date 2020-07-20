@@ -1,4 +1,4 @@
-const { SET_PAGE } = require("../constants");
+import { SET_PAGE } from "../constants";
 
 export default (state = 0, action) => {
   switch (action.type) {

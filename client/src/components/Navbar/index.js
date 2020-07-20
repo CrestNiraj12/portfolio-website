@@ -1,41 +1,32 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.png";
-import store from "../../store";
-import { activeNav } from "../../actions";
+import { activeNav, hideOverflow } from "../../actions";
 import { ReactComponent as Home } from "./home.svg";
 import { ReactComponent as Contact } from "./call.svg";
 import { ReactComponent as Portfolio } from "./candidate.svg";
 import { ReactComponent as CloseIcon } from "./close-icon.svg";
+import { HOME, CONTACT, PORTFOLIO } from "../../constants";
 
-const Navbar = ({ page }) => {
-  const [navActive, setNavActive] = useState(false);
-  const [isLandscape, setIsLandscape] = useState(false);
+const mapStateToProps = (state) => ({
+  page: state.page,
+  navActive: state.activeNav,
+  isLandscape: state.isLandscape,
+});
 
-  const handleNavActive = useCallback(() => {
-    const body = document.body;
-    const navStatus = document.getElementById("navStatus");
-    if (navActive) {
-      navStatus.classList.remove("hide");
-      body.style.overflow = "hidden";
-    } else {
-      navStatus.classList.add("hide");
-      body.style.overflow = "visible";
-    }
-  }, [navActive]);
+const mapDispatchToProps = (dispatch) => ({
+  activeNav: (confirm) => dispatch(activeNav(confirm)),
+  hideOverflow: (hide) => dispatch(hideOverflow(hide)),
+});
 
+const Navbar = ({ page, navActive, isLandscape, activeNav }) => {
   useEffect(() => {
-    var mounted = true;
-    store.subscribe(() => {
-      if (mounted) {
-        const state = store.getState();
-        setNavActive(state.activeNav);
-        setIsLandscape(state.isLandscape);
-      }
-    });
-    handleNavActive();
-    return () => (mounted = false);
-  }, [handleNavActive]);
+    const navStatus = document.getElementById("navStatus");
+    navActive
+      ? navStatus.classList.remove("hide")
+      : navStatus.classList.add("hide");
+  }, [navActive]);
 
   const isActivePage = (p) => page === p;
 
@@ -58,7 +49,7 @@ const Navbar = ({ page }) => {
       href: "/",
       className: `${orientedNavClass()}-link`,
       text: "Home",
-      isActive: isActivePage(0),
+      isActive: isActivePage(HOME),
       button: false,
     },
     {
@@ -66,7 +57,7 @@ const Navbar = ({ page }) => {
       href: "/contact",
       className: `${orientedNavClass()}-link`,
       text: "Contact",
-      isActive: isActivePage(1),
+      isActive: isActivePage(CONTACT),
       button: false,
     },
     {
@@ -74,17 +65,13 @@ const Navbar = ({ page }) => {
       href: "/portfolio",
       className: `${orientedNavClass()}-link--button`,
       text: "Portfolio",
-      isActive: isActivePage(2),
+      isActive: isActivePage(PORTFOLIO),
       button: true,
     },
   ];
 
-  const handleNavShow = () => {
-    store.dispatch(activeNav(true));
-  };
-
-  const handleNavHide = () => {
-    store.dispatch(activeNav(false));
+  const handleNavShow = (confirm) => {
+    activeNav(confirm);
   };
 
   return (
@@ -96,7 +83,7 @@ const Navbar = ({ page }) => {
         <div
           id="showItem"
           className="navbar__show-items"
-          onClick={handleNavShow}
+          onClick={() => handleNavShow(true)}
         >
           {createLines(4)}
         </div>
@@ -110,7 +97,10 @@ const Navbar = ({ page }) => {
           />
         </Link>
         {!isLandscape && (
-          <CloseIcon className="navbar__hide-items" onClick={handleNavHide} />
+          <CloseIcon
+            className="navbar__hide-items"
+            onClick={() => handleNavShow(false)}
+          />
         )}
         {navLinks.map(({ Icon, href, className, text, isActive, button }) => (
           <li key={href}>
@@ -142,4 +132,4 @@ const Navbar = ({ page }) => {
   );
 };
 
-export default Navbar;
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

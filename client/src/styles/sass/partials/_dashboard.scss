@@ -1,36 +1,40 @@
-@mixin button($padding, $margin, $color, $hoverColor) {
-  background: none;
-  color: $color;
-  border-radius: 12px;
-  outline: none;
-  margin: $margin;
-  @include customButton($padding, 1px solid $color, 0.3s, $color, $hoverColor);
-}
-
-$red: #ff3939;
-$gray: #c3c3c3;
-
 .dashboard {
   display: flex;
-  padding: 5% 10%;
+  padding: 0 10% 5% 10%;
   flex-direction: column;
   background-color: $darkblue;
   color: #fff;
 
   &__head {
-    h1 {
-      overflow-wrap: anywhere;
+    $wrapWidth: 75%;
+
+    &-wrapper {
+      display: flex;
+      justify-content: space-between;
+
+      p {
+        overflow-wrap: anywhere;
+        font-family: "Galada";
+        font-size: 1.75em;
+        width: $wrapWidth;
+        display: inline-block;
+      }
     }
 
-    &-button__logout {
-      float: right;
-      background: none;
+    &-button {
+      align-self: center;
+      width: 100% - $wrapWidth;
 
-      font-size: 0.4em;
-      color: $red;
-      outline: none;
-      @include customButton(1% 4%, 1px solid $red, 0.3s, $red, #fff);
-      border-radius: 10px;
+      &__logout {
+        width: 100%;
+        float: right;
+        background: none;
+        font-size: 0.8em;
+        color: $red;
+        outline: none;
+        @include customButton(2% 4%, 1px solid $red, 0.3s, $red, #fff);
+        border-radius: 10px;
+      }
     }
 
     &-profile {
@@ -172,6 +176,11 @@ $gray: #c3c3c3;
         font-family: "Galada";
         font-size: 1.2em;
         cursor: pointer;
+        transition: background-color 0.3s ease-in;
+
+        &:hover {
+          background-color: $gray;
+        }
 
         &-icon {
           width: 50px;
@@ -226,19 +235,22 @@ $gray: #c3c3c3;
 @media screen and (orientation: landscape) {
   .dashboard {
     &__head {
-      h1 {
-        font-size: 2em;
+      &-wrapper {
+        justify-content: flex-end;
       }
 
-      &-button__logout {
-        outline: none;
-        @include customButton(0.5% 2%, 1px solid $red, 0.3s, $red, #fff);
+      &-button {
+        margin-top: 2%;
+        &__logout {
+          width: 100px;
+        }
       }
 
       &-profile {
         display: flex;
         flex-direction: row;
         position: relative;
+        margin: 2% 0;
 
         &__img {
           $size: 350px;

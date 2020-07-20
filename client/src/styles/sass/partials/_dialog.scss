@@ -1,0 +1,83 @@
+$width: 90px;
+$fontSize: 0.8em;
+$padding: 1% 4%;
+
+.dialog__confirm {
+  position: fixed;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  padding: 5% 8%;
+  width: 80%;
+  background: #263133;
+  color: #fff;
+  box-shadow: 1px 1px 20px 0px #040f1c;
+  border-radius: 15px;
+
+  h1 {
+    font-size: 1.2em;
+    margin: 0;
+  }
+
+  p {
+    color: $gray;
+    font-size: 0.8em;
+    margin: 10% 0;
+  }
+
+  &-button {
+    display: flex;
+    justify-content: flex-end;
+    $width: 60px;
+    $fontSize: 0.65em;
+    $padding: 2% 4%;
+
+    &__yes {
+      @include button($padding, 0, $red, #fff);
+      width: $width;
+      font-size: $fontSize;
+    }
+
+    &__no {
+      @include button($padding, 0, $gray, #000);
+      width: $width;
+      font-size: $fontSize;
+      margin-left: 5%;
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .dialog__confirm {
+    padding: 2% 3%;
+    width: 40%;
+
+    h1 {
+      font-size: 1.8em;
+    }
+
+    p {
+      font-size: 1em;
+      margin: 5% 0;
+    }
+
+    &-button {
+      &__yes {
+        @include button($padding, 0, $red, #fff);
+        width: $width;
+        font-size: $fontSize;
+      }
+
+      &__no {
+        @include button($padding, 0, $gray, #000);
+        width: $width;
+        font-size: $fontSize;
+        margin-left: 5%;
+      }
+    }
+  }
+}

@@ -3,12 +3,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { setPage } from "../../actions";
 import store from "../../store";
+import { POSTS } from "../../constants";
 
 const Posts = () => {
   const [postsList, setPostsList] = useState([]);
 
   useEffect(() => {
-    store.dispatch(setPage(7));
+    store.dispatch(setPage(POSTS));
     axios.get("/posts/").then((posts) => {
       console.log(posts);
       setPostsList(posts.data);

@@ -44,7 +44,7 @@ $lightblue: #add0e9;
   &--large {
     @extend %align-post;
     @extend %content-wrapper;
-    margin-top: -5%;
+    margin-top: -10%;
 
     &__thumbnail {
       align-self: center;
@@ -103,6 +103,7 @@ $lightblue: #add0e9;
   .featured__posts {
     &--large {
       margin-bottom: 5%;
+      margin-top: -5%;
 
       &__thumbnail {
         align-self: center;

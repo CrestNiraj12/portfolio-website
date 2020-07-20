@@ -1,4 +1,4 @@
-const { ACTIVE_NAV } = require("../constants");
+import { ACTIVE_NAV } from "../constants";
 
 export default (state = false, action) => {
   switch (action.type) {

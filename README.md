@@ -16,6 +16,21 @@ In the project directory, you can run:
 
 Runs the server to start responding for requests.
 
+### `npm run dev`
+
+Uses [concurrently](https://www.npmjs.com/package/concurrently) package. Runs 3 scripts:
+
+- ## `nodemon server`
+
+  Starts the server using [nodemon](https://nodemon.io/) to start responding for requests
+
+- ## `cd client && npm start`
+
+  Starts the React frontend
+
+- ## `cd client && npm run watch-sass`
+  Uses [node-sass](https://www.npmjs.com/package/node-sass) package to watch .scss file changes and auto-compile it to css.
+
 ### Other Accounts 📫
 
 You can find and get touch with me on these accounts!

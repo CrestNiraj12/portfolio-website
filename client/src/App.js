@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Home from "./containers/Home";
 import Contact from "./containers/Contact";
@@ -11,32 +12,55 @@ import Navbar from "./components/Navbar";
 
 import "./styles/css/App.css";
 import "./styles/css/style.comp.css";
-import store from "./store";
-import { isLandscape } from "./actions/index";
+import { isLandscape, confirmAction, showDialog } from "./actions";
 
-import PageNotFound from "./components/PageNotFound";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Dashboard from "./containers/Dashboard";
 import Users from "./containers/Users";
+import { LOGIN, REGISTER, DASHBOARD, USERS, POSTS, HOME } from "./constants";
+import { hideOverflow } from "./actions";
+import { bindActionCreators } from "redux";
+import Dialog from "./components/Dialog";
 
-function App() {
-  const [page, setPage] = useState(1);
+const mapStateToProps = (state) => ({
+  page: state.page,
+  dialog: state.dialog,
+  overflowHidden: state.overflowHidden,
+});
 
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      isLandscape: (confirm) => isLandscape(confirm),
+      hideOverflow: (hide) => hideOverflow(hide),
+      confirmAction: (confirm) => confirmAction(confirm),
+      showDialog: (message, show) => showDialog(message, show),
+    },
+    dispatch
+  );
+
+const App = ({
+  page,
+  dialog,
+  overflowHidden,
+  isLandscape,
+  hideOverflow,
+  confirmAction,
+  showDialog,
+}) => {
   useEffect(() => {
-    store.dispatch(isLandscape(window.innerWidth > window.innerHeight));
-
-    const state = store.getState();
-    setPage(state.page);
-
-    if (page === 0)
+    if (page === HOME)
       document.querySelector(".navbar").style.position = "absolute";
-    else if (![4, 5, 6, 7, 8].includes(page))
-      document.querySelector(".navbar").style.position = "initial";
-  }, [page]);
+
+    if (overflowHidden) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "visible";
+
+    isLandscape(window.innerWidth > window.innerHeight);
+    hideOverflow(dialog.show);
+  }, [page, dialog.show, hideOverflow, isLandscape, overflowHidden]);
 
   const routes = [
-    { path: "/", component: Home, isExact: true },
     { path: "/contact", component: Contact, isExact: false },
     { path: "/portfolio", component: Portfolio, isExact: false },
     { path: "/posts/:id", component: Post, isExact: false },
@@ -45,19 +69,37 @@ function App() {
     { path: "/user/:id/dashboard", component: Dashboard, isExact: false },
     { path: "/posts", component: Posts, isExact: false },
     { path: "/user/all", component: Users, isExact: false },
-    { path: "*", component: PageNotFound, isExact: false },
+    { path: "*", component: Home, isExact: false },
   ];
 
-  return (
-    <Router>
-      {![4, 5, 6, 7, 8].includes(page) && <Navbar page={page} />}
-      <Switch>
-        {routes.map(({ path, component, isExact }) => (
-          <Route key={path} path={path} exact={isExact} component={component} />
-        ))}
-      </Switch>
-    </Router>
-  );
-}
+  const handleConfirmation = (confirm) => {
+    confirmAction(confirm);
+    showDialog({}, false);
+  };
 
-export default App;
+  return (
+    <>
+      {dialog.show && (
+        <Dialog dialog={dialog} handleConfirmation={handleConfirmation} />
+      )}
+
+      <Router>
+        {![0, LOGIN, REGISTER, DASHBOARD, USERS, POSTS].includes(page) && (
+          <Navbar />
+        )}
+        <Switch>
+          {routes.map(({ path, component, isExact }) => (
+            <Route
+              key={path}
+              path={path}
+              exact={isExact}
+              component={component}
+            />
+          ))}
+        </Switch>
+      </Router>
+    </>
+  );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

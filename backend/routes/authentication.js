@@ -15,33 +15,21 @@ router.get("/logout", (req, res) => {
 });
 
 const authenticate = (auth, req, res, next) => {
-  passport.authenticate(
-    auth,
-    {
-      failureFlash:
-        (auth === "register" ? "Registration" : "Login") + " failed!",
-      successFlash:
-        (auth === "register" ? "Registration" : "Login") + " successful!",
-    },
-    (err, user) => {
-      if (err) return res.status(400).json("Error: " + err);
-      req.logIn(user, (err) => {
-        if (err) return res.status(400).json("Error: " + err);
-        isAuthenticated = true;
-        console.log(req);
-        return res.json({
-          message: `User ${auth === "register" ? "registered" : "logged in"}!`,
-          user: {
-            id: user.id,
-            email: user.email,
-            isAuthenticated,
-            flash: req.flash("error"),
-          },
-        });
+  passport.authenticate(auth, (err, user) => {
+    if (err) return res.status(400).json(err);
+    req.logIn(user, (err) => {
+      if (err) return res.status(400).json(err);
+      isAuthenticated = true;
+      return res.json({
+        message: `User ${auth === "register" ? "registered" : "logged in"}!`,
+        user: {
+          id: user.id,
+          email: user.email,
+        },
       });
-      req.password = user.password;
-    }
-  )(req, res, next);
+    });
+    req.password = user.password;
+  })(req, res, next);
 };
 
 module.exports = router;

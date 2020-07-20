@@ -1,14 +1,19 @@
 import React, { useEffect } from "react";
 import Content from "./content";
-import store from "../../store";
 import { setPage } from "../../actions";
+import { CONTACT } from "../../constants";
+import { connect } from "react-redux";
 
-const Contact = () => {
+const mapDispatchToProps = (dispatch) => ({
+  setPage: (page) => dispatch(setPage(page)),
+});
+
+const Contact = ({ setPage }) => {
   useEffect(() => {
-    store.dispatch(setPage(1));
-  }, []);
+    setPage(CONTACT);
+  }, [setPage]);
 
   return <Content />;
 };
 
-export default Contact;
+export default connect(null, mapDispatchToProps)(Contact);

@@ -40,7 +40,7 @@ const FeaturedBlog = ({ posts }) => {
               >
                 <img
                   className="featured__posts--small-item__thumbnail"
-                  src={`../images/${thumbnail}`}
+                  src={`/images/${thumbnail}`}
                   alt="MongoDB, Express and Node Stack"
                 />
                 <div className="featured__posts--small-item__text-wrapper">

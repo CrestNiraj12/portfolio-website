@@ -1,16 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
-import store from "../../store";
-import { setPage } from "../../actions";
+import { setPage, showDialog, confirmAction } from "../../actions";
 import { ReactComponent as LinkIcon } from "./link.svg";
 import { ReactComponent as UserIcon } from "./avatar.svg";
 import { ReactComponent as PostIcon } from "./paper.svg";
 import { ReactComponent as ControlIcon } from "./control.svg";
+import { DASHBOARD, SUCCESS, FAILURE, PATTERN } from "../../constants";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import Flash from "../../components/Flash";
 
-const Dashboard = ({ match }) => {
+const mapStateToProps = (state) => ({
+  isLandscape: state.isLandscape,
+  actionConfirm: state.confirmAction,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      setPage: (page) => setPage(page),
+      showDialog: (message, show) => showDialog(message, show),
+      confirmAction: (confirm) => confirmAction(confirm),
+    },
+    dispatch
+  );
+
+const Dashboard = ({
+  match,
+  isLandscape,
+  actionConfirm,
+  setPage,
+  showDialog,
+  confirmAction,
+}) => {
   const [redirect, setRedirect] = useState(null);
-  const [isLanscape, setIsLandscape] = useState(false);
   const [details, setDetails] = useState({
     fullname: "",
     email: "",
@@ -21,6 +45,7 @@ const Dashboard = ({ match }) => {
     confirmPassword: "",
     posts: [],
   });
+  const [message, setMessage] = useState({});
   const [disable, setDisable] = useState(true);
 
   const features = [
@@ -29,25 +54,18 @@ const Dashboard = ({ match }) => {
   ];
 
   useEffect(() => {
-    var mounted = true;
-    store.dispatch(setPage(6));
+    setPage(DASHBOARD);
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (isAuthenticated === "false") setRedirect("../../auth/login");
     axios.get(`/user/${match.params.id}`).then((user) => {
-      if (mounted)
-        setDetails({
-          ...user.data,
-          password: "",
-          confirmPassword: "",
-          newPassword: "",
-        });
+      setDetails({
+        ...user.data,
+        password: "",
+        confirmPassword: "",
+        newPassword: "",
+      });
     });
-
-    store.subscribe(() => {
-      if (mounted) setIsLandscape(store.getState().isLandscape);
-    });
-    return () => (mounted = false);
-  }, [match.params.id]);
+  }, [setPage, match.params.id]);
 
   const handleInputChange = (e) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
@@ -63,11 +81,12 @@ const Dashboard = ({ match }) => {
 
     if (!disable) {
       if (details.newPassword !== details.confirmPassword) {
-        console.log("Error: New passwords do not match!");
+        setMessage({ data: "New passwords do not match!", type: FAILURE });
         return;
       }
     }
 
+    document.querySelector(".flash__wrapper").style.opacity = "1";
     var bodyForm = new FormData();
     bodyForm.append("fullname", details.fullname);
     if (!disable) {
@@ -94,8 +113,6 @@ const Dashboard = ({ match }) => {
       },
     })
       .then((res) => {
-        console.log(res.data);
-
         if (imageUpload) setDetails({ ...details, image: res.data.filename });
         if (!disable) {
           handleLogout();
@@ -106,10 +123,16 @@ const Dashboard = ({ match }) => {
         document.querySelector(
           ".dashboard__head-profile > form"
         ).style.display = "none";
+        setMessage({ data: res.data.message, type: SUCCESS });
       })
       .catch((err) => {
-        console.log(err.response.data);
+        setMessage({ data: err.response.data, type: FAILURE });
       });
+
+    setTimeout(() => {
+      if (document.querySelector(".flash__wrapper"))
+        document.querySelector(".flash__wrapper").style.opacity = "0";
+    }, 2000);
   };
 
   const handleEditProfile = () => {
@@ -119,26 +142,59 @@ const Dashboard = ({ match }) => {
       "flex";
   };
 
-  const handleRemoveAccount = () => {
-    axios
-      .delete(`/user/${match.params.id}`, details)
-      .then((res) => {
-        console.log(res.data);
-        handleLogout();
-      })
-      .catch((err) => console.log(err));
-  };
+  const handleLogout = useCallback(
+    (skipMessage = false) => {
+      if (!skipMessage)
+        showDialog(
+          {
+            title: "Are you sure?",
+            description: "You are going to log out from this page.",
+            confirmText: "Logout",
+            denyText: "Cancel",
+          },
+          true
+        );
 
-  const handleLogout = () => {
-    axios
-      .get("/auth/logout")
-      .then((res) => {
-        console.log(res.data);
-        localStorage.setItem("isAuthenticated", false);
-        setRedirect("/auth/login");
-      })
-      .catch((err) => console.log(err));
-  };
+      if (skipMessage || actionConfirm)
+        axios
+          .get("/auth/logout")
+          .then((res) => {
+            setMessage({ data: res.data, type: SUCCESS });
+            localStorage.setItem("id", "");
+            localStorage.setItem("isAuthenticated", false);
+
+            setRedirect("/auth/login");
+          })
+          .catch((err) => {
+            console.log(err.response.data, FAILURE);
+          });
+
+      confirmAction(false);
+    },
+    [actionConfirm, confirmAction, showDialog]
+  );
+
+  const handleRemoveAccount = useCallback(() => {
+    showDialog(
+      {
+        title: "Are you sure?",
+        description: "You are going to remove your account permanently.",
+        confirmText: "Remove",
+        denyText: "Cancel",
+      },
+      true
+    );
+
+    if (actionConfirm)
+      axios
+        .delete(`/user/${match.params.id}`, details)
+        .then((res) => {
+          console.log(res.data);
+          setMessage({ data: res.data.message, type: SUCCESS });
+          handleLogout(true);
+        })
+        .catch((err) => console.log(err));
+  }, [details, handleLogout, actionConfirm, showDialog, match.params.id]);
 
   const handleImageLoad = (e) => {
     document.querySelector(
@@ -164,19 +220,22 @@ const Dashboard = ({ match }) => {
 
   return (
     <>
+      <Flash type={message.type} data={message.data} />
       <main className="dashboard">
         {redirect && <Redirect to={redirect} />}
         <section className="dashboard__head">
-          <h1>
-            {!isLanscape && "Welcome!"}
-            <button
-              className="dashboard__head-button__logout"
-              style={{ cursor: "pointer" }}
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </h1>
+          <div className="dashboard__head-wrapper">
+            {!isLandscape && <p>Welcome!</p>}
+            <div className="dashboard__head-button">
+              <button
+                className="dashboard__head-button__logout"
+                style={{ cursor: "pointer" }}
+                onClick={() => handleLogout()}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
 
           <div className="dashboard__head-profile">
             <div className="dashboard__head-profile__img">
@@ -185,7 +244,7 @@ const Dashboard = ({ match }) => {
                 src={
                   details.image && details.image.startsWith("http")
                     ? details.image
-                    : `../../images/${details.image}`
+                    : `/images/${details.image}`
                 }
                 alt="Profile"
                 onLoad={(e) => handleImageLoad(e)}
@@ -236,6 +295,9 @@ const Dashboard = ({ match }) => {
                 type="password"
                 name="password"
                 placeholder="Old Password"
+                minLength="8"
+                title="You password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, 1 symbol and 1 digit"
+                pattern={PATTERN}
                 value={details.password}
                 onChange={handleInputChange}
                 required={!disable}
@@ -243,6 +305,9 @@ const Dashboard = ({ match }) => {
               <input
                 type="password"
                 name="newPassword"
+                minLength="8"
+                pattern={PATTERN}
+                title="You password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, 1 symbol and 1 digit"
                 placeholder="New Password"
                 onChange={handleInputChange}
                 value={details.newPassword}
@@ -252,6 +317,9 @@ const Dashboard = ({ match }) => {
               <input
                 type="password"
                 name="confirmPassword"
+                minLength="8"
+                pattern={PATTERN}
+                title="You password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, 1 symbol and 1 digit"
                 placeholder="Confirm Password"
                 onChange={handleInputChange}
                 value={details.confirmPassword}
@@ -339,4 +407,4 @@ const Dashboard = ({ match }) => {
   );
 };
 
-export default Dashboard;
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -18,6 +18,7 @@ const authenticationRouter = require("./backend/routes/authentication");
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(__dirname + "/client/public"));
 
 app.use(
   cookieSession({
@@ -27,9 +28,9 @@ app.use(
   })
 );
 
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 app.use("/posts", postsRouter);
 app.use("/user", usersRouter);

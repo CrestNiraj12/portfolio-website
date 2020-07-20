@@ -1,4 +1,4 @@
-const { SET_POSTS } = require("../constants");
+import { SET_POSTS } from "../constants";
 
 export default (state = [], action) => {
   switch (action.type) {

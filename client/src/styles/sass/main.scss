@@ -2,6 +2,8 @@
 
 $blue: #96cdef;
 $darkblue: #263133;
+$red: #ff3939;
+$gray: #c3c3c3;
 
 @mixin buttonHover($bg, $color) {
   background-color: $bg;
@@ -37,6 +39,17 @@ $darkblue: #263133;
   font-size: $size;
 }
 
+@mixin button($padding, $margin, $color, $hoverColor) {
+  background: none;
+  color: $color;
+  border-radius: 12px;
+  outline: none;
+  margin: $margin;
+  @include customButton($padding, 1px solid $color, 0.3s, $color, $hoverColor);
+}
+
+@import "./partials/dialog";
+@import "./partials/flash";
 @import "./partials/navbar";
 @import "./partials/home";
 @import "./partials/featuredPosts";

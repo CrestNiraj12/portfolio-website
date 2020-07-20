@@ -4,12 +4,13 @@ import { setPage } from "../../actions";
 import Header from "./header";
 import Content from "./content";
 import Footer from "../../components/Footer";
+import { HOME } from "../../constants";
 
-const Home = ({ page }) => {
+const Home = () => {
   const [activeNav, setActiveNav] = useState(false);
 
   useEffect(() => {
-    store.dispatch(setPage(0));
+    store.dispatch(setPage(HOME));
 
     store.subscribe(() => {
       const navActive = store.getState().activeNav;

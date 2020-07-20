@@ -1,8 +1,10 @@
-import { IS_LANDSCAPE } from "../constants";
+import { HIDE_OVERFLOW, ACTIVE_NAV } from "../constants";
 
 export default (state = false, action) => {
   switch (action.type) {
-    case IS_LANDSCAPE:
+    case HIDE_OVERFLOW:
+      return action.payload;
+    case ACTIVE_NAV:
       return action.payload;
     default:
       return state;
