@@ -6,6 +6,7 @@ import {
   HIDE_OVERFLOW,
   SHOW_DIALOG,
   CONFIRM_ACTION,
+  SET_USER_DETAILS,
 } from "../constants";
 
 export const setPage = (page) => ({
@@ -41,4 +42,9 @@ export const showDialog = (message, show) => ({
 export const confirmAction = (confirm) => ({
   type: CONFIRM_ACTION,
   payload: confirm,
+});
+
+export const setUserDetails = (details) => ({
+  type: SET_USER_DETAILS,
+  payload: details,
 });

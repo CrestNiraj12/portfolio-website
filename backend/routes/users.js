@@ -13,37 +13,21 @@ router.get("/all", (req, res) => {
 const storage = multer.diskStorage({
   destination: "./client/public/images/",
   filename: (req, file, cb) => {
-    console.log(req.body);
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
+    cb(null, file.fieldname + "-" + Date.now() + ".jpg");
   },
 });
 
-const checkFileType = (file, cb) => {
-  const filetypes = /jpeg|png|jpg|gif/;
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = filetypes.test(file.mimetype);
-
-  if (extname && mimetype) return cb(null, true);
-  else return cb("Error: Images only!");
-};
-
 const upload = multer({
   storage: storage,
-  fileFilter: (req, file, cb) => {
-    checkFileType(file, cb);
-  },
+  fileFilter: (req, file, cb) => cb(null, true),
 }).single("image");
 
 router.put(
   "/:id/changePassword/:passChange/imageUpload/:imageUpload",
+  upload,
   (req, res) => {
-    User.findById(req.params.id).then((user) => {
-      upload(req, res, (err) => {
-        if (err) return res.status(400).json(err);
-
+    User.findById(req.params.id)
+      .then((user) => {
         user.fullname = req.body.fullname;
 
         if (req.params.passChange === "true") {
@@ -60,13 +44,10 @@ router.put(
           if (req.file) {
             filename = req.file.filename;
             user.image = filename;
-            console.log(user);
           } else {
             return res.status(400).json("Image upload failed!");
           }
         }
-
-        console.log(user);
 
         user
           .save()
@@ -76,9 +57,11 @@ router.put(
               filename,
             });
           })
-          .catch((err) => res.status(400).json("Error: " + err));
-      });
-    });
+          .catch((err) =>
+            res.status(400).json("User couldnt be saved! Try again!")
+          );
+      })
+      .catch((err) => res.status(400).json("Error finding user!"));
   }
 );
 

@@ -6,6 +6,7 @@ import posts from "./setPosts";
 import overflowHidden from "./hideOverflow";
 import dialog from "./showDialog";
 import confirmAction from "./confirmAction";
+import userDetails from "./setUserDetails";
 
 export default combineReducers({
   page,
@@ -15,4 +16,5 @@ export default combineReducers({
   overflowHidden,
   dialog,
   confirmAction,
+  userDetails,
 });

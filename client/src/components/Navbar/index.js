@@ -8,6 +8,7 @@ import { ReactComponent as Contact } from "./call.svg";
 import { ReactComponent as Portfolio } from "./candidate.svg";
 import { ReactComponent as CloseIcon } from "./close-icon.svg";
 import { HOME, CONTACT, PORTFOLIO } from "../../constants";
+import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => ({
   page: state.page,
@@ -15,10 +16,14 @@ const mapStateToProps = (state) => ({
   isLandscape: state.isLandscape,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  activeNav: (confirm) => dispatch(activeNav(confirm)),
-  hideOverflow: (hide) => dispatch(hideOverflow(hide)),
-});
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      activeNav: (confirm) => activeNav(confirm),
+      hideOverflow: (hide) => hideOverflow(hide),
+    },
+    dispatch
+  );
 
 const Navbar = ({ page, navActive, isLandscape, activeNav }) => {
   useEffect(() => {

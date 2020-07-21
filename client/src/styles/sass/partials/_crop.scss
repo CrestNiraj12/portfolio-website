@@ -1,0 +1,62 @@
+.reactEasyCrop_Container {
+  background-color: $darkblue;
+}
+
+.crop {
+  position: relative;
+
+  &__container {
+    z-index: 1001;
+  }
+
+  &__button {
+    z-index: 1001;
+    display: flex;
+    flex-direction: row;
+    bottom: 1%;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    justify-content: center;
+
+    button {
+      width: 150px;
+    }
+
+    &-crop {
+      @include button(10px 0, 0 5% 5% 0, #2fdb74, #000);
+    }
+
+    &-cancel {
+      @include button(10px 0, 0 0 5% 0, #fff, #000);
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .reactEasyCrop_Container {
+    background-color: $darkblue;
+  }
+
+  .crop {
+    &__button {
+      flex-direction: column;
+      top: 45%;
+      right: 10%;
+      left: auto;
+      bottom: auto;
+
+      button {
+        width: 150px;
+      }
+
+      &-crop {
+        @include button(15px 0, 0 5% 5% 0, #2fdb74, #000);
+      }
+
+      &-cancel {
+        @include button(15px 0, 0 5% 5% 0, #fff, #000);
+      }
+    }
+  }
+}

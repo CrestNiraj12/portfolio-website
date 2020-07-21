@@ -48,6 +48,7 @@ $gray: #c3c3c3;
   @include customButton($padding, 1px solid $color, 0.3s, $color, $hoverColor);
 }
 
+@import "./partials/crop";
 @import "./partials/dialog";
 @import "./partials/flash";
 @import "./partials/navbar";

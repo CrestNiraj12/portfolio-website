@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const passport = require("./backend/config/passport");
-const flash = require("connect-flash");
 const cookieSession = require("cookie-session");
 const multer = require("multer");
 
@@ -30,7 +29,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 
 app.use("/posts", postsRouter);
 app.use("/user", usersRouter);

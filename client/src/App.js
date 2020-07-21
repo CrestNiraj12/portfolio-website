@@ -57,7 +57,6 @@ const App = ({
     else document.body.style.overflow = "visible";
 
     isLandscape(window.innerWidth > window.innerHeight);
-    hideOverflow(dialog.show);
   }, [page, dialog.show, hideOverflow, isLandscape, overflowHidden]);
 
   const routes = [

@@ -98,16 +98,48 @@
           }
         }
 
-        &-button__edit {
-          @include button($padding, 5% 0 2% 0, #fff, #000);
-        }
+        &-button {
+          display: flex;
+          flex-direction: column;
 
-        &-button__delete {
-          @include button($padding, 2% 0 5% 0, $red, #fff);
+          &__edit {
+            @include button($padding, 5% 0 2% 0, #fff, #000);
+          }
+
+          &__delete {
+            @include button($padding, 2% 0 5% 0, $red, #fff);
+          }
         }
       }
-      &-button__update {
-        @include button($padding, 5% 0, #fff, #000);
+
+      &-image {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+
+        label {
+          font-size: 1.2em;
+          font-weight: bold;
+          color: #96cdef;
+        }
+
+        input {
+          width: 100%;
+          font-size: 0.8em;
+        }
+      }
+
+      &-button {
+        &__update {
+          @include button($padding, 0, #fff, #000);
+          margin-right: 1em;
+          width: 120px;
+        }
+
+        &__cancel {
+          @include button($padding, 0, #fff, #000);
+          width: 120px;
+        }
       }
     }
 
@@ -123,23 +155,6 @@
         background-color: $darkblue;
         color: #fff;
         outline: none;
-      }
-
-      div {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-
-        label {
-          font-size: 1.2em;
-          font-weight: bold;
-          color: #96cdef;
-        }
-
-        input {
-          width: 100%;
-          font-size: 0.8em;
-        }
       }
     }
   }
@@ -195,6 +210,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin: 5% 0;
 
           a {
             color: #fff;
@@ -208,22 +224,26 @@
 
             p {
               align-self: center;
-              font-size: 1.5em;
+              font-size: 1em;
+              margin: 0;
             }
           }
 
           &__button {
             display: flex;
-            margin-right: 20%;
+            margin-top: 2%;
 
             &-edit {
-              @include button(3% 20%, 0, #fff, #000);
-
+              @include button(2.5% 0, 0, #fff, #000);
+              width: 50px;
               margin-right: 5%;
+              font-size: 0.6em;
             }
 
             &-delete {
-              @include button(3% 20%, 0, $red, #000);
+              width: 50px;
+              font-size: 0.6em;
+              @include button(2.5% 0, 0, $red, #000);
             }
           }
         }
@@ -233,6 +253,7 @@
 }
 
 @media screen and (orientation: landscape) {
+  $buttonWidth: 150px;
   .dashboard {
     &__head {
       &-wrapper {
@@ -297,19 +318,44 @@
             align-self: center;
           }
 
-          $margin: 5% 0 0 5%;
-          &-button__edit {
-            @include button($padding, $margin, #fff, #000);
-            font-size: 0.7em;
-          }
+          &-button {
+            flex-direction: row;
+            margin: 5% 0 0 5%;
+            width: 100%;
 
-          &-button__delete {
-            @include button($padding, $margin, $red, #fff);
-            font-size: 0.7em;
+            &__edit {
+              @include button($padding, 0 2% 0 0, #fff, #000);
+              width: $buttonWidth;
+            }
+
+            &__delete {
+              @include button($padding, 0, $red, #fff);
+              width: $buttonWidth;
+            }
           }
         }
-        &-button__update {
-          @include button($padding, 5% 0, #fff, #000);
+
+        &-image {
+          width: 45%;
+
+          #image {
+            font-size: 0.8em;
+            width: 100%;
+          }
+        }
+
+        &-button {
+          display: flex;
+          margin-top: 5%;
+
+          &__update {
+            @include button(1.5% 0, 0 5% 0 0, #fff, #000);
+            width: $buttonWidth;
+          }
+          &__cancel {
+            @include button(1.5% 0, 0, #fff, #000);
+            width: $buttonWidth;
+          }
         }
       }
 
@@ -330,16 +376,8 @@
           border: none;
         }
 
-        button {
-          width: 45%;
-        }
-
         input {
           margin: 5% 0;
-        }
-
-        div {
-          width: 45%;
         }
       }
     }
@@ -364,15 +402,17 @@
       &-posts {
         &__wrapper {
           &-item {
+            margin: 1% 0;
             &__button {
-              margin-right: 25%;
-
               &-edit {
-                @include button(3% 40%, 0% 10% 0 0, #fff, #000);
+                width: 100px;
+                margin-right: 5%;
+                font-size: 0.8em;
               }
 
               &-delete {
-                @include button(3% 40%, 0, $red, #000);
+                width: 100px;
+                font-size: 0.8em;
               }
             }
           }
