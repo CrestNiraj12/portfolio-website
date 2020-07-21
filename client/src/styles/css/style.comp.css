@@ -49,8 +49,12 @@
     background-color: #263133; }
   .crop__button {
     flex-direction: column;
-    top: 45%;
-    right: 10%; }
+    top: 40%;
+    right: 7.5%;
+    width: max-content;
+    left: unset;
+    bottom: unset;
+    align-items: flex-end; }
     .crop__button button {
       width: 150px; }
     .crop__button-crop {
@@ -71,7 +75,7 @@
       color: #fff;
       border-radius: 12px;
       outline: none;
-      margin: 0 5% 5% 0;
+      margin: 0 5% 0 0;
       padding: 15px 0;
       border: 1px solid #fff;
       transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
@@ -1206,3 +1210,73 @@
         font-size: 0.9em;
         font-weight: normal;
         letter-spacing: 1px; } }
+
+.posts {
+  margin: 5% 10%; }
+  .posts h1 {
+    color: #fff;
+    font-size: 2em;
+    text-align: center;
+    font-family: "Galada";
+    letter-spacing: 3px; }
+
+table {
+  width: 100%;
+  background-color: #fff;
+  border-collapse: collapse; }
+  table thead tr th {
+    color: #fff;
+    background-color: #263133;
+    padding: 5% 2%;
+    font-size: 0.9em; }
+    table thead tr th:nth-child(1) {
+      text-align: left; }
+    table thead tr th:nth-child(2) {
+      width: 80%; }
+    table thead tr th:nth-child(3) {
+      width: 10%; }
+  table tbody tr td {
+    text-align: center;
+    background-color: #96cdef;
+    padding: 5% 2%;
+    font-size: 0.9em; }
+    table tbody tr td:nth-child(1), table tbody tr td:nth-child(2), table tbody tr td:nth-child(4) {
+      text-align: left; }
+    table tbody tr td:nth-child(4) {
+      padding-left: 2%; }
+    table tbody tr td a {
+      color: #000;
+      text-decoration: none;
+      font-family: inherit, cursive;
+      text-transform: capitalize;
+      font-size: 1em;
+      font-weight: normal;
+      letter-spacing: 1px; }
+      table tbody tr td a:hover {
+        color: #000;
+        text-decoration: underline; }
+  table tbody tr:nth-child(even) td {
+    background-color: #93aee5; }
+
+@media screen and (orientation: landscape) {
+  .posts h1 {
+    font-size: 3em; }
+  table thead tr th {
+    padding: 1% 0;
+    font-size: 1.2em; }
+    table thead tr th:nth-child(1) {
+      padding: 0 2%; }
+  table tbody tr td {
+    padding: 2%; }
+    table tbody tr td:nth-child(4) {
+      padding-left: 1%; }
+    table tbody tr td a {
+      font-size: 1.2em; } }
+
+.attributions {
+  text-align: right;
+  color: #8a8a8a;
+  font-size: 0.6em;
+  margin-top: 1%; }
+  .attributions a {
+    color: #fff; }

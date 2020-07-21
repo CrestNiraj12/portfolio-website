@@ -41,10 +41,12 @@
   .crop {
     &__button {
       flex-direction: column;
-      top: 45%;
-      right: 10%;
-      left: auto;
-      bottom: auto;
+      top: 40%;
+      right: 7.5%;
+      width: max-content;
+      left: unset;
+      bottom: unset;
+      align-items: flex-end;
 
       button {
         width: 150px;
@@ -55,7 +57,7 @@
       }
 
       &-cancel {
-        @include button(15px 0, 0 5% 5% 0, #fff, #000);
+        @include button(15px 0, 0 5% 0 0, #fff, #000);
       }
     }
   }

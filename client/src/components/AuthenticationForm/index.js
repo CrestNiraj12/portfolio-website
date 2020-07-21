@@ -25,6 +25,7 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
   const [message, setMessage] = useState({});
 
   useEffect(() => {
+    var mounted = true;
     setPage(page);
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (isAuthenticated === "true")
@@ -33,11 +34,12 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
     axios
       .get("/user/all")
       .then((users) => {
-        setUsersCount(users.data.length);
+        if (mounted) setUsersCount(users.data.length);
       })
       .catch((err) => {
         console.log(err.response.data);
       });
+    return () => (mounted = false);
   }, [setPage, page]);
 
   const handleFormSubmit = (e) => {

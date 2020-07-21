@@ -86,6 +86,56 @@ const Dashboard = ({
         />
 
         <Features handleLogout={handleLogout} />
+        <div className="attributions">
+          <a
+            href="https://iconscout.com/icons/link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Link
+          </a>{" "}
+          by{" "}
+          <a
+            href="https://iconscout.com/contributors/pocike"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Alpár - Etele Méder
+          </a>
+          <br />
+          <a
+            href="https://iconscout.com/icons/paper"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Paper
+          </a>{" "}
+          by{" "}
+          <a
+            href="https://iconscout.com/contributors/oviyan"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Vignesh Oviyan
+          </a>
+          <br />
+          <a
+            href="https://iconscout.com/icons/avatar"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Avatar
+          </a>{" "}
+          by{" "}
+          <a
+            href="https://iconscout.com/contributors/pocike"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Alpár - Etele Méder
+          </a>
+          <br />
+        </div>
       </main>
     </>
   );

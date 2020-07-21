@@ -132,6 +132,73 @@ const Navbar = ({ page, navActive, isLandscape, activeNav }) => {
             </Link>
           </li>
         ))}
+        {!isLandscape && (
+          <div
+            className="attributions"
+            style={{
+              position: "absolute",
+              bottom: "5%",
+              textAlign: "left",
+              fontSize: "0.5em",
+            }}
+          >
+            <a
+              href="https://iconscout.com/icons/home"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              home
+            </a>{" "}
+            by{" "}
+            <a
+              href="https://iconscout.com/contributors/oviyan"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Vignesh Oviyan
+            </a>
+            <br />
+            <a
+              href="https://iconscout.com/icons/call"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Call
+            </a>{" "}
+            by{" "}
+            <a
+              href="https://iconscout.com/contributors/pocike"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Alpár - Etele Méder
+            </a>
+            <br />
+            <a
+              href="https://iconscout.com/icons/candidate"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Candidate
+            </a>{" "}
+            by{" "}
+            <a
+              href="https://iconscout.com/contributors/jemismali"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Jemis Mali
+            </a>{" "}
+            on{" "}
+            <a
+              href="https://iconscout.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Iconscout
+            </a>
+          </div>
+        )}
       </ul>
     </nav>
   );
