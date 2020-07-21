@@ -61,6 +61,5 @@ Makes use of [npm-run-all](https://www.npmjs.com/package/npm-run-all) package. R
 
 ## :pencil2: Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
 To learn React, check out the [React documentation](https://reactjs.org/).
+[Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
