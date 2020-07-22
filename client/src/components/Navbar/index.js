@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../images/logo.png";
-import { activeNav, hideOverflow } from "../../actions";
+import { activeNav } from "../../actions";
 import { ReactComponent as Home } from "./home.svg";
 import { ReactComponent as Contact } from "./call.svg";
 import { ReactComponent as Portfolio } from "./candidate.svg";
@@ -12,26 +12,25 @@ import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => ({
   page: state.page,
-  navActive: state.activeNav,
+  activeNav: state.activeNav,
   isLandscape: state.isLandscape,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      activeNav: (confirm) => activeNav(confirm),
-      hideOverflow: (hide) => hideOverflow(hide),
+      confirmActiveNav: (confirm) => activeNav(confirm),
     },
     dispatch
   );
 
-const Navbar = ({ page, navActive, isLandscape, activeNav }) => {
+const Navbar = ({ page, activeNav, isLandscape, confirmActiveNav }) => {
   useEffect(() => {
     const navStatus = document.getElementById("navStatus");
-    navActive
+    activeNav
       ? navStatus.classList.remove("hide")
       : navStatus.classList.add("hide");
-  }, [navActive]);
+  }, [activeNav]);
 
   const isActivePage = (p) => page === p;
 
@@ -76,7 +75,7 @@ const Navbar = ({ page, navActive, isLandscape, activeNav }) => {
   ];
 
   const handleNavShow = (confirm) => {
-    activeNav(confirm);
+    confirmActiveNav(confirm);
   };
 
   return (
@@ -109,12 +108,9 @@ const Navbar = ({ page, navActive, isLandscape, activeNav }) => {
         )}
         {navLinks.map(({ Icon, href, className, text, isActive, button }) => (
           <li key={href}>
-            <Link
-              className={
-                button && isActive
-                  ? `${className} ${className}--active`
-                  : className
-              }
+            <NavLink
+              activeClassName={button ? `${className}--active` : ""}
+              className={className}
               to={href}
             >
               <Icon className={`${orientedNavClass()}--icon`} />
@@ -129,7 +125,7 @@ const Navbar = ({ page, navActive, isLandscape, activeNav }) => {
               >
                 {text}
               </span>
-            </Link>
+            </NavLink>
           </li>
         ))}
         {!isLandscape && (

@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { setPage } from "../../actions";
 import store from "../../store";
 import { POSTS } from "../../constants";
 import { Checkbox } from "react-input-checkbox";
-import { ReactComponent as Pencil } from "./pencil.svg";
+import { ReactComponent as Pencil } from "../../images/pencil.svg";
 import { ReactComponent as Details } from "./more.svg";
+import { ReactComponent as Arrow } from "../../images/arrow.svg";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 
-const Posts = () => {
+const mapStateToProps = (state) => ({ isLandscape: state.isLandscape });
+
+const Posts = ({ isLandscape }) => {
+  let history = useHistory();
   const [postsList, setPostsList] = useState([]);
   const [allSelection, setAllSelection] = useState(false);
   const [selected, setSelected] = useState({});
 
-  useEffect(() => {
-    store.dispatch(setPage(POSTS));
+  const getPosts = useCallback(() => {
     var initialState = {};
     axios.get("/posts/").then((posts) => {
       setPostsList(posts.data);
@@ -24,6 +29,11 @@ const Posts = () => {
       setSelected(initialState);
     });
   }, []);
+
+  useEffect(() => {
+    store.dispatch(setPage(POSTS));
+    getPosts();
+  }, [getPosts]);
 
   const handleChange = (id) => {
     var selections = { ...selected, [id]: !selected[id] };
@@ -44,9 +54,19 @@ const Posts = () => {
     setSelected(selections);
   };
 
+  const orientedWidth = !isLandscape ? { width: "20%" } : {};
+
   return (
     <main className="posts">
-      <h1>All Posts</h1>
+      <section className="posts__header">
+        <div className="posts__header-back">
+          <Arrow
+            className="posts__header-back__arrow"
+            onClick={() => history.goBack()}
+          />
+        </div>
+        <h1>All Posts</h1>
+      </section>
       <table>
         <thead>
           <tr>
@@ -59,8 +79,16 @@ const Posts = () => {
                 {" "}
               </Checkbox>
             </th>
-            <th>Title</th>
-            <th colSpan="2">Action</th>
+            <th style={!isLandscape ? { width: "70%" } : {}}>Title</th>
+            {isLandscape && (
+              <>
+                <th>Created</th>
+                <th>Last Updated</th>
+              </>
+            )}
+            <th colSpan="2" style={orientedWidth}>
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -87,6 +115,13 @@ const Posts = () => {
                     {post.title}
                   </Link>
                 </td>
+                {isLandscape && (
+                  <>
+                    <td>{post.createdAt.substring(0, 10)}</td>
+                    <td>{post.updatedAt.substring(0, 10)}</td>
+                  </>
+                )}
+
                 <td>
                   <Link to="/">
                     <Pencil width="15px" />
@@ -139,4 +174,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default connect(mapStateToProps)(Posts);

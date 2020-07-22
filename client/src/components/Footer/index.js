@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import InfoCard from "../InfoCard";
-import { ReactComponent as Arrow } from "./arrow.svg";
+import { ReactComponent as Arrow } from "../../images/arrow.svg";
 
 const Footer = () => {
   const handleTopScroll = () => {

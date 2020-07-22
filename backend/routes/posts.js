@@ -20,9 +20,8 @@ router.get("/:title", (req, res) => {
 });
 
 router.delete("/:userId/:id", (req, res) => {
-  const messages = { message: [] };
   Post.findByIdAndDelete(req.params.id)
-    .then(() => (messages.message = "Post Deleted!"))
+    .then(() => res.json("Post deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
 
   User.findByIdAndUpdate(
@@ -34,8 +33,6 @@ router.delete("/:userId/:id", (req, res) => {
         return res
           .status(400)
           .json("Messages: " + messages + "\nError: " + err);
-      messages.prevObject = obj;
-      return res.json(messages);
     }
   );
 });

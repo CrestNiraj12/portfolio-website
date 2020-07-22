@@ -5,8 +5,8 @@ import isLandscape from "./isLandscape";
 import posts from "./setPosts";
 import overflowHidden from "./hideOverflow";
 import dialog from "./showDialog";
-import confirmAction from "./confirmAction";
 import userDetails from "./setUserDetails";
+import message from "./setMessage";
 
 export default combineReducers({
   page,
@@ -15,6 +15,6 @@ export default combineReducers({
   posts,
   overflowHidden,
   dialog,
-  confirmAction,
   userDetails,
+  message,
 });

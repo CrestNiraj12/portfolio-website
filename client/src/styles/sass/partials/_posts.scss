@@ -1,16 +1,35 @@
 .posts {
-  margin: 5% 10%;
+  margin: 10% 2%;
 
-  h1 {
-    color: #fff;
-    font-size: 2em;
-    text-align: center;
-    font-family: "Galada";
-    letter-spacing: 3px;
+  &__header {
+    display: flex;
+    justify-content: center;
+
+    &-back {
+      align-self: center;
+      width: 10%;
+
+      &__arrow {
+        width: 35px;
+        transform: rotate(180deg);
+      }
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 2em;
+      font-family: "Galada";
+      letter-spacing: 3px;
+      width: 80%;
+      text-align: center;
+      margin-right: 10%;
+      margin-bottom: 0;
+    }
   }
 }
 
 table {
+  margin: 10% 0;
   width: 100%;
   background-color: #fff;
   border-collapse: collapse;
@@ -23,16 +42,36 @@ table {
         padding: 5% 2%;
         font-size: 0.9em;
 
+        input[type="checkbox"] {
+          cursor: pointer;
+        }
+
         &:nth-child(1) {
           text-align: left;
         }
 
         &:nth-child(2) {
-          width: 80%;
+          width: 60%;
+        }
+
+        &:nth-child(3),
+        &:nth-child(4),
+        &:nth-child(5) {
+          font-size: 0.85em;
+          width: 10%;
+        }
+      }
+    }
+
+    .dashboard__head-row {
+      th {
+        background-color: #282a2f;
+        &:nth-child(2) {
+          width: 70%;
         }
 
         &:nth-child(3) {
-          width: 10%;
+          width: 20%;
         }
       }
     }
@@ -46,6 +85,10 @@ table {
         padding: 5% 2%;
         font-size: 0.9em;
 
+        input[type="checkbox"] {
+          cursor: pointer;
+        }
+
         &:nth-child(1),
         &:nth-child(2),
         &:nth-child(4) {
@@ -57,7 +100,7 @@ table {
         }
 
         a {
-          @include formatLink(#000, inherit, 1em, normal, capitalize);
+          @include formatLink(#000, "Kurale", 0.9em, normal, capitalize);
 
           &:hover {
             color: #000;
@@ -72,17 +115,44 @@ table {
         }
       }
     }
+
+    .dashboard__body-row {
+      td {
+        &:nth-child(3),
+        &:nth-child(4) {
+          width: 10%;
+        }
+
+        &:nth-child(4) {
+          text-align: left;
+        }
+      }
+    }
   }
 }
 
 @media screen and (orientation: landscape) {
   .posts {
-    h1 {
-      font-size: 3em;
+    margin: 5% 10%;
+
+    &__header {
+      &-back {
+        cursor: pointer;
+
+        &__arrow {
+          width: 50px;
+        }
+      }
+
+      h1 {
+        font-size: 3em;
+      }
     }
   }
 
   table {
+    margin: 5% 0;
+
     thead {
       tr {
         th {
@@ -91,6 +161,24 @@ table {
 
           &:nth-child(1) {
             padding: 0 2%;
+          }
+
+          &:nth-child(3),
+          &:nth-child(4),
+          &:nth-child(5) {
+            width: 10%;
+          }
+        }
+      }
+
+      .dashboard__head-row {
+        th {
+          &:nth-child(1) {
+            padding: 0 1%;
+          }
+
+          &:nth-child(3) {
+            width: 10%;
           }
         }
       }
@@ -101,12 +189,37 @@ table {
         td {
           padding: 2%;
 
-          &:nth-child(4) {
+          &:nth-child(5) {
             padding-left: 1%;
+          }
+          &:nth-child(3),
+          &:nth-child(4) {
+            font-size: 0.8em;
+            color: #000;
+            text-align: center;
           }
 
           a {
             font-size: 1.2em;
+          }
+        }
+      }
+
+      .dashboard__body-row {
+        td {
+          padding: 1%;
+
+          &:nth-child(5),
+          &:nth-child(6) {
+            width: 5%;
+          }
+
+          &:nth-child(4) {
+            text-align: center;
+          }
+
+          &:nth-child(6) {
+            text-align: left;
           }
         }
       }

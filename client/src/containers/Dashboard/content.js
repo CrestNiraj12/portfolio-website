@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 
-import { SUCCESS, FAILURE } from "../../constants";
+import { LOG_OUT, REMOVE_ACCOUNT } from "../../constants";
 import UpdateProfileForm from "./UpdateProfileForm";
 import { ReactComponent as LinkIcon } from "./link.svg";
 import { showDialog, setUserDetails } from "../../actions";
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      showDialog: (message, show) => showDialog(message, show),
+      showDialog: (action) => showDialog(action),
       setUserDetails: (details) => setUserDetails(details),
     },
     dispatch
@@ -27,15 +27,12 @@ const Content = ({
   id,
   isLandscape,
   userDetails,
-  actionConfirm,
   showDialog,
-  handleLogout,
   setUserDetails,
   setMessage,
 }) => {
-  useEffect(() => {
+  const getUserDetails = useCallback(() => {
     axios.get(`/user/${id}`).then((user) => {
-      console.log(user.data);
       setUserDetails({
         ...user.data,
         password: "",
@@ -45,34 +42,16 @@ const Content = ({
     });
   }, [id, setUserDetails]);
 
+  useEffect(() => {
+    getUserDetails();
+  }, [getUserDetails]);
+
   const handleEditProfile = () => {
     document.querySelector(".dashboard__head-profile__view").style.display =
       "none";
     document.querySelector(".dashboard__head-profile > form").style.display =
       "flex";
   };
-
-  const handleRemoveAccount = useCallback(() => {
-    showDialog(
-      {
-        title: "Are you sure?",
-        description: "You are going to remove your account permanently.",
-        confirmText: "Remove",
-        denyText: "Cancel",
-      },
-      true
-    );
-
-    if (actionConfirm)
-      axios
-        .delete(`/user/${id}`, userDetails)
-        .then((res) => {
-          console.log(res.data);
-          setMessage({ data: res.data.message, type: SUCCESS });
-          handleLogout(true);
-        })
-        .catch((err) => setMessage({ data: err.response.data, type: FAILURE }));
-  }, [userDetails, handleLogout, actionConfirm, showDialog, id, setMessage]);
 
   const handleImageLoad = (e) => {
     document.querySelector(
@@ -90,7 +69,7 @@ const Content = ({
           <button
             className="dashboard__head-button__logout"
             style={{ cursor: "pointer" }}
-            onClick={() => handleLogout()}
+            onClick={() => showDialog(LOG_OUT)}
           >
             Logout
           </button>
@@ -130,18 +109,14 @@ const Content = ({
             </button>
             <button
               className="dashboard__head-profile__view-button__delete"
-              onClick={handleRemoveAccount}
+              onClick={() => showDialog(REMOVE_ACCOUNT)}
             >
               Remove Account
             </button>
           </div>
         </div>
 
-        <UpdateProfileForm
-          id={id}
-          setMessage={setMessage}
-          handleLogout={handleLogout}
-        />
+        <UpdateProfileForm id={id} setMessage={setMessage} />
       </div>
     </section>
   );

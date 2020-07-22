@@ -203,53 +203,11 @@
         }
       }
     }
-
-    &-posts {
-      &__wrapper {
-        &-item {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin: 5% 0;
-
-          a {
-            color: #fff;
-            align-self: center;
-            text-decoration: none;
-
-            &:hover {
-              color: #96cdef;
-              text-decoration: underline;
-            }
-
-            p {
-              align-self: center;
-              font-size: 1em;
-              margin: 0;
-            }
-          }
-
-          &__button {
-            display: flex;
-            margin-top: 2%;
-
-            &-edit {
-              @include button(2.5% 0, 0, #fff, #000);
-              width: 50px;
-              margin-right: 5%;
-              font-size: 0.6em;
-            }
-
-            &-delete {
-              width: 50px;
-              font-size: 0.6em;
-              @include button(2.5% 0, 0, $red, #000);
-            }
-          }
-        }
-      }
-    }
   }
+}
+
+.trashIcon {
+  cursor: pointer;
 }
 
 @media screen and (orientation: landscape) {
@@ -396,26 +354,6 @@
         &__card {
           height: 10rem;
           width: 15rem;
-        }
-      }
-
-      &-posts {
-        &__wrapper {
-          &-item {
-            margin: 1% 0;
-            &__button {
-              &-edit {
-                width: 100px;
-                margin-right: 5%;
-                font-size: 0.8em;
-              }
-
-              &-delete {
-                width: 100px;
-                font-size: 0.8em;
-              }
-            }
-          }
         }
       }
     }

@@ -1,66 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
+import { ReactComponent as Pencil } from "../../images/pencil.svg";
 import { ReactComponent as ControlIcon } from "./control.svg";
 import { ReactComponent as UserIcon } from "./avatar.svg";
 import { ReactComponent as PostIcon } from "./paper.svg";
-import { bindActionCreators } from "redux";
-import { showDialog, setUserDetails } from "../../actions";
+import { ReactComponent as TrashIcon } from "../../images/trash.svg";
+import { DELETE_OWN_POST } from "../../constants";
+import { Checkbox } from "react-input-checkbox";
+import { showDialog } from "../../actions";
 import { connect } from "react-redux";
 
 const mapStateToProps = (state) => ({
-  userDetails: state.userDetails,
-  role: state.userDetails.role.toLowerCase(),
+  role: state.userDetails.role,
   posts: state.userDetails.posts,
-  actionConfirm: state.confirmAction,
+  isLandscape: state.isLandscape,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      showDialog: (message, show) => showDialog(message, show),
-      setUserDetails: (details) => setUserDetails(details),
-    },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch) => ({
+  showDialog: (action, payload) => dispatch(showDialog(action, payload)),
+});
 
-const Features = ({
-  role,
-  posts,
-  userDetails,
-  actionConfirm,
-  showDialog,
-  setUserDetails,
-}) => {
+const Features = ({ role, posts, isLandscape, showDialog }) => {
+  const [allSelection, setAllSelection] = useState(false);
+  const [selected, setSelected] = useState({});
   const features = [
     { url: "/posts", text: "All Posts", Svg: PostIcon },
     { url: "/user/all", text: "All Users", Svg: UserIcon },
   ];
 
-  const handleDeletePost = (authorId, postId) => {
-    showDialog(
-      {
-        title: "Are you sure?",
-        description: "You are going to remove this post permanently.",
-        confirmText: "Remove",
-        denyText: "Cancel",
-      },
-      true
-    );
+  useEffect(() => {
+    var initialState = {};
+    posts.forEach((post) => {
+      initialState[post._id] = false;
+    });
+    setSelected(initialState);
+  }, [setSelected, posts]);
 
-    if (actionConfirm) {
-      axios
-        .delete(`/posts/${authorId}/${postId}`)
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => console.log(err.response.data));
+  const handleAllSelect = () => {
+    setAllSelection(!allSelection);
 
-      setUserDetails({
-        posts: userDetails.posts.filter((post) => post._id !== postId),
-      });
-    }
+    var selections = {};
+    Object.keys(selected).forEach((key) => {
+      selections[key] = !allSelection;
+    });
+
+    setSelected(selections);
+  };
+
+  const handleChange = (id) => {
+    var selections = { ...selected, [id]: !selected[id] };
+    setSelected(selections);
+
+    if (Object.values(selections).every((elem) => elem)) setAllSelection(true);
+    else setAllSelection(false);
   };
 
   return (
@@ -86,40 +79,78 @@ const Features = ({
       {role && role !== "tester" && (
         <div className="dashboard__content-posts">
           <h1>Your Posts {posts.length > 0 && `(${posts.length})`}</h1>
-          <div className="dashboard__content-posts__wrapper">
-            {posts.length > 0 ? (
-              posts.map((post) => (
-                <div
-                  key={post._id}
-                  className="dashboard__content-posts__wrapper-item"
-                >
-                  <Link
-                    to={`/posts/${post.title
-                      .toLowerCase()
-                      .split(" ")
-                      .join("-")}-${post._id}`}
+          <table>
+            <thead>
+              <tr className="dashboard__head-row">
+                <th>
+                  <Checkbox
+                    theme="material-checkbox"
+                    value={allSelection}
+                    onChange={handleAllSelect}
                   >
-                    <p>{post.title}</p>
-                  </Link>
-                  <div className="dashboard__content-posts__wrapper-item__button">
-                    <button className="dashboard__content-posts__wrapper-item__button-edit">
-                      Edit
-                    </button>
-                    <button
-                      className="dashboard__content-posts__wrapper-item__button-delete"
-                      onClick={() => handleDeletePost(post.authorId, post._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p style={{ fontFamily: "Kurale", color: "#9b9b9b" }}>
-                You have not posted anything!
-              </p>
-            )}
-          </div>
+                    {" "}
+                  </Checkbox>
+                </th>
+                <th style={isLandscape ? { width: "60%" } : {}}>Title</th>
+                {isLandscape && (
+                  <>
+                    <th>Created</th>
+                    <th>Last Updated</th>
+                  </>
+                )}
+                <th colSpan="2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {posts.length > 0 ? (
+                posts.map((post) => (
+                  <tr key={post._id} className="dashboard__body-row">
+                    <td>
+                      <Checkbox
+                        theme="material-checkbox"
+                        value={selected[post._id] ? selected[post._id] : false}
+                        onChange={() => handleChange(post._id)}
+                      >
+                        {" "}
+                      </Checkbox>
+                    </td>
+                    <td>
+                      <Link
+                        to={`/posts/${post.title
+                          .toLowerCase()
+                          .split(" ")
+                          .join("-")}-${post._id}`}
+                      >
+                        <p>{post.title}</p>
+                      </Link>
+                    </td>
+                    {isLandscape && (
+                      <>
+                        <td>{post.createdAt.substring(0, 10)}</td>
+                        <td>{post.updatedAt.substring(0, 10)}</td>
+                      </>
+                    )}
+                    <td>
+                      <Link to="/">
+                        <Pencil width="15px" />
+                      </Link>
+                    </td>
+                    <td>
+                      <TrashIcon
+                        width="15px"
+                        className="trashIcon"
+                        onClick={() => showDialog(DELETE_OWN_POST, post._id)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <p style={{ fontFamily: "Kurale", color: "#9b9b9b" }}>
+                  You have not posted anything!
+                </p>
+              )}
+            </tbody>
+          </table>
         </div>
       )}
     </section>

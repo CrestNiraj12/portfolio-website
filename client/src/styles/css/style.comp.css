@@ -191,12 +191,13 @@
   --bg-color: #ff4646; }
 
 .flash__wrapper {
+  z-index: 1001;
+  position: relative;
   display: flex;
   justify-content: center;
   transition: opacity 0.5s ease-in-out; }
 
 .flash__message {
-  z-index: 1001;
   position: fixed;
   top: 0;
   color: var(--color);
@@ -869,56 +870,9 @@
         .dashboard__content-features__card-icon {
           width: 50px;
           margin-bottom: 10%; }
-    .dashboard__content-posts__wrapper-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 5% 0; }
-      .dashboard__content-posts__wrapper-item a {
-        color: #fff;
-        align-self: center;
-        text-decoration: none; }
-        .dashboard__content-posts__wrapper-item a:hover {
-          color: #96cdef;
-          text-decoration: underline; }
-        .dashboard__content-posts__wrapper-item a p {
-          align-self: center;
-          font-size: 1em;
-          margin: 0; }
-      .dashboard__content-posts__wrapper-item__button {
-        display: flex;
-        margin-top: 2%; }
-        .dashboard__content-posts__wrapper-item__button-edit {
-          background: none;
-          color: #fff;
-          border-radius: 12px;
-          outline: none;
-          margin: 0;
-          padding: 2.5% 0;
-          border: 1px solid #fff;
-          transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
-          cursor: pointer;
-          width: 50px;
-          margin-right: 5%;
-          font-size: 0.6em; }
-          .dashboard__content-posts__wrapper-item__button-edit:hover {
-            background-color: #fff;
-            color: #000; }
-        .dashboard__content-posts__wrapper-item__button-delete {
-          width: 50px;
-          font-size: 0.6em;
-          background: none;
-          color: #ff3939;
-          border-radius: 12px;
-          outline: none;
-          margin: 0;
-          padding: 2.5% 0;
-          border: 1px solid #ff3939;
-          transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
-          cursor: pointer; }
-          .dashboard__content-posts__wrapper-item__button-delete:hover {
-            background-color: #ff3939;
-            color: #000; }
+
+.trashIcon {
+  cursor: pointer; }
 
 @media screen and (orientation: landscape) {
   .dashboard__head-wrapper {
@@ -1052,16 +1006,7 @@
         margin: 3% 5% 0 0; }
       .dashboard__content-features__card {
         height: 10rem;
-        width: 15rem; }
-    .dashboard__content-posts__wrapper-item {
-      margin: 1% 0; }
-      .dashboard__content-posts__wrapper-item__button-edit {
-        width: 100px;
-        margin-right: 5%;
-        font-size: 0.8em; }
-      .dashboard__content-posts__wrapper-item__button-delete {
-        width: 100px;
-        font-size: 0.8em; } }
+        width: 15rem; } }
 
 .info__card--social, .info__card--desc, .info__card--contact-mail {
   border-bottom: 0.8px solid #8a8a8a; }
@@ -1212,15 +1157,28 @@
         letter-spacing: 1px; } }
 
 .posts {
-  margin: 5% 10%; }
-  .posts h1 {
-    color: #fff;
-    font-size: 2em;
-    text-align: center;
-    font-family: "Galada";
-    letter-spacing: 3px; }
+  margin: 10% 2%; }
+  .posts__header {
+    display: flex;
+    justify-content: center; }
+    .posts__header-back {
+      align-self: center;
+      width: 10%; }
+      .posts__header-back__arrow {
+        width: 35px;
+        transform: rotate(180deg); }
+    .posts__header h1 {
+      color: #fff;
+      font-size: 2em;
+      font-family: "Galada";
+      letter-spacing: 3px;
+      width: 80%;
+      text-align: center;
+      margin-right: 10%;
+      margin-bottom: 0; }
 
 table {
+  margin: 10% 0;
   width: 100%;
   background-color: #fff;
   border-collapse: collapse; }
@@ -1229,17 +1187,28 @@ table {
     background-color: #263133;
     padding: 5% 2%;
     font-size: 0.9em; }
+    table thead tr th input[type="checkbox"] {
+      cursor: pointer; }
     table thead tr th:nth-child(1) {
       text-align: left; }
     table thead tr th:nth-child(2) {
-      width: 80%; }
-    table thead tr th:nth-child(3) {
+      width: 60%; }
+    table thead tr th:nth-child(3), table thead tr th:nth-child(4), table thead tr th:nth-child(5) {
+      font-size: 0.85em;
       width: 10%; }
+  table thead .dashboard__head-row th {
+    background-color: #282a2f; }
+    table thead .dashboard__head-row th:nth-child(2) {
+      width: 70%; }
+    table thead .dashboard__head-row th:nth-child(3) {
+      width: 20%; }
   table tbody tr td {
     text-align: center;
     background-color: #96cdef;
     padding: 5% 2%;
     font-size: 0.9em; }
+    table tbody tr td input[type="checkbox"] {
+      cursor: pointer; }
     table tbody tr td:nth-child(1), table tbody tr td:nth-child(2), table tbody tr td:nth-child(4) {
       text-align: left; }
     table tbody tr td:nth-child(4) {
@@ -1247,9 +1216,9 @@ table {
     table tbody tr td a {
       color: #000;
       text-decoration: none;
-      font-family: inherit, cursive;
+      font-family: "Kurale", cursive;
       text-transform: capitalize;
-      font-size: 1em;
+      font-size: 0.9em;
       font-weight: normal;
       letter-spacing: 1px; }
       table tbody tr td a:hover {
@@ -1257,21 +1226,51 @@ table {
         text-decoration: underline; }
   table tbody tr:nth-child(even) td {
     background-color: #93aee5; }
+  table tbody .dashboard__body-row td:nth-child(3), table tbody .dashboard__body-row td:nth-child(4) {
+    width: 10%; }
+  table tbody .dashboard__body-row td:nth-child(4) {
+    text-align: left; }
 
 @media screen and (orientation: landscape) {
-  .posts h1 {
-    font-size: 3em; }
-  table thead tr th {
-    padding: 1% 0;
-    font-size: 1.2em; }
-    table thead tr th:nth-child(1) {
-      padding: 0 2%; }
-  table tbody tr td {
-    padding: 2%; }
-    table tbody tr td:nth-child(4) {
-      padding-left: 1%; }
-    table tbody tr td a {
-      font-size: 1.2em; } }
+  .posts {
+    margin: 5% 10%; }
+    .posts__header-back {
+      cursor: pointer; }
+      .posts__header-back__arrow {
+        width: 50px; }
+    .posts__header h1 {
+      font-size: 3em; }
+  table {
+    margin: 5% 0; }
+    table thead tr th {
+      padding: 1% 0;
+      font-size: 1.2em; }
+      table thead tr th:nth-child(1) {
+        padding: 0 2%; }
+      table thead tr th:nth-child(3), table thead tr th:nth-child(4), table thead tr th:nth-child(5) {
+        width: 10%; }
+    table thead .dashboard__head-row th:nth-child(1) {
+      padding: 0 1%; }
+    table thead .dashboard__head-row th:nth-child(3) {
+      width: 10%; }
+    table tbody tr td {
+      padding: 2%; }
+      table tbody tr td:nth-child(5) {
+        padding-left: 1%; }
+      table tbody tr td:nth-child(3), table tbody tr td:nth-child(4) {
+        font-size: 0.8em;
+        color: #000;
+        text-align: center; }
+      table tbody tr td a {
+        font-size: 1.2em; }
+    table tbody .dashboard__body-row td {
+      padding: 1%; }
+      table tbody .dashboard__body-row td:nth-child(5), table tbody .dashboard__body-row td:nth-child(6) {
+        width: 5%; }
+      table tbody .dashboard__body-row td:nth-child(4) {
+        text-align: center; }
+      table tbody .dashboard__body-row td:nth-child(6) {
+        text-align: left; } }
 
 .attributions {
   text-align: right;

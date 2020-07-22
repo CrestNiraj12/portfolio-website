@@ -7,25 +7,26 @@ import Contact from "./containers/Contact";
 import Portfolio from "./containers/Portfolio";
 import Posts from "./containers/Posts";
 import Post from "./containers/Post";
+import Flash from "./components/Flash";
 
 import Navbar from "./components/Navbar";
 
 import "./styles/css/App.css";
 import "./styles/css/style.comp.css";
-import { isLandscape, confirmAction, showDialog } from "./actions";
+import { isLandscape } from "./actions";
 
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Dashboard from "./containers/Dashboard";
 import Users from "./containers/Users";
 import { LOGIN, REGISTER, DASHBOARD, USERS, POSTS, HOME } from "./constants";
-import { hideOverflow } from "./actions";
 import { bindActionCreators } from "redux";
 import Dialog from "./components/Dialog";
 
 const mapStateToProps = (state) => ({
+  userDetails: state.userDetails,
   page: state.page,
-  dialog: state.dialog,
+  dialogShow: state.dialog.show,
   overflowHidden: state.overflowHidden,
 });
 
@@ -33,22 +34,11 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       isLandscape: (confirm) => isLandscape(confirm),
-      hideOverflow: (hide) => hideOverflow(hide),
-      confirmAction: (confirm) => confirmAction(confirm),
-      showDialog: (message, show) => showDialog(message, show),
     },
     dispatch
   );
 
-const App = ({
-  page,
-  dialog,
-  overflowHidden,
-  isLandscape,
-  hideOverflow,
-  confirmAction,
-  showDialog,
-}) => {
+const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
   useEffect(() => {
     if (page === HOME)
       document.querySelector(".navbar").style.position = "absolute";
@@ -57,7 +47,7 @@ const App = ({
     else document.body.style.overflow = "visible";
 
     isLandscape(window.innerWidth > window.innerHeight);
-  }, [page, dialog.show, hideOverflow, isLandscape, overflowHidden]);
+  }, [page, isLandscape, overflowHidden]);
 
   const routes = [
     { path: "/contact", component: Contact, isExact: false },
@@ -71,16 +61,10 @@ const App = ({
     { path: "*", component: Home, isExact: false },
   ];
 
-  const handleConfirmation = (confirm) => {
-    confirmAction(confirm);
-    showDialog({}, false);
-  };
-
   return (
     <>
-      {dialog.show && (
-        <Dialog dialog={dialog} handleConfirmation={handleConfirmation} />
-      )}
+      <Flash />
+      {dialogShow && <Dialog />}
 
       <Router>
         {![0, LOGIN, REGISTER, DASHBOARD, USERS, POSTS].includes(page) && (

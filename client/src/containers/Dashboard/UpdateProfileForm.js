@@ -1,18 +1,24 @@
 import React, { useState, Fragment } from "react";
 import axios from "axios";
 import { SUCCESS, FAILURE, PATTERN } from "../../constants";
-import { setUserDetails } from "../../actions";
+import { setUserDetails, setMessage } from "../../actions";
 import { connect } from "react-redux";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "./cropImage";
+import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setUserDetails: (details) => dispatch(setUserDetails(details)),
-});
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      setUserDetails: (details) => setUserDetails(details),
+      setMessage: (message) => setMessage(message),
+    },
+    dispatch
+  );
 
 const UpdateProfileForm = ({
   id,
@@ -51,7 +57,6 @@ const UpdateProfileForm = ({
       }
     }
 
-    document.querySelector(".flash__wrapper").style.opacity = "1";
     var bodyForm = new FormData();
     bodyForm.append("fullname", userDetails.fullname);
     if (!disable) {
@@ -92,15 +97,16 @@ const UpdateProfileForm = ({
         console.log(err);
         setMessage({ data: err.response.data, type: FAILURE });
       });
-
-    setTimeout(() => {
-      if (document.querySelector(".flash__wrapper"))
-        document.querySelector(".flash__wrapper").style.opacity = "0";
-    }, 2000);
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
+    setUserDetails({
+      ...userDetails,
+      password: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
     document.querySelector(".dashboard__head-profile__view").style.display =
       "flex";
     document.querySelector(".dashboard__head-profile > form").style.display =
@@ -117,8 +123,6 @@ const UpdateProfileForm = ({
         imageData.src,
         imageData.croppedAreaPixels
       );
-
-      console.log("done", { croppedImage });
       setImageData({
         ...imageData,
         croppedImage,
