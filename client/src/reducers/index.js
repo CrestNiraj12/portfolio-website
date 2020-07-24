@@ -7,6 +7,7 @@ import overflowHidden from "./hideOverflow";
 import dialog from "./showDialog";
 import userDetails from "./setUserDetails";
 import message from "./setMessage";
+import users from "./setAllUsers";
 
 export default combineReducers({
   page,
@@ -17,4 +18,5 @@ export default combineReducers({
   dialog,
   userDetails,
   message,
+  users,
 });

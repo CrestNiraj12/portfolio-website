@@ -10,11 +10,12 @@ export const HIDE_OVERFLOW = "HIDE_OVERFLOW";
 export const CONFIRM_ACTION = "CONFIRM_ACTION";
 export const SET_USER_DETAILS = "SET_DETAILS";
 export const SET_ALL_POSTS = "SET_ALL_POSTS";
+export const SET_ALL_USERS = "SET_ALL_USERS";
 export const LOG_OUT = "LOG_OUT";
 export const REMOVE_ACCOUNT = "REMOVE_ACCOUNT";
+export const REMOVE_OWN_ACCOUNT = "REMOVE_OWN_ACCOUNT";
 export const DELETE_POST = "DELETE_POST";
 export const DELETE_OWN_POST = "DELETE_OWN_POST";
-export const REMOVE_USER = "REMOVE_USER";
 export const CHANGE_ROLE = "CHANGE_ROLE";
 export const SET_MESSAGE = "SET_MESSAGE";
 export const [

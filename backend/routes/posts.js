@@ -27,17 +27,15 @@ router.delete("/:userId/:id", (req, res) => {
     .then(() => res.json("Post deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
 
-  User.findByIdAndUpdate(
-    req.params.userId,
-    { $pull: { posts: mongoose.mongo.ObjectId(req.params.id) } },
-    { safe: true, upsert: true },
-    (err, obj) => {
-      if (err)
-        return res
-          .status(400)
-          .json("Messages: " + messages + "\nError: " + err);
-    }
-  );
+  if (req.params.userId !== 404)
+    User.findByIdAndUpdate(
+      req.params.userId,
+      { $pull: { posts: mongoose.mongo.ObjectId(req.params.id) } },
+      { safe: true, upsert: true },
+      (err, obj) => {
+        if (err) console.log(err);
+      }
+    );
 });
 
 router.put("/update/:id", (req, res) => {

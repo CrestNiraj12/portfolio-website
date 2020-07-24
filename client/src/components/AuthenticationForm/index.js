@@ -25,7 +25,6 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
   const [message, setMessage] = useState({});
 
   useEffect(() => {
-    var mounted = true;
     setPage(page);
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (isAuthenticated === "true")
@@ -34,12 +33,11 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
     axios
       .get("/user/all")
       .then((users) => {
-        if (mounted) setUsersCount(users.data.length);
+        setUsersCount(users.data.length);
       })
       .catch((err) => {
         console.log(err.response.data);
       });
-    return () => (mounted = false);
   }, [setPage, page]);
 
   const handleFormSubmit = (e) => {
@@ -52,7 +50,7 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
         localStorage.setItem("isAuthenticated", true);
         setMessage({ data: res.data.message, type: SUCCESS });
         document.querySelector(".flash__wrapper").style.opacity = "1";
-        setRedirect(`../user/${localStorage.getItem("id")}/dashboard`);
+        setRedirect(`/user/${localStorage.getItem("id")}/dashboard`);
       })
       .catch((err) => {
         setMessage({ data: err.response.data, type: FAILURE });

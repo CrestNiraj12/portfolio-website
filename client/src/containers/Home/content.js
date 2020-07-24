@@ -21,7 +21,7 @@ const Content = ({ landscapeCheck, posts, setPosts }) => {
   const [isLandscape, setIsLandscape] = useState(false);
 
   useEffect(() => {
-    if (posts.length > 0) setPostList(posts);
+    if (posts !== null) setPostList(posts);
     else
       axios
         .get("/posts")

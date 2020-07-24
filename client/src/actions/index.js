@@ -8,6 +8,7 @@ import {
   SET_MESSAGE,
   SUCCESS,
   FAILURE,
+  SET_ALL_USERS,
 } from "../constants";
 
 export const setPage = (page) => ({
@@ -50,6 +51,28 @@ export const setMessage = (message) => ({
   payload: message,
 });
 
+export const setAllUsers = (users) => ({
+  type: SET_ALL_USERS,
+  payload: users,
+});
+
+export const thunkChangeRole = (userId, role) => (dispatch, getState, axios) =>
+  axios
+    .put(`/user/${userId}/changeRole`, { role })
+    .then((res) => {
+      dispatch(setMessage({ data: res.data.message, type: SUCCESS }));
+      res.data.user.role = role;
+      dispatch(
+        setAllUsers([
+          ...getState().users.filter((user) => user._id !== res.data.user._id),
+          res.data.user,
+        ])
+      );
+    })
+    .catch((err) =>
+      dispatch(setMessage({ data: err.response.data, type: FAILURE }))
+    );
+
 export const thunkLogout = (skipMessage = false) => (
   dispatch,
   getState,
@@ -73,7 +96,9 @@ export const thunkRemoveAccount = (id) => (dispatch, getState, axios) => {
     .delete(`/user/${id}`)
     .then((res) => {
       dispatch(setMessage({ data: res.data, type: SUCCESS }));
-      dispatch(thunkLogout(true));
+      dispatch(setAllUsers(getState().users.filter((user) => user._id !== id)));
+
+      if (id === getState().userDetails._id) dispatch(thunkLogout(true));
     })
     .catch((err) => {
       dispatch(setMessage({ data: err.response.data, type: FAILURE }));

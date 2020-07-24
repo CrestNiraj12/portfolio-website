@@ -85,7 +85,6 @@ const UpdateProfileForm = ({
       .then((res) => {
         if (imageUpload) setUserDetails({ image: res.data.filename });
         if (!disable) {
-          console.log(res.data);
           setMessage({ data: res.data.message, type: SUCCESS });
           logOut();
           return;
@@ -95,7 +94,6 @@ const UpdateProfileForm = ({
         document.querySelector(
           ".dashboard__head-profile > form"
         ).style.display = "none";
-        console.log(res.data);
         setMessage({ data: res.data.message, type: SUCCESS });
       })
       .catch((err) => {
@@ -171,6 +169,7 @@ const UpdateProfileForm = ({
 
   const handleCropChange = (crop) => {
     setImageData({ ...imageData, crop });
+    console.log(crop);
   };
 
   const handleCropComplete = (croppedArea, croppedAreaPixels) => {

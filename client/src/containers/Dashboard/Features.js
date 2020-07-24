@@ -17,6 +17,7 @@ import { sortBy } from "lodash";
 import SortOption from "../../components/SortOption";
 
 const mapStateToProps = (state) => ({
+  userId: state.userDetails._id,
   role: state.userDetails.role,
   posts: state.userDetails.posts,
   isLandscape: state.isLandscape,
@@ -26,7 +27,7 @@ const mapDispatchToProps = (dispatch) => ({
   showDialog: (action, payload) => dispatch(showDialog(action, payload)),
 });
 
-const Features = ({ role, posts, isLandscape, showDialog }) => {
+const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
   const [allSelection, setAllSelection] = useState(false);
   const [selected, setSelected] = useState({});
   const [postsList, setPostsList] = useState(posts);
@@ -34,7 +35,7 @@ const Features = ({ role, posts, isLandscape, showDialog }) => {
   const [ascendingOrder, setAscendingOrder] = useState(true);
   const features = [
     { url: "/posts", text: "All Posts", Svg: PostIcon },
-    { url: "/user/all", text: "All Users", Svg: UserIcon },
+    { url: `/user/${userId}/all`, text: "All Users", Svg: UserIcon },
     { url: "/", text: "Add Post", Svg: AddIcon },
   ];
 

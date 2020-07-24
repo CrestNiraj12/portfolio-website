@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { setPage, showDialog, setPosts } from "../../actions";
 import { POSTS, DELETE_POST } from "../../constants";
 import { Checkbox } from "react-input-checkbox";
@@ -35,13 +35,17 @@ const Posts = ({ posts, isLandscape, setPage, showDialog, setPosts }) => {
   const [selected, setSelected] = useState({});
   const [sort, setSort] = useState("title");
   const [ascendingOrder, setAscendingOrder] = useState(true);
+  const [redirect, setRedirect] = useState(null);
 
   const refPostsList = useRef([]);
 
   useEffect(() => {
     setPage(POSTS);
 
-    if (posts.length > 0) {
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    if (isAuthenticated === "false") setRedirect("/auth/login");
+
+    if (posts !== null) {
       var initialState = {};
       setPostsList(posts);
       refPostsList.current = sortBy(posts, (a) => a.title);
@@ -94,15 +98,9 @@ const Posts = ({ posts, isLandscape, setPage, showDialog, setPosts }) => {
     setSelected(selections);
   };
 
-  const handleDeletePost = (userId, postId) => {
-    showDialog(DELETE_POST, {
-      userId,
-      postId,
-    });
-  };
-
   return (
     <main className="posts">
+      {redirect && <Redirect to={redirect} />}
       <FeatureHeader title="All Posts" />
       <section className="posts__features">
         <div className="posts__features-sort">
@@ -192,7 +190,11 @@ const Posts = ({ posts, isLandscape, setPage, showDialog, setPosts }) => {
                         width="15px"
                         className="trashIcon"
                         onClick={() =>
-                          handleDeletePost(post.authorId._id, post._id)
+                          showDialog(DELETE_POST, {
+                            userId:
+                              post.authorId !== null ? post.authorId._id : 404,
+                            postId: post._id,
+                          })
                         }
                       />
                     ) : (

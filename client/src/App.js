@@ -57,7 +57,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
     { path: "/auth/register", component: Signup, isExact: true },
     { path: "/user/:id/dashboard", component: Dashboard, isExact: false },
     { path: "/posts", component: Posts, isExact: false },
-    { path: "/user/all", component: Users, isExact: false },
+    { path: "/user/:id/all", component: Users, isExact: false },
     { path: "*", component: Home, isExact: false },
   ];
 

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 
-import { LOG_OUT, REMOVE_ACCOUNT } from "../../constants";
+import { LOG_OUT, REMOVE_OWN_ACCOUNT } from "../../constants";
 import UpdateProfileForm from "./UpdateProfileForm";
 import { ReactComponent as LinkIcon } from "./link.svg";
 import { showDialog, setUserDetails } from "../../actions";
@@ -104,7 +104,7 @@ const Content = ({
             </button>
             <button
               className="dashboard__head-profile__view-button__delete"
-              onClick={() => showDialog(REMOVE_ACCOUNT, userDetails._id)}
+              onClick={() => showDialog(REMOVE_OWN_ACCOUNT, userDetails._id)}
             >
               Remove Account
             </button>

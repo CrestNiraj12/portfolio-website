@@ -1,7 +1,7 @@
 import {
   LOG_OUT,
   REMOVE_ACCOUNT,
-  REMOVE_USER,
+  REMOVE_OWN_ACCOUNT,
   DELETE_OWN_POST,
   CHANGE_ROLE,
   DELETE_POST,
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
         ...constState,
       };
 
-    case REMOVE_ACCOUNT:
+    case REMOVE_OWN_ACCOUNT:
       return {
         message: {
           ...state.message,
@@ -40,6 +40,18 @@ export default (state = initialState, action) => {
           confirmText: "Remove",
         },
         ...constState,
+        payload: action.payload,
+      };
+
+    case REMOVE_ACCOUNT:
+      return {
+        message: {
+          ...state.message,
+          description: "You are going to remove this account permanently.",
+          confirmText: "Remove",
+        },
+        ...constState,
+        payload: action.payload,
       };
 
     case DELETE_OWN_POST:
@@ -54,16 +66,6 @@ export default (state = initialState, action) => {
         payload: action.payload,
       };
 
-    case REMOVE_USER:
-      return {
-        message: {
-          ...state.message,
-          description: "You are going to remove this user.",
-          confirmText: "Remove",
-        },
-        ...constState,
-      };
-
     case CHANGE_ROLE:
       return {
         message: {
@@ -72,6 +74,7 @@ export default (state = initialState, action) => {
           confirmText: "Change",
         },
         ...constState,
+        payload: action.payload,
       };
 
     default:

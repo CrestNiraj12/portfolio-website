@@ -1,0 +1,17 @@
+.sort__by,
+.sort__order {
+  select {
+    width: 50%;
+    font-size: 0.85em;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .sort__by,
+  .sort__order {
+    select {
+      width: 100%;
+      font-size: 1em;
+    }
+  }
+}

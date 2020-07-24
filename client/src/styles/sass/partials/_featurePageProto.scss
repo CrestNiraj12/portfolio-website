@@ -1,0 +1,247 @@
+@mixin featurePageProto($className) {
+  .#{$className} {
+    margin: 10% 2%;
+
+    &__features {
+      display: flex;
+      margin: 10% 0 5% 0;
+      color: #fff;
+      justify-content: space-between;
+      font-family: "Kurale";
+
+      &-sort {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.7em;
+
+        select {
+          background: transparent;
+          color: #fff;
+
+          option {
+            background-color: $darkblue;
+            color: #fff;
+          }
+        }
+
+        &__by {
+          font-size: 0.8em;
+          margin-bottom: 5%;
+        }
+
+        &__order {
+          font-size: 0.75em;
+        }
+      }
+
+      &-search {
+        align-self: flex-end;
+        font-size: 0.8em;
+        text-align: right;
+      }
+    }
+  }
+  table {
+    width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
+
+    thead {
+      tr {
+        th {
+          color: #fff;
+          background-color: $darkblue;
+          padding: 5% 2%;
+          font-size: 0.9em;
+
+          input[type="checkbox"] {
+            cursor: pointer;
+          }
+
+          &:nth-child(1) {
+            text-align: left;
+          }
+
+          &:nth-child(2) {
+            width: 70%;
+          }
+
+          &:nth-child(3) {
+            font-size: 0.85em;
+            width: 20%;
+          }
+        }
+      }
+
+      .dashboard__head-row {
+        th {
+          background-color: #282a2f;
+
+          &:nth-child(3) {
+            width: 20%;
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          text-align: center;
+          background-color: $blue;
+          padding: 5% 2%;
+          font-size: 0.9em;
+
+          input[type="checkbox"] {
+            cursor: pointer;
+          }
+
+          &:nth-child(1),
+          &:nth-child(2),
+          &:nth-child(4) {
+            text-align: left;
+          }
+
+          &:nth-child(4) {
+            padding-left: 2%;
+          }
+
+          a {
+            @include formatLink(#000, "Kurale", 0.9em, normal, capitalize);
+
+            &:hover {
+              color: #000;
+              text-decoration: underline;
+            }
+          }
+        }
+
+        &:nth-child(even) {
+          td {
+            background-color: #93aee5;
+          }
+        }
+      }
+
+      .dashboard__body-row {
+        td {
+          &:nth-child(3),
+          &:nth-child(4) {
+            width: 10%;
+          }
+
+          &:nth-child(4) {
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (orientation: landscape) {
+    .#{$className} {
+      margin: 0 10%;
+
+      &__features {
+        margin: 5% 0 1% 0;
+
+        &-sort {
+          font-size: 0.9em;
+        }
+      }
+    }
+
+    table {
+      thead {
+        tr {
+          th {
+            padding: 1% 0;
+            font-size: 1.2em;
+
+            &:nth-child(1) {
+              padding: 0 2%;
+              width: 5%;
+            }
+
+            &:nth-child(2) {
+              width: 50%;
+            }
+
+            &:nth-child(3) {
+              width: 15%;
+            }
+
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(6) {
+              width: 10%;
+              font-size: 0.85em;
+            }
+          }
+        }
+
+        .dashboard__head-row {
+          th {
+            &:nth-child(1) {
+              padding: 0 1%;
+            }
+            &:nth-child(3) {
+              width: 10%;
+            }
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            padding: 2%;
+
+            &:nth-child(3) {
+              font-weight: bold;
+            }
+
+            &:nth-child(7) {
+              padding-left: 1%;
+            }
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(6) {
+              font-size: 0.8em;
+              color: #000;
+              text-align: center;
+            }
+
+            a {
+              font-size: 1.2em;
+            }
+          }
+        }
+
+        .dashboard__body-row {
+          td {
+            padding: 1%;
+
+            &:nth-child(3) {
+              font-weight: normal;
+              font-size: 0.8em;
+              color: #000;
+            }
+
+            &:nth-child(5),
+            &:nth-child(6) {
+              width: 5%;
+            }
+
+            &:nth-child(4) {
+              text-align: center;
+            }
+
+            &:nth-child(6) {
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+  }
+}

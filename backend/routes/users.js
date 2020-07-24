@@ -9,6 +9,14 @@ router.get("/all", (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.get("/:id/all", (req, res) => {
+  User.find()
+    .then((users) =>
+      res.json(users.filter((user) => String(user._id) !== req.params.id))
+    )
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 const storage = multer.diskStorage({
   destination: "./client/public/images/",
   filename: (req, file, cb) => {
@@ -92,6 +100,17 @@ router.post("/:id/addpost", (req, res) => {
     (err, user) => {
       if (err) return res.status(400).json("Error: " + err);
       return res.json({ message: "Post Added to user profile!", user });
+    }
+  );
+});
+
+router.put("/:userId/changeRole", (req, res) => {
+  User.findByIdAndUpdate(
+    req.params.userId,
+    { role: req.body.role },
+    (err, user) => {
+      if (err) return res.status(400).json("Error: " + err);
+      return res.json({ message: "Role changed successfully!", user });
     }
   );
 });

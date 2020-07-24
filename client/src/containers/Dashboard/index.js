@@ -22,7 +22,7 @@ const Dashboard = ({ match, setPage, handleLogout }) => {
   useEffect(() => {
     setPage(DASHBOARD);
     const isAuthenticated = localStorage.getItem("isAuthenticated");
-    if (isAuthenticated === "false") setRedirect("../../auth/login");
+    if (isAuthenticated === "false") setRedirect("/auth/login");
   }, [setPage]);
 
   return (
