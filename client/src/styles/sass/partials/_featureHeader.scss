@@ -1,0 +1,40 @@
+.feature__header {
+  display: flex;
+  justify-content: center;
+
+  &-back {
+    align-self: center;
+    width: 10%;
+    cursor: pointer;
+
+    &__arrow {
+      width: 35px;
+      transform: rotate(180deg);
+    }
+  }
+
+  h1 {
+    color: #fff;
+    font-size: 2em;
+    font-family: "Galada";
+    letter-spacing: 3px;
+    width: 80%;
+    text-align: center;
+    margin-right: 10%;
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .feature__header {
+    &-back {
+      &__arrow {
+        width: 50px;
+      }
+    }
+
+    h1 {
+      font-size: 3em;
+    }
+  }
+}

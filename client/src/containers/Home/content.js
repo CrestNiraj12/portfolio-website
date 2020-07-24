@@ -3,34 +3,35 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import profileImage from "../../images/profile.jpg";
 import profileImageLow from "../../images/profile-low.jpg";
-import store from "../../store";
 import FeaturedBlog from "./FeaturedBlog";
 import { setPosts } from "../../actions";
+import { connect } from "react-redux";
 
-const Content = () => {
+const mapStateToProps = (state) => ({
+  landscapeCheck: state.isLandscape,
+  posts: state.posts,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setPosts: (posts) => dispatch(setPosts(posts)),
+});
+
+const Content = ({ landscapeCheck, posts, setPosts }) => {
   const [postList, setPostList] = useState([]);
   const [isLandscape, setIsLandscape] = useState(false);
 
   useEffect(() => {
-    var mounted = true;
-    axios
-      .get("/posts")
-      .then((res) => {
-        if (mounted) {
-          store.dispatch(setPosts(res.data));
-        }
-      })
-      .catch((err) => console.log("Error: " + err));
+    if (posts.length > 0) setPostList(posts);
+    else
+      axios
+        .get("/posts")
+        .then((res) => {
+          setPosts(res.data);
+        })
+        .catch((err) => console.log("Error: " + err));
 
-    store.subscribe(() => {
-      if (mounted) {
-        const state = store.getState();
-        setPostList(state.posts);
-        setIsLandscape(state.isLandscape);
-      }
-    });
-    return () => (mounted = false);
-  }, []);
+    setIsLandscape(landscapeCheck);
+  }, [landscapeCheck, posts, setPosts]);
 
   return (
     <main>
@@ -91,4 +92,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default connect(mapStateToProps, mapDispatchToProps)(Content);

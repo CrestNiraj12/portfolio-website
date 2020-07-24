@@ -9,6 +9,7 @@ export const EMAIL_PATTERN = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
 export const HIDE_OVERFLOW = "HIDE_OVERFLOW";
 export const CONFIRM_ACTION = "CONFIRM_ACTION";
 export const SET_USER_DETAILS = "SET_DETAILS";
+export const SET_ALL_POSTS = "SET_ALL_POSTS";
 export const LOG_OUT = "LOG_OUT";
 export const REMOVE_ACCOUNT = "REMOVE_ACCOUNT";
 export const DELETE_POST = "DELETE_POST";

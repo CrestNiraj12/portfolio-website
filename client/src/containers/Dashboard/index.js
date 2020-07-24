@@ -34,6 +34,22 @@ const Dashboard = ({ match, setPage, handleLogout }) => {
       <Features />
       <div className="attributions">
         <a
+          href="https://iconscout.com/icons/add"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Add Icon
+        </a>{" "}
+        by{" "}
+        <a
+          href="https://iconscout.com/contributors/google-inc"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Google Inc.
+        </a>
+        <br />
+        <a
           href="https://iconscout.com/icons/link"
           target="_blank"
           rel="noopener noreferrer"

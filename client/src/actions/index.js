@@ -70,7 +70,7 @@ export const thunkLogout = (skipMessage = false) => (
 
 export const thunkRemoveAccount = (id) => (dispatch, getState, axios) => {
   axios
-    .delete(`/user/${id}`, getState().userDetails)
+    .delete(`/user/${id}`)
     .then((res) => {
       dispatch(setMessage({ data: res.data, type: SUCCESS }));
       dispatch(thunkLogout(true));
@@ -80,7 +80,7 @@ export const thunkRemoveAccount = (id) => (dispatch, getState, axios) => {
     });
 };
 
-export const thunkDeleteOwnPost = (authorId, postId) => (
+export const thunkDeletePost = (authorId, postId) => (
   dispatch,
   getState,
   axios
@@ -100,4 +100,6 @@ export const thunkDeleteOwnPost = (authorId, postId) => (
       posts: getState().userDetails.posts.filter((post) => post._id !== postId),
     })
   );
+
+  dispatch(setPosts(getState().posts.filter((post) => post._id !== postId)));
 };

@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
-import store from "../../store";
 import { setPage } from "../../actions";
 import Header from "./header";
 import Content from "./content";
 import Footer from "../../components/Footer";
 import { HOME } from "../../constants";
+import { connect } from "react-redux";
 
-const Home = () => {
+const mapStateToProps = (state) => ({
+  navActive: state.navActive,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setPage: (page) => dispatch(setPage(page)),
+});
+
+const Home = ({ navActive, setPage }) => {
   const [activeNav, setActiveNav] = useState(false);
 
   useEffect(() => {
-    store.dispatch(setPage(HOME));
-
-    store.subscribe(() => {
-      const navActive = store.getState().activeNav;
-      setActiveNav(navActive);
-    });
-  }, []);
+    setPage(HOME);
+    setActiveNav(navActive);
+  }, [navActive, setPage]);
 
   return (
     <>
@@ -28,4 +32,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

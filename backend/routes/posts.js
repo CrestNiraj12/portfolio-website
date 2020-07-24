@@ -5,8 +5,11 @@ const User = require("../models/user.model");
 
 router.get("/", (req, res) => {
   Post.find()
-    .then((posts) => res.json(posts))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .populate("authorId")
+    .exec((err, posts) => {
+      if (err) return res.status(400).json("Error: " + err);
+      return res.json(posts);
+    });
 });
 
 router.get("/:title", (req, res) => {

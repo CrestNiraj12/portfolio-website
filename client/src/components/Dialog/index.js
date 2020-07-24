@@ -3,10 +3,15 @@ import { connect } from "react-redux";
 import {
   thunkLogout,
   thunkRemoveAccount,
-  thunkDeleteOwnPost,
+  thunkDeletePost,
   showDialog,
 } from "../../actions";
-import { LOG_OUT, REMOVE_ACCOUNT, DELETE_OWN_POST } from "../../constants";
+import {
+  LOG_OUT,
+  REMOVE_ACCOUNT,
+  DELETE_OWN_POST,
+  DELETE_POST,
+} from "../../constants";
 import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => ({
@@ -20,7 +25,7 @@ const mapDispatchToProps = (dispatch) =>
       showDialog: (action) => showDialog(action),
       logOut: () => thunkLogout(),
       removeAccount: (id) => thunkRemoveAccount(id),
-      deleteOwnPost: (id, payload) => thunkDeleteOwnPost(id, payload),
+      deletePost: (id, payload) => thunkDeletePost(id, payload),
     },
     dispatch
   );
@@ -31,7 +36,7 @@ const Dialog = ({
   showDialog,
   logOut,
   removeAccount,
-  deleteOwnPost,
+  deletePost,
 }) => {
   const handleConfirmation = (action, payload = "") => {
     switch (action) {
@@ -39,10 +44,13 @@ const Dialog = ({
         logOut();
         break;
       case REMOVE_ACCOUNT:
-        removeAccount(userDetails._id);
+        removeAccount(payload);
         break;
       case DELETE_OWN_POST:
-        deleteOwnPost(userDetails._id, payload);
+        deletePost(userDetails._id, payload);
+        break;
+      case DELETE_POST:
+        deletePost(payload.userId, payload.postId);
         break;
       default:
         showDialog("NO");

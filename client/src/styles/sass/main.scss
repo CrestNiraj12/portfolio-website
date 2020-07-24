@@ -49,10 +49,12 @@ $gray: #c3c3c3;
 }
 
 @import "./partials/crop";
+@import "./partials/search";
 @import "./partials/dialog";
 @import "./partials/flash";
 @import "./partials/navbar";
 @import "./partials/home";
+@import "./partials/featureHeader";
 @import "./partials/featuredPosts";
 @import "./partials/authenticate";
 @import "./partials/dashboard";

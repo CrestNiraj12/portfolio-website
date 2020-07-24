@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
-const path = require("path");
 const multer = require("multer");
 
 router.get("/all", (req, res) => {
@@ -70,7 +69,6 @@ router.get("/:id", (req, res) => {
     .populate("posts")
     .exec((err, user) => {
       if (err) res.status(400).json("Error: " + err);
-      console.log(user);
       return res.json(user);
     });
 });

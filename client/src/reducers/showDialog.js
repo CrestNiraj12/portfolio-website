@@ -42,7 +42,8 @@ export default (state = initialState, action) => {
         ...constState,
       };
 
-    case DELETE_OWN_POST || DELETE_POST:
+    case DELETE_OWN_POST:
+    case DELETE_POST:
       return {
         message: {
           ...state.message,

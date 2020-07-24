@@ -1,35 +1,46 @@
 .posts {
   margin: 10% 2%;
 
-  &__header {
+  &__features {
     display: flex;
-    justify-content: center;
+    margin: 10% 0 5% 0;
+    color: #fff;
+    justify-content: space-between;
+    font-family: "Kurale";
 
-    &-back {
-      align-self: center;
-      width: 10%;
+    &-sort {
+      display: flex;
+      flex-direction: column;
 
-      &__arrow {
-        width: 35px;
-        transform: rotate(180deg);
+      select {
+        background: transparent;
+        color: #fff;
+
+        option {
+          background-color: $darkblue;
+          color: #fff;
+        }
+      }
+
+      &__by {
+        font-size: 0.8em;
+        margin-bottom: 5%;
+      }
+
+      &__order {
+        font-size: 0.75em;
       }
     }
 
-    h1 {
-      color: #fff;
-      font-size: 2em;
-      font-family: "Galada";
-      letter-spacing: 3px;
-      width: 80%;
-      text-align: center;
-      margin-right: 10%;
-      margin-bottom: 0;
+    &-search {
+      align-self: flex-end;
+      font-size: 0.8em;
+      text-align: right;
     }
   }
 }
 
 table {
-  margin: 10% 0;
   width: 100%;
   background-color: #fff;
   border-collapse: collapse;
@@ -51,14 +62,12 @@ table {
         }
 
         &:nth-child(2) {
-          width: 60%;
+          width: 70%;
         }
 
-        &:nth-child(3),
-        &:nth-child(4),
-        &:nth-child(5) {
+        &:nth-child(3) {
           font-size: 0.85em;
-          width: 10%;
+          width: 20%;
         }
       }
     }
@@ -66,9 +75,6 @@ table {
     .dashboard__head-row {
       th {
         background-color: #282a2f;
-        &:nth-child(2) {
-          width: 70%;
-        }
 
         &:nth-child(3) {
           width: 20%;
@@ -133,26 +139,18 @@ table {
 
 @media screen and (orientation: landscape) {
   .posts {
-    margin: 5% 10%;
+    margin: 0 10%;
 
-    &__header {
-      &-back {
-        cursor: pointer;
+    &__sort {
+      margin: 5% 0 1% 0;
 
-        &__arrow {
-          width: 50px;
-        }
-      }
-
-      h1 {
-        font-size: 3em;
+      &-by {
+        margin-bottom: 1%;
       }
     }
   }
 
   table {
-    margin: 5% 0;
-
     thead {
       tr {
         th {
@@ -161,12 +159,22 @@ table {
 
           &:nth-child(1) {
             padding: 0 2%;
+            width: 5%;
           }
 
-          &:nth-child(3),
+          &:nth-child(2) {
+            width: 50%;
+          }
+
+          &:nth-child(3) {
+            width: 15%;
+          }
+
           &:nth-child(4),
-          &:nth-child(5) {
+          &:nth-child(5),
+          &:nth-child(6) {
             width: 10%;
+            font-size: 0.85em;
           }
         }
       }
@@ -176,7 +184,6 @@ table {
           &:nth-child(1) {
             padding: 0 1%;
           }
-
           &:nth-child(3) {
             width: 10%;
           }
@@ -189,11 +196,16 @@ table {
         td {
           padding: 2%;
 
-          &:nth-child(5) {
+          &:nth-child(3) {
+            font-weight: bold;
+          }
+
+          &:nth-child(7) {
             padding-left: 1%;
           }
-          &:nth-child(3),
-          &:nth-child(4) {
+          &:nth-child(4),
+          &:nth-child(5),
+          &:nth-child(6) {
             font-size: 0.8em;
             color: #000;
             text-align: center;
@@ -208,6 +220,12 @@ table {
       .dashboard__body-row {
         td {
           padding: 1%;
+
+          &:nth-child(3) {
+            font-weight: normal;
+            font-size: 0.8em;
+            color: #000;
+          }
 
           &:nth-child(5),
           &:nth-child(6) {

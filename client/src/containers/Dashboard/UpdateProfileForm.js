@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from "react";
 import axios from "axios";
 import { SUCCESS, FAILURE, PATTERN } from "../../constants";
-import { setUserDetails, setMessage } from "../../actions";
+import { setUserDetails, setMessage, thunkLogout } from "../../actions";
 import { connect } from "react-redux";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "./cropImage";
@@ -9,6 +9,7 @@ import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
+  id: state.userDetails._id,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -16,6 +17,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       setUserDetails: (details) => setUserDetails(details),
       setMessage: (message) => setMessage(message),
+      logOut: () => thunkLogout(true),
     },
     dispatch
   );
@@ -25,7 +27,7 @@ const UpdateProfileForm = ({
   userDetails,
   setUserDetails,
   setMessage,
-  handleLogout,
+  logOut,
 }) => {
   const [disable, setDisable] = useState(true);
   const [imageData, setImageData] = useState({
@@ -83,7 +85,9 @@ const UpdateProfileForm = ({
       .then((res) => {
         if (imageUpload) setUserDetails({ image: res.data.filename });
         if (!disable) {
-          handleLogout();
+          console.log(res.data);
+          setMessage({ data: res.data.message, type: SUCCESS });
+          logOut();
           return;
         }
         document.querySelector(".dashboard__head-profile__view").style.display =
@@ -91,6 +95,7 @@ const UpdateProfileForm = ({
         document.querySelector(
           ".dashboard__head-profile > form"
         ).style.display = "none";
+        console.log(res.data);
         setMessage({ data: res.data.message, type: SUCCESS });
       })
       .catch((err) => {

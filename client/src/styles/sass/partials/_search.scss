@@ -1,0 +1,14 @@
+.search {
+  input {
+    outline: none;
+    width: 50%;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .search {
+    input {
+      width: 70%;
+    }
+  }
+}

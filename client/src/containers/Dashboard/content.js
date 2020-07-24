@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      showDialog: (action) => showDialog(action),
+      showDialog: (action, payload) => showDialog(action, payload),
       setUserDetails: (details) => setUserDetails(details),
     },
     dispatch
@@ -29,9 +29,8 @@ const Content = ({
   userDetails,
   showDialog,
   setUserDetails,
-  setMessage,
 }) => {
-  const getUserDetails = useCallback(() => {
+  useEffect(() => {
     axios.get(`/user/${id}`).then((user) => {
       setUserDetails({
         ...user.data,
@@ -41,10 +40,6 @@ const Content = ({
       });
     });
   }, [id, setUserDetails]);
-
-  useEffect(() => {
-    getUserDetails();
-  }, [getUserDetails]);
 
   const handleEditProfile = () => {
     document.querySelector(".dashboard__head-profile__view").style.display =
@@ -109,14 +104,14 @@ const Content = ({
             </button>
             <button
               className="dashboard__head-profile__view-button__delete"
-              onClick={() => showDialog(REMOVE_ACCOUNT)}
+              onClick={() => showDialog(REMOVE_ACCOUNT, userDetails._id)}
             >
               Remove Account
             </button>
           </div>
         </div>
 
-        <UpdateProfileForm id={id} setMessage={setMessage} />
+        <UpdateProfileForm />
       </div>
     </section>
   );

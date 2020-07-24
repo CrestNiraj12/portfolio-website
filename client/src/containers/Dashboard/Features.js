@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { ReactComponent as Pencil } from "../../images/pencil.svg";
@@ -6,10 +6,15 @@ import { ReactComponent as ControlIcon } from "./control.svg";
 import { ReactComponent as UserIcon } from "./avatar.svg";
 import { ReactComponent as PostIcon } from "./paper.svg";
 import { ReactComponent as TrashIcon } from "../../images/trash.svg";
+import { ReactComponent as AddIcon } from "./add.svg";
+import { ReactComponent as Details } from "../../images/more.svg";
 import { DELETE_OWN_POST } from "../../constants";
 import { Checkbox } from "react-input-checkbox";
 import { showDialog } from "../../actions";
 import { connect } from "react-redux";
+import Search from "../../components/Search";
+import { sortBy } from "lodash";
+import SortOption from "../../components/SortOption";
 
 const mapStateToProps = (state) => ({
   role: state.userDetails.role,
@@ -24,18 +29,45 @@ const mapDispatchToProps = (dispatch) => ({
 const Features = ({ role, posts, isLandscape, showDialog }) => {
   const [allSelection, setAllSelection] = useState(false);
   const [selected, setSelected] = useState({});
+  const [postsList, setPostsList] = useState(posts);
+  const [sort, setSort] = useState("title");
+  const [ascendingOrder, setAscendingOrder] = useState(true);
   const features = [
     { url: "/posts", text: "All Posts", Svg: PostIcon },
     { url: "/user/all", text: "All Users", Svg: UserIcon },
+    { url: "/", text: "Add Post", Svg: AddIcon },
   ];
 
+  const refPosts = useRef([]);
+
   useEffect(() => {
+    setPostsList(sortBy(posts, (a) => a.title));
+    refPosts.current = sortBy(posts, (a) => a.title);
     var initialState = {};
     posts.forEach((post) => {
       initialState[post._id] = false;
     });
+
     setSelected(initialState);
-  }, [setSelected, posts]);
+  }, [posts]);
+
+  useEffect(() => {
+    const list = sortBy(refPosts.current, (a) => {
+      switch (sort.toLowerCase()) {
+        case "title":
+          return a.title;
+        case "created":
+          return a.createdAt;
+        case "updated":
+          return a.updatedAt;
+        default:
+          return a;
+      }
+    });
+    if (!ascendingOrder) list.reverse();
+    setPostsList(list);
+    refPosts.current = list;
+  }, [sort, ascendingOrder]);
 
   const handleAllSelect = () => {
     setAllSelection(!allSelection);
@@ -76,9 +108,31 @@ const Features = ({ role, posts, isLandscape, showDialog }) => {
           </div>
         </>
       )}
+
       {role && role !== "tester" && (
-        <div className="dashboard__content-posts">
+        <div className="posts__content-posts">
           <h1>Your Posts {posts.length > 0 && `(${posts.length})`}</h1>
+          <div
+            className="posts__features"
+            style={isLandscape ? { margin: "5% 0" } : {}}
+          >
+            <div className="posts__features-sort">
+              <SortOption
+                state={sort}
+                setState={setSort}
+                order={ascendingOrder}
+                setOrder={setAscendingOrder}
+                options={["Title", "Created on", "Updated on"]}
+              />
+            </div>
+            <div className="posts__features-search">
+              <Search
+                setState={setPostsList}
+                query="title"
+                list={refPosts.current}
+              />
+            </div>
+          </div>
           <table>
             <thead>
               <tr className="dashboard__head-row">
@@ -102,8 +156,8 @@ const Features = ({ role, posts, isLandscape, showDialog }) => {
               </tr>
             </thead>
             <tbody>
-              {posts.length > 0 ? (
-                posts.map((post) => (
+              {postsList.length > 0 &&
+                postsList.map((post) => (
                   <tr key={post._id} className="dashboard__body-row">
                     <td>
                       <Checkbox
@@ -136,21 +190,26 @@ const Features = ({ role, posts, isLandscape, showDialog }) => {
                       </Link>
                     </td>
                     <td>
-                      <TrashIcon
-                        width="15px"
-                        className="trashIcon"
-                        onClick={() => showDialog(DELETE_OWN_POST, post._id)}
-                      />
+                      {isLandscape ? (
+                        <TrashIcon
+                          width="15px"
+                          className="trashIcon"
+                          onClick={() => showDialog(DELETE_OWN_POST, post._id)}
+                        />
+                      ) : (
+                        <Details width="4px" />
+                      )}
                     </td>
                   </tr>
-                ))
-              ) : (
-                <p style={{ fontFamily: "Kurale", color: "#9b9b9b" }}>
-                  You have not posted anything!
-                </p>
-              )}
+                ))}
             </tbody>
           </table>
+
+          {postsList.length <= 0 && (
+            <p style={{ fontFamily: "Kurale", color: "#fff", fontSize: "2em" }}>
+              You have not posted anything!
+            </p>
+          )}
         </div>
       )}
     </section>
