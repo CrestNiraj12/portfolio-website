@@ -5,6 +5,8 @@ import {
   DELETE_OWN_POST,
   CHANGE_ROLE,
   DELETE_POST,
+  DELETE_MULTIPLE_POSTS,
+  DELETE_MULTIPLE_USERS,
 } from "../constants";
 
 const initialState = {
@@ -61,6 +63,30 @@ export default (state = initialState, action) => {
           ...state.message,
           description: "You are going to delete this post permanently.",
           confirmText: "Delete",
+        },
+        ...constState,
+        payload: action.payload,
+      };
+
+    case DELETE_MULTIPLE_POSTS:
+      return {
+        message: {
+          ...state.message,
+          description:
+            "You are going to delete all the selected posts permanently.",
+          confirmText: "Delete",
+        },
+        ...constState,
+        payload: action.payload,
+      };
+
+    case DELETE_MULTIPLE_USERS:
+      return {
+        message: {
+          ...state.message,
+          description:
+            "You are going to remove all the selected users permanently.",
+          confirmText: "Remove",
         },
         ...constState,
         payload: action.payload,

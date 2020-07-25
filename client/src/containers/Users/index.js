@@ -1,7 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { setPage, showDialog, setAllUsers } from "../../actions";
-import { USERS, REMOVE_ACCOUNT, CHANGE_ROLE } from "../../constants";
+import {
+  USERS,
+  REMOVE_ACCOUNT,
+  CHANGE_ROLE,
+  DELETE_MULTIPLE_USERS,
+  USER_SCHEMA,
+  ADMIN,
+  EDITOR,
+  TESTER,
+} from "../../constants";
 import { connect } from "react-redux";
 import FeatureHeader from "../../components/FeatureHeader";
 import SortOption from "../../components/SortOption";
@@ -13,6 +22,7 @@ import { ReactComponent as Details } from "../../images/more.svg";
 import { ReactComponent as TrashIcon } from "../../images/trash.svg";
 import { sortBy } from "lodash";
 import { bindActionCreators } from "redux";
+import DeleteMultiple from "../../components/DeleteMultiple";
 
 const mapStateToProps = (state) => ({
   isLandscape: state.isLandscape,
@@ -43,6 +53,7 @@ const Users = ({
   const [allSelection, setAllSelection] = useState(false);
   const [selected, setSelected] = useState({});
   const [redirect, setRedirect] = useState(null);
+  const [disabled, setDisabled] = useState(true);
 
   const refUsersList = useRef([]);
 
@@ -87,22 +98,31 @@ const Users = ({
     refUsersList.current = list;
   }, [ascendingOrder, sort]);
 
+  const checkSelected = (selections) => {
+    if (Object.values(selections).some((elem) => elem)) setDisabled(false);
+    else setDisabled(true);
+  };
+
   const handleChange = (id) => {
     var selections = { ...selected, [id]: !selected[id] };
     setSelected(selections);
 
     if (Object.values(selections).every((elem) => elem)) setAllSelection(true);
     else setAllSelection(false);
+
+    checkSelected(selections);
   };
 
   const handleAllSelect = () => {
     setAllSelection(!allSelection);
 
     var selections = {};
+
     Object.keys(selected).forEach((key) => {
       selections[key] = !allSelection;
     });
 
+    checkSelected(selections);
     setSelected(selections);
   };
 
@@ -120,12 +140,22 @@ const Users = ({
             options={["Name", "Id", "Role", "Posts"]}
           />
         </div>
-        <div className="users__features-search">
-          <Search
-            setState={setUsersList}
-            query="fullname"
-            list={refUsersList.current}
-          />
+        <div className="users__features-select">
+          <div className="posts__features-select__search">
+            <Search
+              setState={setUsersList}
+              query="fullname"
+              list={refUsersList.current}
+            />
+          </div>
+          <div className="users__features-select__multiple-delete">
+            <DeleteMultiple
+              selected={selected}
+              isDisabled={disabled}
+              action={DELETE_MULTIPLE_USERS}
+              schema={USER_SCHEMA}
+            />
+          </div>
         </div>
       </section>
       <section>
@@ -185,9 +215,9 @@ const Users = ({
                             })
                           }
                         >
-                          <option value="admin">Admin</option>
-                          <option value="editor">Editor</option>
-                          <option value="tester">Tester</option>
+                          <option value={ADMIN}>Admin</option>
+                          <option value={EDITOR}>Editor</option>
+                          <option value={TESTER}>Tester</option>
                         </select>
                       </td>
                       <td>{user.posts.length}</td>
@@ -199,7 +229,7 @@ const Users = ({
                     </Link>
                   </td>
                   <td>
-                    {isLandscape ? (
+                    {isLandscape && user.role !== ADMIN ? (
                       <TrashIcon
                         width="15px"
                         className="trashIcon"

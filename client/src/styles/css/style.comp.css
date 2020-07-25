@@ -1224,10 +1224,33 @@
         margin-bottom: 5%; }
       .posts__features-sort__order {
         font-size: 0.75em; }
-    .posts__features-search {
-      align-self: flex-end;
-      font-size: 0.8em;
-      text-align: right; }
+    .posts__features-select {
+      display: flex;
+      align-items: flex-end; }
+      .posts__features-select__search {
+        font-size: 0.8em; }
+      .posts__features-select__multiple-delete {
+        width: 50%; }
+        .posts__features-select__multiple-delete__button {
+          background: none;
+          color: #ff3939;
+          border-radius: 12px;
+          outline: none;
+          margin: 0 0;
+          padding: 3% 1%;
+          border: 1px solid #ff3939;
+          transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+          cursor: pointer;
+          font-size: 0.7em;
+          width: 100%; }
+          .posts__features-select__multiple-delete__button:hover {
+            background-color: #ff3939;
+            color: #000; }
+          .posts__features-select__multiple-delete__button:disabled {
+            border-color: #8a8a8a;
+            color: #8a8a8a; }
+            .posts__features-select__multiple-delete__button:disabled:hover {
+              background-color: transparent; }
 
 table {
   width: 100%;
@@ -1352,10 +1375,33 @@ table {
         margin-bottom: 5%; }
       .users__features-sort__order {
         font-size: 0.75em; }
-    .users__features-search {
-      align-self: flex-end;
-      font-size: 0.8em;
-      text-align: right; }
+    .users__features-select {
+      display: flex;
+      align-items: flex-end; }
+      .users__features-select__search {
+        font-size: 0.8em; }
+      .users__features-select__multiple-delete {
+        width: 50%; }
+        .users__features-select__multiple-delete__button {
+          background: none;
+          color: #ff3939;
+          border-radius: 12px;
+          outline: none;
+          margin: 0 0;
+          padding: 3% 1%;
+          border: 1px solid #ff3939;
+          transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+          cursor: pointer;
+          font-size: 0.7em;
+          width: 100%; }
+          .users__features-select__multiple-delete__button:hover {
+            background-color: #ff3939;
+            color: #000; }
+          .users__features-select__multiple-delete__button:disabled {
+            border-color: #8a8a8a;
+            color: #8a8a8a; }
+            .users__features-select__multiple-delete__button:disabled:hover {
+              background-color: transparent; }
 
 table {
   width: 100%;

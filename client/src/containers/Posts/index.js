@@ -2,7 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import { setPage, showDialog, setPosts } from "../../actions";
-import { POSTS, DELETE_POST } from "../../constants";
+import {
+  POSTS,
+  DELETE_POST,
+  DELETE_MULTIPLE_POSTS,
+  POST_SCHEMA,
+} from "../../constants";
 import { Checkbox } from "react-input-checkbox";
 import { ReactComponent as Pencil } from "../../images/pencil.svg";
 import { ReactComponent as Details } from "../../images/more.svg";
@@ -13,10 +18,12 @@ import Search from "../../components/Search";
 import { bindActionCreators } from "redux";
 import SortOption from "../../components/SortOption";
 import FeatureHeader from "../../components/FeatureHeader";
+import DeleteMultiple from "../../components/DeleteMultiple";
 
 const mapStateToProps = (state) => ({
   isLandscape: state.isLandscape,
   posts: state.posts,
+  role: state.userDetails.role,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -29,13 +36,14 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-const Posts = ({ posts, isLandscape, setPage, showDialog, setPosts }) => {
+const Posts = ({ role, posts, isLandscape, setPage, showDialog, setPosts }) => {
   const [postsList, setPostsList] = useState([]);
   const [allSelection, setAllSelection] = useState(false);
   const [selected, setSelected] = useState({});
   const [sort, setSort] = useState("title");
   const [ascendingOrder, setAscendingOrder] = useState(true);
   const [redirect, setRedirect] = useState(null);
+  const [disabled, setDisabled] = useState(true);
 
   const refPostsList = useRef([]);
 
@@ -79,9 +87,16 @@ const Posts = ({ posts, isLandscape, setPage, showDialog, setPosts }) => {
     refPostsList.current = list;
   }, [ascendingOrder, sort]);
 
+  const checkSelected = (selections) => {
+    if (Object.values(selections).some((elem) => elem)) setDisabled(false);
+    else setDisabled(true);
+  };
+
   const handleChange = (id) => {
     var selections = { ...selected, [id]: !selected[id] };
     setSelected(selections);
+
+    checkSelected(selections);
 
     if (Object.values(selections).every((elem) => elem)) setAllSelection(true);
     else setAllSelection(false);
@@ -95,6 +110,7 @@ const Posts = ({ posts, isLandscape, setPage, showDialog, setPosts }) => {
       selections[key] = !allSelection;
     });
 
+    checkSelected(selections);
     setSelected(selections);
   };
 
@@ -112,12 +128,22 @@ const Posts = ({ posts, isLandscape, setPage, showDialog, setPosts }) => {
             options={["Title", "Author", "Created on", "Updated on"]}
           />
         </div>
-        <div className="posts__features-search">
-          <Search
-            setState={setPostsList}
-            query="title"
-            list={refPostsList.current}
-          />
+        <div className="posts__features-select">
+          <div className="posts__features-select__search">
+            <Search
+              setState={setPostsList}
+              query="title"
+              list={refPostsList.current}
+            />
+          </div>
+          <div className="posts__features-select__multiple-delete">
+            <DeleteMultiple
+              selected={selected}
+              isDisabled={disabled}
+              action={DELETE_MULTIPLE_POSTS}
+              schema={POST_SCHEMA}
+            />
+          </div>
         </div>
       </section>
       <section>

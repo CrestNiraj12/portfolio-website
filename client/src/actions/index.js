@@ -9,6 +9,8 @@ import {
   SUCCESS,
   FAILURE,
   SET_ALL_USERS,
+  USER_SCHEMA,
+  POST_SCHEMA,
 } from "../constants";
 
 export const setPage = (page) => ({
@@ -113,18 +115,49 @@ export const thunkDeletePost = (authorId, postId) => (
   axios
     .delete(`/posts/${authorId}/${postId}`)
     .then((res) => {
-      console.log(res);
       dispatch(setMessage({ data: res.data, type: SUCCESS }));
+      dispatch(
+        setUserDetails({
+          posts: getState().userDetails.posts.filter(
+            (post) => post._id !== postId
+          ),
+        })
+      );
+
+      dispatch(
+        setPosts(getState().posts.filter((post) => post._id !== postId))
+      );
     })
     .catch((err) => {
       dispatch(setMessage({ data: err.response.data, type: FAILURE }));
     });
+};
 
-  dispatch(
-    setUserDetails({
-      posts: getState().userDetails.posts.filter((post) => post._id !== postId),
+export const thunkDeleteMultiple = (dict, schema) => (
+  dispatch,
+  getState,
+  axios
+) => {
+  axios
+    .put(`/${schema}/selected`, { dict })
+    .then((res) => {
+      dispatch(setMessage({ data: res.data, type: SUCCESS }));
+      if (schema === USER_SCHEMA)
+        dispatch(
+          setAllUsers(
+            getState().users.filter(({ _id: id }) => !dict.includes(String(id)))
+          )
+        );
+      else if (schema === POST_SCHEMA)
+        dispatch(
+          setPosts(
+            getState().posts.filter(
+              ({ _id: id }) => !Object.keys(dict).includes(String(id))
+            )
+          )
+        );
     })
-  );
-
-  dispatch(setPosts(getState().posts.filter((post) => post._id !== postId)));
+    .catch((err) => {
+      dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+    });
 };

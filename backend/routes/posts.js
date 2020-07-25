@@ -53,4 +53,33 @@ router.put("/update/:id", (req, res) => {
   });
 });
 
+router.put("/selected", (req, res) => {
+  const postsId = req.body.dict;
+
+  Post.deleteMany({ _id: { $in: Object.keys(postsId) } }, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json("Error while deleting!");
+    }
+    return res.json("Posts deleted successfully!");
+  });
+
+  const authorsId = [...new Set(Object.values(postsId))];
+  User.find({ _id: { $in: authorsId } }, (err, users) => {
+    if (users.length > 0) {
+      users.forEach((user) => {
+        user.posts = user.posts.filter(
+          (postId) => !Object.keys(postsId).includes(String(postId))
+        );
+        user
+          .save()
+          .then(() =>
+            console.log("sucessfully removed post id from author's posts!")
+          )
+          .catch((err) => console.log(err));
+      });
+    }
+  });
+});
+
 module.exports = router;

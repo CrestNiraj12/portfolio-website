@@ -4,7 +4,6 @@ const Search = ({ list, query, setState }) => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    console.log(list);
     setState(
       list.filter((item) =>
         item[query].toLowerCase().includes(search.toLowerCase())

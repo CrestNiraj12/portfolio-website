@@ -8,13 +8,20 @@ import { ReactComponent as PostIcon } from "./paper.svg";
 import { ReactComponent as TrashIcon } from "../../images/trash.svg";
 import { ReactComponent as AddIcon } from "./add.svg";
 import { ReactComponent as Details } from "../../images/more.svg";
-import { DELETE_OWN_POST } from "../../constants";
+import {
+  DELETE_OWN_POST,
+  TESTER,
+  EDITOR,
+  DELETE_MULTIPLE_POSTS,
+  POST_SCHEMA,
+} from "../../constants";
 import { Checkbox } from "react-input-checkbox";
 import { showDialog } from "../../actions";
 import { connect } from "react-redux";
 import Search from "../../components/Search";
 import { sortBy } from "lodash";
 import SortOption from "../../components/SortOption";
+import DeleteMultiple from "../../components/DeleteMultiple";
 
 const mapStateToProps = (state) => ({
   userId: state.userDetails._id,
@@ -33,11 +40,16 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
   const [postsList, setPostsList] = useState(posts);
   const [sort, setSort] = useState("title");
   const [ascendingOrder, setAscendingOrder] = useState(true);
-  const features = [
-    { url: "/posts", text: "All Posts", Svg: PostIcon },
-    { url: `/user/${userId}/all`, text: "All Users", Svg: UserIcon },
-    { url: "/", text: "Add Post", Svg: AddIcon },
-  ];
+  const [disabled, setDisabled] = useState(true);
+
+  const features =
+    role !== EDITOR
+      ? [
+          { url: "/posts", text: "All Posts", Svg: PostIcon },
+          { url: `/user/${userId}/all`, text: "All Users", Svg: UserIcon },
+          { url: "/", text: "Add Post", Svg: AddIcon },
+        ]
+      : [{ url: "/", text: "Add Post", Svg: AddIcon }];
 
   const refPosts = useRef([]);
 
@@ -70,6 +82,11 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
     refPosts.current = list;
   }, [sort, ascendingOrder]);
 
+  const checkSelected = (selections) => {
+    if (Object.values(selections).some((elem) => elem)) setDisabled(false);
+    else setDisabled(true);
+  };
+
   const handleAllSelect = () => {
     setAllSelection(!allSelection);
 
@@ -78,6 +95,7 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
       selections[key] = !allSelection;
     });
 
+    checkSelected(selections);
     setSelected(selections);
   };
 
@@ -85,134 +103,139 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
     var selections = { ...selected, [id]: !selected[id] };
     setSelected(selections);
 
+    checkSelected(selections);
     if (Object.values(selections).every((elem) => elem)) setAllSelection(true);
     else setAllSelection(false);
   };
 
   return (
     <section className="dashboard__content">
-      {role && role !== "editor" && (
-        <>
-          <div className="dashboard__content-heading">
-            <ControlIcon />
-            <h2 style={{ color: "#fff" }}>Control Center</h2>
-          </div>
-          <div className="dashboard__content-features">
-            {features.map(({ url, text, Svg }) => (
-              <Link key={url} to={url}>
-                <div className="dashboard__content-features__card">
-                  <p>{text}</p>
-                  <Svg className="dashboard__content-features__card-icon" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </>
-      )}
-
-      {role && role !== "tester" && (
-        <div className="posts__content-posts">
-          <h1>Your Posts {posts.length > 0 && `(${posts.length})`}</h1>
-          <div
-            className="posts__features"
-            style={isLandscape ? { margin: "5% 0" } : {}}
-          >
-            <div className="posts__features-sort">
-              <SortOption
-                state={sort}
-                setState={setSort}
-                order={ascendingOrder}
-                setOrder={setAscendingOrder}
-                options={["Title", "Created on", "Updated on"]}
-              />
+      <div className="dashboard__content-heading">
+        <ControlIcon />
+        <h2 style={{ color: "#fff" }}>Control Center</h2>
+      </div>
+      <div className="dashboard__content-features">
+        {features.map(({ url, text, Svg }) => (
+          <Link key={url} to={url}>
+            <div className="dashboard__content-features__card">
+              <p>{text}</p>
+              <Svg className="dashboard__content-features__card-icon" />
             </div>
-            <div className="posts__features-search">
+          </Link>
+        ))}
+      </div>
+
+      <div className="posts__content-posts">
+        <h1>Your Posts {posts.length > 0 && `(${posts.length})`}</h1>
+        <div
+          className="posts__features"
+          style={isLandscape ? { margin: "5% 0" } : {}}
+        >
+          <div className="posts__features-sort">
+            <SortOption
+              state={sort}
+              setState={setSort}
+              order={ascendingOrder}
+              setOrder={setAscendingOrder}
+              options={["Title", "Created on", "Updated on"]}
+            />
+          </div>
+          <div className="posts__features-select">
+            <div className="posts__features-select__search">
               <Search
                 setState={setPostsList}
                 query="title"
                 list={refPosts.current}
               />
             </div>
+            <div className="posts__features-select__multiple-delete">
+              <DeleteMultiple
+                selected={selected}
+                isDisabled={disabled}
+                action={DELETE_MULTIPLE_POSTS}
+                schema={POST_SCHEMA}
+              />
+            </div>
           </div>
-          <table>
-            <thead>
-              <tr className="dashboard__head-row">
-                <th>
-                  <Checkbox
-                    theme="material-checkbox"
-                    value={allSelection}
-                    onChange={handleAllSelect}
-                  >
-                    {" "}
-                  </Checkbox>
-                </th>
-                <th style={isLandscape ? { width: "60%" } : {}}>Title</th>
-                {isLandscape && (
-                  <>
-                    <th>Created</th>
-                    <th>Last Updated</th>
-                  </>
-                )}
-                <th colSpan="2">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {postsList.length > 0 &&
-                postsList.map((post) => (
-                  <tr key={post._id} className="dashboard__body-row">
-                    <td>
-                      <Checkbox
-                        theme="material-checkbox"
-                        value={selected[post._id] ? selected[post._id] : false}
-                        onChange={() => handleChange(post._id)}
-                      >
-                        {" "}
-                      </Checkbox>
-                    </td>
-                    <td>
-                      <Link
-                        to={`/posts/${post.title
-                          .toLowerCase()
-                          .split(" ")
-                          .join("-")}-${post._id}`}
-                      >
-                        <p>{post.title}</p>
-                      </Link>
-                    </td>
-                    {isLandscape && (
-                      <>
-                        <td>{post.createdAt.substring(0, 10)}</td>
-                        <td>{post.updatedAt.substring(0, 10)}</td>
-                      </>
-                    )}
-                    <td>
-                      <Link to="/">
-                        <Pencil width="15px" />
-                      </Link>
-                    </td>
-                    <td>
-                      {isLandscape ? (
-                        <TrashIcon
-                          width="15px"
-                          className="trashIcon"
-                          onClick={() => showDialog(DELETE_OWN_POST, post._id)}
-                        />
-                      ) : (
-                        <Details width="4px" />
-                      )}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-
-          {postsList.length <= 0 && (
-            <p style={{ fontFamily: "Kurale", color: "#fff", fontSize: "2em" }}>
-              You have not posted anything!
-            </p>
-          )}
         </div>
-      )}
+        <table>
+          <thead>
+            <tr className="dashboard__head-row">
+              <th>
+                <Checkbox
+                  theme="material-checkbox"
+                  value={allSelection}
+                  onChange={handleAllSelect}
+                >
+                  {" "}
+                </Checkbox>
+              </th>
+              <th style={isLandscape ? { width: "60%" } : {}}>Title</th>
+              {isLandscape && (
+                <>
+                  <th>Created</th>
+                  <th>Last Updated</th>
+                </>
+              )}
+              <th colSpan="2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {postsList.length > 0 &&
+              postsList.map((post) => (
+                <tr key={post._id} className="dashboard__body-row">
+                  <td>
+                    <Checkbox
+                      theme="material-checkbox"
+                      value={selected[post._id] ? selected[post._id] : false}
+                      onChange={() => handleChange(post._id)}
+                    >
+                      {" "}
+                    </Checkbox>
+                  </td>
+                  <td>
+                    <Link
+                      to={`/posts/${post.title
+                        .toLowerCase()
+                        .split(" ")
+                        .join("-")}-${post._id}`}
+                    >
+                      <p>{post.title}</p>
+                    </Link>
+                  </td>
+                  {isLandscape && (
+                    <>
+                      <td>{post.createdAt.substring(0, 10)}</td>
+                      <td>{post.updatedAt.substring(0, 10)}</td>
+                    </>
+                  )}
+                  <td>
+                    <Link to="/">
+                      <Pencil width="15px" />
+                    </Link>
+                  </td>
+                  <td>
+                    {isLandscape && role !== TESTER ? (
+                      <TrashIcon
+                        width="15px"
+                        className="trashIcon"
+                        onClick={() => showDialog(DELETE_OWN_POST, post._id)}
+                      />
+                    ) : (
+                      <Details width="4px" />
+                    )}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+
+        {postsList.length <= 0 && (
+          <p style={{ fontFamily: "Kurale", color: "#fff", fontSize: "2em" }}>
+            You have not posted anything!
+          </p>
+        )}
+      </div>
     </section>
   );
 };

@@ -34,10 +34,32 @@
         }
       }
 
-      &-search {
-        align-self: flex-end;
-        font-size: 0.8em;
-        text-align: right;
+      &-select {
+        display: flex;
+        align-items: flex-end;
+
+        &__search {
+          font-size: 0.8em;
+        }
+
+        &__multiple-delete {
+          width: 50%;
+
+          &__button {
+            @include button(3% 1%, 0 0, $red, #000);
+            font-size: 0.7em;
+            width: 100%;
+
+            &:disabled {
+              border-color: $gray;
+              color: $gray;
+
+              &:hover {
+                background-color: transparent;
+              }
+            }
+          }
+        }
       }
     }
   }

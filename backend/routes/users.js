@@ -82,9 +82,15 @@ router.get("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-  User.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Account deleted!"))
-    .catch((err) => res.status(400).json("Error: " + err));
+  User.findById(req.params.id).then(({ role }) => {
+    if (role === "admin")
+      return res.status(400).json("Error: Cant remove admin!");
+    else {
+      User.findByIdAndDelete(req.params.id)
+        .then(() => res.json("Account deleted!"))
+        .catch((err) => res.status(400).json("Error: " + err));
+    }
+  });
 });
 
 router.post("/:id/addpost", (req, res) => {
@@ -113,6 +119,31 @@ router.put("/:userId/changeRole", (req, res) => {
       return res.json({ message: "Role changed successfully!", user });
     }
   );
+});
+
+router.put("/selected", (req, res) => {
+  var usersId = req.body.dict;
+  var triedDeletingAdmin = false;
+
+  User.find({ _id: { $in: usersId } }).then((users) => {
+    users.forEach(({ _id: id, role }) => {
+      if (role === "admin") {
+        usersId = usersId.filter((userId) => userId !== String(id));
+        triedDeletingAdmin = true;
+      }
+    });
+    if (usersId.length > 0)
+      User.deleteMany({ _id: { $in: usersId } }, (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.status(400).json("Error while deleting!");
+        }
+        if (triedDeletingAdmin)
+          return res.json("Cant delete admin! Deleted other users!");
+        return res.json("Users deleted successfully!");
+      });
+    else return res.status(400).json("Error: Cant delete admin!");
+  });
 });
 
 module.exports = router;

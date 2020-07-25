@@ -12,6 +12,9 @@ import {
   FAILURE,
   PATTERN,
   EMAIL_PATTERN,
+  ADMIN,
+  EDITOR,
+  TESTER,
 } from "../../constants";
 
 const mapDispatchToProps = (dispatch) => ({
@@ -135,9 +138,9 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
                 required
               >
                 <option value="">Select Role</option>
-                {usersCount === 0 && <option value="admin">Admin</option>}
-                <option value="editor">Editor</option>
-                <option value="tester">Tester</option>
+                {usersCount === 0 && <option value={ADMIN}>Admin</option>}
+                <option value={EDITOR}>Editor</option>
+                <option value={TESTER}>Tester</option>
               </select>
             )}
             <button>Submit</button>
