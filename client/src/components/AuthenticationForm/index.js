@@ -15,6 +15,7 @@ import {
   ADMIN,
   EDITOR,
   TESTER,
+  PASSWORD_WARNING,
 } from "../../constants";
 
 const mapDispatchToProps = (dispatch) => ({
@@ -30,8 +31,7 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
   useEffect(() => {
     setPage(page);
     const isAuthenticated = localStorage.getItem("isAuthenticated");
-    if (isAuthenticated === "true")
-      setRedirect(`../user/${localStorage.getItem("id")}/dashboard`);
+    if (isAuthenticated === "true") setRedirect(`/user/dashboard`);
 
     axios
       .get("/user/all")
@@ -49,21 +49,14 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
     axios
       .post(`/auth/${pageTitle}`, details)
       .then((res) => {
-        localStorage.setItem("id", res.data.user.id);
         localStorage.setItem("isAuthenticated", true);
+        localStorage.setItem("id", res.data.user.id);
         setMessage({ data: res.data.message, type: SUCCESS });
-        document.querySelector(".flash__wrapper").style.opacity = "1";
-        setRedirect(`/user/${localStorage.getItem("id")}/dashboard`);
+        setRedirect(`/user/dashboard`);
       })
       .catch((err) => {
         setMessage({ data: err.response.data, type: FAILURE });
-        document.querySelector(".flash__wrapper").style.opacity = "1";
       });
-
-    setTimeout(() => {
-      if (document.querySelector(".flash__wrapper"))
-        document.querySelector(".flash__wrapper").style.opacity = "0";
-    }, 2000);
   };
 
   const handleInputChange = (e) => {
@@ -116,7 +109,7 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
                 id="password"
                 minLength="8"
                 pattern={PATTERN}
-                title="You password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, 1 symbol and 1 digit"
+                title={PASSWORD_WARNING}
                 placeholder="Password"
                 onChange={handleInputChange}
                 required

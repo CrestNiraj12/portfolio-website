@@ -84,9 +84,8 @@ export const thunkLogout = (skipMessage = false) => (
     .get("/auth/logout")
     .then((res) => {
       if (!skipMessage) dispatch(setMessage({ data: res.data, type: SUCCESS }));
-      localStorage.setItem("id", "");
       localStorage.setItem("isAuthenticated", false);
-
+      localStorage.setItem("id", "");
       window.location = "/auth/login";
     })
     .catch((err) => {
@@ -98,9 +97,10 @@ export const thunkRemoveAccount = (id) => (dispatch, getState, axios) => {
     .delete(`/user/${id}`)
     .then((res) => {
       dispatch(setMessage({ data: res.data, type: SUCCESS }));
-      dispatch(setAllUsers(getState().users.filter((user) => user._id !== id)));
-
-      if (id === getState().userDetails._id) dispatch(thunkLogout(true));
+      const users = getState().users;
+      if (users !== null)
+        dispatch(setAllUsers(users.filter(({ _id: userId }) => userId !== id)));
+      if (id === localStorage.getItem("id")) dispatch(thunkLogout(true));
     })
     .catch((err) => {
       dispatch(setMessage({ data: err.response.data, type: FAILURE }));
@@ -138,26 +138,35 @@ export const thunkDeleteMultiple = (dict, schema) => (
   getState,
   axios
 ) => {
-  axios
-    .put(`/${schema}/selected`, { dict })
-    .then((res) => {
-      dispatch(setMessage({ data: res.data, type: SUCCESS }));
-      if (schema === USER_SCHEMA)
-        dispatch(
-          setAllUsers(
-            getState().users.filter(({ _id: id }) => !dict.includes(String(id)))
-          )
-        );
-      else if (schema === POST_SCHEMA)
-        dispatch(
-          setPosts(
-            getState().posts.filter(
-              ({ _id: id }) => !Object.keys(dict).includes(String(id))
+  if (schema === USER_SCHEMA && dict.length === 1)
+    dispatch(thunkRemoveAccount(dict[0]));
+  else if (schema === POST_SCHEMA && Object.keys(dict).length === 1) {
+    const authorId = Object.values(dict)[0];
+    const postId = Object.keys(dict)[0];
+    dispatch(thunkDeletePost(authorId, postId));
+  } else
+    axios
+      .put(`/${schema}/selected`, { dict })
+      .then((res) => {
+        dispatch(setMessage({ data: res.data, type: SUCCESS }));
+        if (schema === USER_SCHEMA)
+          dispatch(
+            setAllUsers(
+              getState().users.filter(
+                ({ _id: id }) => !dict.includes(String(id))
+              )
             )
-          )
-        );
-    })
-    .catch((err) => {
-      dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-    });
+          );
+        else if (schema === POST_SCHEMA)
+          dispatch(
+            setPosts(
+              getState().posts.filter(
+                ({ _id: id }) => !Object.keys(dict).includes(String(id))
+              )
+            )
+          );
+      })
+      .catch((err) => {
+        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+      });
 };

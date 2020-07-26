@@ -2,6 +2,7 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
+const { validAuth } = require("../config/middleware");
 
 router.get("/", (req, res) => {
   Post.find()
@@ -22,12 +23,12 @@ router.get("/:title", (req, res) => {
     });
 });
 
-router.delete("/:userId/:id", (req, res) => {
+router.delete("/:userId/:id", validAuth, (req, res) => {
   Post.findByIdAndDelete(req.params.id)
     .then(() => res.json("Post deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
 
-  if (req.params.userId !== 404)
+  if (req.params.userId !== 404 || req.params.userId === null)
     User.findByIdAndUpdate(
       req.params.userId,
       { $pull: { posts: mongoose.mongo.ObjectId(req.params.id) } },
@@ -38,7 +39,7 @@ router.delete("/:userId/:id", (req, res) => {
     );
 });
 
-router.put("/update/:id", (req, res) => {
+router.put("/update/:id", validAuth, (req, res) => {
   Post.findById(req.params.id).then((post) => {
     post.title = req.body.title;
     post.description = req.body.description;
@@ -53,7 +54,7 @@ router.put("/update/:id", (req, res) => {
   });
 });
 
-router.put("/selected", (req, res) => {
+router.put("/selected", validAuth, (req, res) => {
   const postsId = req.body.dict;
 
   Post.deleteMany({ _id: { $in: Object.keys(postsId) } }, (err, result) => {
@@ -66,7 +67,7 @@ router.put("/selected", (req, res) => {
 
   const authorsId = [...new Set(Object.values(postsId))];
   User.find({ _id: { $in: authorsId } }, (err, users) => {
-    if (users.length > 0) {
+    if (users && users.length > 0) {
       users.forEach((user) => {
         user.posts = user.posts.filter(
           (postId) => !Object.keys(postsId).includes(String(postId))

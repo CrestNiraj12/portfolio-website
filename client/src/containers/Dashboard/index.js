@@ -6,17 +6,12 @@ import { DASHBOARD } from "../../constants";
 import { connect } from "react-redux";
 import Features from "./Features";
 import Content from "./content";
-import { bindActionCreators } from "redux";
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      setPage: (page) => setPage(page),
-    },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch) => ({
+  setPage: (page) => dispatch(setPage(page)),
+});
 
-const Dashboard = ({ match, setPage, handleLogout }) => {
+const Dashboard = ({ match, setPage }) => {
   const [redirect, setRedirect] = useState(null);
 
   useEffect(() => {
@@ -29,7 +24,7 @@ const Dashboard = ({ match, setPage, handleLogout }) => {
     <main className="dashboard">
       {redirect && <Redirect to={redirect} />}
 
-      <Content id={match.params.id} />
+      <Content />
 
       <Features />
       <div className="attributions">

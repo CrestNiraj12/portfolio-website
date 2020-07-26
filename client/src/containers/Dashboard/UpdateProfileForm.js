@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
 import axios from "axios";
-import { SUCCESS, FAILURE, PATTERN } from "../../constants";
+import { SUCCESS, FAILURE, PATTERN, PASSWORD_WARNING } from "../../constants";
 import { setUserDetails, setMessage, thunkLogout } from "../../actions";
 import { connect } from "react-redux";
 import Cropper from "react-easy-crop";
@@ -76,7 +76,7 @@ const UpdateProfileForm = ({
 
     axios({
       method: "PUT",
-      url: `/user/${id}/changePassword/${!disable}/imageUpload/${imageUpload}`,
+      url: `/user/?changePassword=${!disable}&imageUpload=${imageUpload}`,
       data: bodyForm,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -84,6 +84,7 @@ const UpdateProfileForm = ({
     })
       .then((res) => {
         if (imageUpload) setUserDetails({ image: res.data.filename });
+        console.log(disable);
         if (!disable) {
           setMessage({ data: res.data.message, type: SUCCESS });
           logOut();
@@ -169,7 +170,6 @@ const UpdateProfileForm = ({
 
   const handleCropChange = (crop) => {
     setImageData({ ...imageData, crop });
-    console.log(crop);
   };
 
   const handleCropComplete = (croppedArea, croppedAreaPixels) => {
@@ -234,7 +234,7 @@ const UpdateProfileForm = ({
           name="password"
           placeholder="Old Password"
           minLength="8"
-          title="You password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, 1 symbol and 1 digit"
+          title={PASSWORD_WARNING}
           pattern={PATTERN}
           value={userDetails.password}
           onChange={handleInputChange}
@@ -245,7 +245,7 @@ const UpdateProfileForm = ({
           name="newPassword"
           minLength="8"
           pattern={PATTERN}
-          title="You password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, 1 symbol and 1 digit"
+          title={PASSWORD_WARNING}
           placeholder="New Password"
           onChange={handleInputChange}
           value={userDetails.newPassword}
@@ -257,7 +257,7 @@ const UpdateProfileForm = ({
           name="confirmPassword"
           minLength="8"
           pattern={PATTERN}
-          title="You password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, 1 symbol and 1 digit"
+          title={PASSWORD_WARNING}
           placeholder="Confirm Password"
           onChange={handleInputChange}
           value={userDetails.confirmPassword}

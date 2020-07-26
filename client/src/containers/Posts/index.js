@@ -275,6 +275,17 @@ const Posts = ({ role, posts, isLandscape, setPage, showDialog, setPosts }) => {
             Alpár - Etele Méder
           </a>{" "}
           on <a href="https://iconscout.com">Iconscout</a>
+          <br />
+          <a
+            href="https://iconscout.com/icons/delete"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            delete
+          </a>{" "}
+          by{" "}
+          <a href="https://iconscout.com/contributors/oviyan">Vignesh Oviyan</a>{" "}
+          on <a href="https://iconscout.com">Iconscout</a>
         </div>
       </section>
     </main>

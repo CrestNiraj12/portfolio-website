@@ -5,8 +5,7 @@ export const SET_POSTS = "SET_POSTS";
 export const [SUCCESS, FAILURE] = ["success", "failure"];
 export const [USER_SCHEMA, POST_SCHEMA] = ["user", "posts"];
 export const [ADMIN, EDITOR, TESTER] = ["admin", "editor", "tester"];
-export const PATTERN =
-  "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
+export const PATTERN = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
 export const EMAIL_PATTERN = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
 export const HIDE_OVERFLOW = "HIDE_OVERFLOW";
 export const CONFIRM_ACTION = "CONFIRM_ACTION";
@@ -22,6 +21,8 @@ export const DELETE_MULTIPLE_POSTS = "DELETE_MULTIPLE_POSTS";
 export const DELETE_MULTIPLE_USERS = "DELETE_MULTIPLE_USERS";
 export const CHANGE_ROLE = "CHANGE_ROLE";
 export const SET_MESSAGE = "SET_MESSAGE";
+export const PASSWORD_WARNING =
+  "You password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, and 1 digit";
 export const [
   HOME,
   CONTACT,

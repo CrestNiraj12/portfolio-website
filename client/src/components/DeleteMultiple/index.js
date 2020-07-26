@@ -30,7 +30,7 @@ const DeleteMultiple = ({
       if (posts.length > 0) {
         posts.forEach((post) => {
           if (selectedListIds.includes(post._id))
-            dict[post._id] = post.authorId._id;
+            dict[post._id] = post.authorId !== null ? post.authorId._id : 404;
         });
         showDialog(action, dict);
       }

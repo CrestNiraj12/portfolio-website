@@ -39,14 +39,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-const Users = ({
-  match,
-  users,
-  isLandscape,
-  setPage,
-  showDialog,
-  setAllUsers,
-}) => {
+const Users = ({ users, isLandscape, setPage, showDialog, setAllUsers }) => {
   const [usersList, setUsersList] = useState([]);
   const [sort, setSort] = useState("name");
   const [ascendingOrder, setAscendingOrder] = useState(true);
@@ -72,11 +65,11 @@ const Users = ({
       });
       setSelected(initialState);
     } else {
-      axios.get(`/user/${match.params.id}/all`).then((u) => {
+      axios.get(`/user/all/?exclude=true`).then((u) => {
         setAllUsers(u.data);
       });
     }
-  }, [setPage, setAllUsers, users, match.params.id]);
+  }, [setPage, setAllUsers, users]);
 
   useEffect(() => {
     const list = sortBy(refUsersList.current, (a) => {
@@ -287,6 +280,17 @@ const Users = ({
         >
           Alpár - Etele Méder
         </a>{" "}
+        on <a href="https://iconscout.com">Iconscout</a>
+        <br />
+        <a
+          href="https://iconscout.com/icons/delete"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          delete
+        </a>{" "}
+        by{" "}
+        <a href="https://iconscout.com/contributors/oviyan">Vignesh Oviyan</a>{" "}
         on <a href="https://iconscout.com">Iconscout</a>
       </div>
     </main>

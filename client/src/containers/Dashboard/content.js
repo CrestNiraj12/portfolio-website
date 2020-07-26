@@ -23,14 +23,9 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-const Content = ({
-  id,
-  isLandscape,
-  userDetails,
-  showDialog,
-  setUserDetails,
-}) => {
+const Content = ({ isLandscape, userDetails, showDialog, setUserDetails }) => {
   useEffect(() => {
+    const id = localStorage.getItem("id");
     axios.get(`/user/${id}`).then((user) => {
       setUserDetails({
         ...user.data,
@@ -39,7 +34,7 @@ const Content = ({
         confirmPassword: "",
       });
     });
-  }, [id, setUserDetails]);
+  }, [setUserDetails]);
 
   const handleEditProfile = () => {
     document.querySelector(".dashboard__head-profile__view").style.display =

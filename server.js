@@ -2,8 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const passport = require("./backend/config/passport");
-const cookieSession = require("cookie-session");
-const multer = require("multer");
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+const helmet = require("helmet");
 
 require("dotenv").config();
 
@@ -15,24 +16,10 @@ const usersRouter = require("./backend/routes/users");
 const authenticationRouter = require("./backend/routes/authentication");
 
 app.use(cors());
+app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + "/client/public"));
-
-app.use(
-  cookieSession({
-    maxAge: 24 * 60 * 60 * 1000,
-    name: "loginSession",
-    keys: [process.env.SESSION_KEY1, process.env.SESSION_KEY2],
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use("/posts", postsRouter);
-app.use("/user", usersRouter);
-app.use("/auth", authenticationRouter);
 
 const url = process.env.ATLAS_URL;
 
@@ -46,6 +33,34 @@ mongoose
   .catch((err) => console.log(err));
 
 const connection = mongoose.connection;
+
+const sessionStore = {
+  name: "authSession",
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { httpOnly: true },
+  store: new MongoStore({
+    mongooseConnection: connection,
+    secret: process.env.STORE_SECRET,
+  }),
+};
+
+if (app.get("env") === "production") {
+  const hour = 24 * 60 * 60 * 1000;
+  app.set("trust proxy", 1);
+  sessionStore.cookie.secure = true;
+  sessionStore.cookie.maxAge = hour;
+  sessionStore.cookie.expires = new Date(Date.now() + hour);
+}
+
+app.use(session(sessionStore));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use("/posts", postsRouter);
+app.use("/user", usersRouter);
+app.use("/auth", authenticationRouter);
 
 connection
   .once("open", () => {

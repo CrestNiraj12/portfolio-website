@@ -46,7 +46,7 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
     role !== EDITOR
       ? [
           { url: "/posts", text: "All Posts", Svg: PostIcon },
-          { url: `/user/${userId}/all`, text: "All Users", Svg: UserIcon },
+          { url: `/users`, text: "All Users", Svg: UserIcon },
           { url: "/", text: "Add Post", Svg: AddIcon },
         ]
       : [{ url: "/", text: "Add Post", Svg: AddIcon }];
