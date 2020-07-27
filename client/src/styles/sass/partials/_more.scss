@@ -1,0 +1,75 @@
+.more {
+  position: relative;
+  outline: none;
+
+  &__icon {
+    width: 4px;
+    cursor: pointer;
+  }
+
+  ul {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    list-style: none;
+    padding: 0;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    margin: 0;
+    align-items: flex-end;
+    border-radius: 15px;
+
+    li {
+      cursor: pointer;
+      font-family: "Kurale";
+      font-size: 0.8em;
+      padding: 5px 20px;
+      letter-spacing: 0.5px;
+
+      &:nth-child(1) {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+
+        &:hover {
+          background-color: $gray;
+        }
+      }
+
+      &:nth-child(2) {
+        border-left: 1px solid $gray;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+
+        &:hover {
+          background-color: $red;
+
+          & .trashFill {
+            stroke: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .more {
+    ul {
+      border-radius: 10px;
+      top: 20px;
+      right: -80px;
+
+      li {
+        font-size: 0.8em;
+        padding: 5px 20px;
+        letter-spacing: 0.5px;
+
+        &:nth-child(1),
+        &:nth-child(2) {
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}

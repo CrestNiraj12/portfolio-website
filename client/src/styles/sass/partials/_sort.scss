@@ -1,7 +1,10 @@
 .sort__by,
 .sort__order {
+  display: flex;
+  justify-content: space-between;
+
   select {
-    width: 50%;
+    width: 55%;
     font-size: 0.85em;
   }
 }
@@ -10,7 +13,6 @@
   .sort__by,
   .sort__order {
     select {
-      width: 100%;
       font-size: 1em;
     }
   }

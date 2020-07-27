@@ -18,11 +18,12 @@ import Search from "../../components/Search";
 import { Checkbox } from "react-input-checkbox";
 import { Link, Redirect } from "react-router-dom";
 import { ReactComponent as Pencil } from "../../images/pencil.svg";
-import { ReactComponent as Details } from "../../images/more.svg";
 import { ReactComponent as TrashIcon } from "../../images/trash.svg";
 import { sortBy } from "lodash";
 import { bindActionCreators } from "redux";
 import DeleteMultiple from "../../components/DeleteMultiple";
+import ShowMore from "../../components/ShowMore";
+import DetailsCard from "../../components/DetailsCard";
 
 const mapStateToProps = (state) => ({
   isLandscape: state.isLandscape,
@@ -47,6 +48,7 @@ const Users = ({ users, isLandscape, setPage, showDialog, setAllUsers }) => {
   const [selected, setSelected] = useState({});
   const [redirect, setRedirect] = useState(null);
   const [disabled, setDisabled] = useState(true);
+  const [details, setDetails] = useState({});
 
   const refUsersList = useRef([]);
 
@@ -119,9 +121,23 @@ const Users = ({ users, isLandscape, setPage, showDialog, setAllUsers }) => {
     setSelected(selections);
   };
 
+  const handleShowDetails = ({ _id: id, fullname, email, role, posts }) => {
+    setDetails({ id, fullname, email, role, posts });
+    document.querySelector(".users__show-details").style.display = "flex";
+  };
+
   return (
     <main className="users">
       {redirect && <Redirect to={redirect} />}
+      <div className="users__show-details">
+        {details && Object.keys(details).length > 0 && (
+          <DetailsCard
+            query="users"
+            details={details}
+            handleCloseCard={() => setDetails({})}
+          />
+        )}
+      </div>
       <FeatureHeader title="All Users" />
       <section className="users__features">
         <div className="users__features-sort">
@@ -134,19 +150,19 @@ const Users = ({ users, isLandscape, setPage, showDialog, setAllUsers }) => {
           />
         </div>
         <div className="users__features-select">
-          <div className="posts__features-select__search">
-            <Search
-              setState={setUsersList}
-              query="fullname"
-              list={refUsersList.current}
-            />
-          </div>
           <div className="users__features-select__multiple-delete">
             <DeleteMultiple
               selected={selected}
               isDisabled={disabled}
               action={DELETE_MULTIPLE_USERS}
               schema={USER_SCHEMA}
+            />
+          </div>
+          <div className="posts__features-select__search">
+            <Search
+              setState={setUsersList}
+              query="fullname"
+              list={refUsersList.current}
             />
           </div>
         </div>
@@ -229,7 +245,14 @@ const Users = ({ users, isLandscape, setPage, showDialog, setAllUsers }) => {
                         onClick={() => showDialog(REMOVE_ACCOUNT, user._id)}
                       />
                     ) : (
-                      <Details width="4px" />
+                      <ShowMore
+                        deleteItem={
+                          !isLandscape && user.role !== ADMIN ? true : false
+                        }
+                        handleShowDetails={() => handleShowDetails(user)}
+                        action={REMOVE_ACCOUNT}
+                        payload={user._id}
+                      />
                     )}
                   </td>
                 </tr>
@@ -241,58 +264,76 @@ const Users = ({ users, isLandscape, setPage, showDialog, setAllUsers }) => {
             style={{
               fontWeight: "bold",
               color: "#fff",
-              fontSize: "2em",
+              fontSize: isLandscape ? "2em" : "1.1em",
             }}
           >
             There are no users here except you!
           </p>
         )}
       </section>
-      <div className="attributions">
-        <a
-          href="https://iconscout.com/icons/more"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          more
-        </a>{" "}
-        by{" "}
-        <a
-          href="https://iconscout.com/contributors/pocike"
-          rel="noopener noreferrer"
-        >
-          Alpár - Etele Méder
-        </a>{" "}
-        on <a href="https://iconscout.com">Iconscout</a>
-        <br />
-        <a
-          href="https://iconscout.com/icons/pencil"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Pencil
-        </a>{" "}
-        by{" "}
-        <a
-          href="https://iconscout.com/contributors/pocike"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Alpár - Etele Méder
-        </a>{" "}
-        on <a href="https://iconscout.com">Iconscout</a>
-        <br />
-        <a
-          href="https://iconscout.com/icons/delete"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          delete
-        </a>{" "}
-        by{" "}
-        <a href="https://iconscout.com/contributors/oviyan">Vignesh Oviyan</a>{" "}
-        on <a href="https://iconscout.com">Iconscout</a>
-      </div>
+      {refUsersList.current.length > 0 && (
+        <section className="attributions">
+          <a
+            href="https://iconscout.com/icons/denied-icon"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Denied Icon
+          </a>{" "}
+          by{" "}
+          <a
+            href="https://iconscout.com/contributors/chamedesign/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Chameleon Design
+          </a>
+          <br />
+          <a
+            href="https://iconscout.com/icons/more"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            more
+          </a>{" "}
+          by{" "}
+          <a
+            href="https://iconscout.com/contributors/pocike"
+            rel="noopener noreferrer"
+          >
+            Alpár - Etele Méder
+          </a>{" "}
+          on <a href="https://iconscout.com">Iconscout</a>
+          <br />
+          <a
+            href="https://iconscout.com/icons/pencil"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Pencil
+          </a>{" "}
+          by{" "}
+          <a
+            href="https://iconscout.com/contributors/pocike"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Alpár - Etele Méder
+          </a>{" "}
+          on <a href="https://iconscout.com">Iconscout</a>
+          <br />
+          <a
+            href="https://iconscout.com/icons/delete"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            delete
+          </a>{" "}
+          by{" "}
+          <a href="https://iconscout.com/contributors/oviyan">Vignesh Oviyan</a>{" "}
+          on <a href="https://iconscout.com">Iconscout</a>
+        </section>
+      )}
     </main>
   );
 };

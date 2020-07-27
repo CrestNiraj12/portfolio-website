@@ -29,6 +29,22 @@ const Dashboard = ({ match, setPage }) => {
       <Features />
       <div className="attributions">
         <a
+          href="https://iconscout.com/icons/denied-icon"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Denied Icon
+        </a>{" "}
+        by{" "}
+        <a
+          href="https://iconscout.com/contributors/chamedesign/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Chameleon Design
+        </a>
+        <br />
+        <a
           href="https://iconscout.com/icons/add"
           target="_blank"
           rel="noopener noreferrer"

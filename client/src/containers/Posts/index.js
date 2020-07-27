@@ -10,7 +10,6 @@ import {
 } from "../../constants";
 import { Checkbox } from "react-input-checkbox";
 import { ReactComponent as Pencil } from "../../images/pencil.svg";
-import { ReactComponent as Details } from "../../images/more.svg";
 import { ReactComponent as TrashIcon } from "../../images/trash.svg";
 import { connect } from "react-redux";
 import { sortBy } from "lodash";
@@ -19,6 +18,8 @@ import { bindActionCreators } from "redux";
 import SortOption from "../../components/SortOption";
 import FeatureHeader from "../../components/FeatureHeader";
 import DeleteMultiple from "../../components/DeleteMultiple";
+import ShowMore from "../../components/ShowMore";
+import DetailsCard from "../../components/DetailsCard";
 
 const mapStateToProps = (state) => ({
   isLandscape: state.isLandscape,
@@ -44,6 +45,7 @@ const Posts = ({ role, posts, isLandscape, setPage, showDialog, setPosts }) => {
   const [ascendingOrder, setAscendingOrder] = useState(true);
   const [redirect, setRedirect] = useState(null);
   const [disabled, setDisabled] = useState(true);
+  const [details, setDetails] = useState({});
 
   const refPostsList = useRef([]);
 
@@ -114,9 +116,35 @@ const Posts = ({ role, posts, isLandscape, setPage, showDialog, setPosts }) => {
     setSelected(selections);
   };
 
+  const handleShowDetails = ({
+    _id: id,
+    title,
+    authorId,
+    createdAt,
+    updatedAt,
+  }) => {
+    setDetails({
+      id,
+      title,
+      author: authorId.fullname,
+      created: createdAt.substring(0, 10),
+      updated: updatedAt.substring(0, 10),
+    });
+    document.querySelector(".posts__show-details").style.display = "flex";
+  };
+
   return (
     <main className="posts">
       {redirect && <Redirect to={redirect} />}
+      <div className="posts__show-details">
+        {details && Object.keys(details).length > 0 && (
+          <DetailsCard
+            details={details}
+            handleCloseCard={() => setDetails({})}
+            query="posts"
+          />
+        )}
+      </div>
       <FeatureHeader title="All Posts" />
       <section className="posts__features">
         <div className="posts__features-sort">
@@ -129,19 +157,19 @@ const Posts = ({ role, posts, isLandscape, setPage, showDialog, setPosts }) => {
           />
         </div>
         <div className="posts__features-select">
-          <div className="posts__features-select__search">
-            <Search
-              setState={setPostsList}
-              query="title"
-              list={refPostsList.current}
-            />
-          </div>
           <div className="posts__features-select__multiple-delete">
             <DeleteMultiple
               selected={selected}
               isDisabled={disabled}
               action={DELETE_MULTIPLE_POSTS}
               schema={POST_SCHEMA}
+            />
+          </div>
+          <div className="posts__features-select__search">
+            <Search
+              setState={setPostsList}
+              query="title"
+              list={refPostsList.current}
             />
           </div>
         </div>
@@ -224,7 +252,16 @@ const Posts = ({ role, posts, isLandscape, setPage, showDialog, setPosts }) => {
                         }
                       />
                     ) : (
-                      <Details width="4px" />
+                      <ShowMore
+                        deleteItem={true}
+                        action={DELETE_POST}
+                        payload={{
+                          userId:
+                            post.authorId !== null ? post.authorId._id : 404,
+                          postId: post._id,
+                        }}
+                        handleShowDetails={() => handleShowDetails(post)}
+                      />
                     )}
                   </td>
                 </tr>
@@ -236,57 +273,77 @@ const Posts = ({ role, posts, isLandscape, setPage, showDialog, setPosts }) => {
             style={{
               fontWeight: "bold",
               color: "#fff",
-              fontSize: "2em",
+              fontSize: isLandscape ? "2em" : "1.1em",
             }}
           >
             There are no posts here!
           </p>
         )}
-        <div className="attributions">
-          <a
-            href="https://iconscout.com/icons/more"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            more
-          </a>{" "}
-          by{" "}
-          <a
-            href="https://iconscout.com/contributors/pocike"
-            rel="noopener noreferrer"
-          >
-            Alpár - Etele Méder
-          </a>{" "}
-          on <a href="https://iconscout.com">Iconscout</a>
-          <br />
-          <a
-            href="https://iconscout.com/icons/pencil"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Pencil
-          </a>{" "}
-          by{" "}
-          <a
-            href="https://iconscout.com/contributors/pocike"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Alpár - Etele Méder
-          </a>{" "}
-          on <a href="https://iconscout.com">Iconscout</a>
-          <br />
-          <a
-            href="https://iconscout.com/icons/delete"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            delete
-          </a>{" "}
-          by{" "}
-          <a href="https://iconscout.com/contributors/oviyan">Vignesh Oviyan</a>{" "}
-          on <a href="https://iconscout.com">Iconscout</a>
-        </div>
+        {postsList.length > 0 && (
+          <section className="attributions">
+            <a
+              href="https://iconscout.com/icons/denied-icon"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Denied Icon
+            </a>{" "}
+            by{" "}
+            <a
+              href="https://iconscout.com/contributors/chamedesign/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Chameleon Design
+            </a>
+            <br />
+            <a
+              href="https://iconscout.com/icons/more"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              more
+            </a>{" "}
+            by{" "}
+            <a
+              href="https://iconscout.com/contributors/pocike"
+              rel="noopener noreferrer"
+            >
+              Alpár - Etele Méder
+            </a>{" "}
+            on <a href="https://iconscout.com">Iconscout</a>
+            <br />
+            <a
+              href="https://iconscout.com/icons/pencil"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Pencil
+            </a>{" "}
+            by{" "}
+            <a
+              href="https://iconscout.com/contributors/pocike"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Alpár - Etele Méder
+            </a>{" "}
+            on <a href="https://iconscout.com">Iconscout</a>
+            <br />
+            <a
+              href="https://iconscout.com/icons/delete"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              delete
+            </a>{" "}
+            by{" "}
+            <a href="https://iconscout.com/contributors/oviyan">
+              Vignesh Oviyan
+            </a>{" "}
+            on <a href="https://iconscout.com">Iconscout</a>
+          </section>
+        )}
       </section>
     </main>
   );

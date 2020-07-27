@@ -6,7 +6,7 @@ import { activeNav } from "../../actions";
 import { ReactComponent as Home } from "./home.svg";
 import { ReactComponent as Contact } from "./call.svg";
 import { ReactComponent as Portfolio } from "./candidate.svg";
-import { ReactComponent as CloseIcon } from "./close-icon.svg";
+import { ReactComponent as CloseIcon } from "../../images/close-icon.svg";
 import { HOME, CONTACT, PORTFOLIO } from "../../constants";
 import { bindActionCreators } from "redux";
 

@@ -7,13 +7,13 @@ import { ReactComponent as UserIcon } from "./avatar.svg";
 import { ReactComponent as PostIcon } from "./paper.svg";
 import { ReactComponent as TrashIcon } from "../../images/trash.svg";
 import { ReactComponent as AddIcon } from "./add.svg";
-import { ReactComponent as Details } from "../../images/more.svg";
 import {
   DELETE_OWN_POST,
   TESTER,
   EDITOR,
   DELETE_MULTIPLE_POSTS,
   POST_SCHEMA,
+  DELETE_POST,
 } from "../../constants";
 import { Checkbox } from "react-input-checkbox";
 import { showDialog } from "../../actions";
@@ -22,6 +22,8 @@ import Search from "../../components/Search";
 import { sortBy } from "lodash";
 import SortOption from "../../components/SortOption";
 import DeleteMultiple from "../../components/DeleteMultiple";
+import ShowMore from "../../components/ShowMore";
+import DetailsCard from "../../components/DetailsCard";
 
 const mapStateToProps = (state) => ({
   userId: state.userDetails._id,
@@ -41,6 +43,7 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
   const [sort, setSort] = useState("title");
   const [ascendingOrder, setAscendingOrder] = useState(true);
   const [disabled, setDisabled] = useState(true);
+  const [details, setDetails] = useState({});
 
   const features =
     role !== EDITOR
@@ -108,6 +111,23 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
     else setAllSelection(false);
   };
 
+  const handleShowDetails = ({
+    _id: id,
+    title,
+    authorId,
+    createdAt,
+    updatedAt,
+  }) => {
+    setDetails({
+      id,
+      title,
+      author: authorId.fullname,
+      created: createdAt.substring(0, 10),
+      updated: updatedAt.substring(0, 10),
+    });
+    document.querySelector(".posts__show-details").style.display = "flex";
+  };
+
   return (
     <section className="dashboard__content">
       <div className="dashboard__content-heading">
@@ -126,6 +146,15 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
       </div>
 
       <div className="posts__content-posts">
+        <div className="posts__show-details">
+          {details && Object.keys(details).length > 0 && (
+            <DetailsCard
+              details={details}
+              query="ownPosts"
+              handleCloseCard={() => setDetails({})}
+            />
+          )}
+        </div>
         <h1>Your Posts {posts.length > 0 && `(${posts.length})`}</h1>
         <div
           className="posts__features"
@@ -141,19 +170,19 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
             />
           </div>
           <div className="posts__features-select">
-            <div className="posts__features-select__search">
-              <Search
-                setState={setPostsList}
-                query="title"
-                list={refPosts.current}
-              />
-            </div>
             <div className="posts__features-select__multiple-delete">
               <DeleteMultiple
                 selected={selected}
                 isDisabled={disabled}
                 action={DELETE_MULTIPLE_POSTS}
                 schema={POST_SCHEMA}
+              />
+            </div>
+            <div className="posts__features-select__search">
+              <Search
+                setState={setPostsList}
+                query="title"
+                list={refPosts.current}
               />
             </div>
           </div>
@@ -222,7 +251,16 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
                         onClick={() => showDialog(DELETE_OWN_POST, post._id)}
                       />
                     ) : (
-                      <Details width="4px" />
+                      <ShowMore
+                        deleteItem={true}
+                        action={DELETE_POST}
+                        payload={{
+                          userId:
+                            post.authorId !== null ? post.authorId._id : 404,
+                          postId: post._id,
+                        }}
+                        handleShowDetails={() => handleShowDetails(post)}
+                      />
                     )}
                   </td>
                 </tr>
@@ -231,7 +269,13 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
         </table>
 
         {postsList.length <= 0 && (
-          <p style={{ fontFamily: "Kurale", color: "#fff", fontSize: "2em" }}>
+          <p
+            style={{
+              fontFamily: "Kurale",
+              color: "#fff",
+              fontSize: isLandscape ? "2em" : "1.1em",
+            }}
+          >
             You have not posted anything!
           </p>
         )}

@@ -8,7 +8,6 @@ import Portfolio from "./containers/Portfolio";
 import Posts from "./containers/Posts";
 import Post from "./containers/Post";
 import Flash from "./components/Flash";
-
 import Navbar from "./components/Navbar";
 
 import "./styles/css/App.css";
