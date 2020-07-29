@@ -7,6 +7,7 @@ import { POST_SCHEMA, USER_SCHEMA } from "../../constants";
 const mapStateToProps = (state) => ({
   posts: state.posts,
   users: state.users,
+  userPosts: state.userDetails.posts,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -15,8 +16,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const DeleteMultiple = ({
   schema,
-  users,
   posts,
+  userPosts,
   selected,
   isDisabled,
   showDialog,
@@ -27,13 +28,17 @@ const DeleteMultiple = ({
     const selectedListIds = Object.keys(selectedList);
     const dict = {};
     if (schema === POST_SCHEMA) {
-      if (posts.length > 0) {
-        posts.forEach((post) => {
-          if (selectedListIds.includes(post._id))
-            dict[post._id] = post.authorId !== null ? post.authorId._id : 404;
-        });
-        showDialog(action, dict);
-      }
+      const postsList = posts && posts.length > 0 ? posts : userPosts;
+
+      postsList.forEach((post) => {
+        if (selectedListIds.includes(post._id)) {
+          const authorId =
+            posts && posts.length > 0 ? post.authorId._id : post.authorId;
+          dict[post._id] = post.authorId !== null ? authorId : 404;
+        }
+      });
+
+      showDialog(action, dict);
     } else if (schema === USER_SCHEMA) showDialog(action, selectedListIds);
   };
 

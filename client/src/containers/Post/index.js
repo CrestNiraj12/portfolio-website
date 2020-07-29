@@ -9,6 +9,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Post = ({
+  setPage,
   match: {
     params: { id },
   },
@@ -28,7 +29,7 @@ const Post = ({
     axios.get(`/posts/${id}`).then((res) => {
       setPost(res.data);
     });
-  }, [id]);
+  }, [id, setPage]);
 
   return (
     <main>

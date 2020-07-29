@@ -134,16 +134,29 @@ export const thunkDeletePost = (authorId, postId) => (
         })
       );
 
-      dispatch(
-        setPosts(getState().posts.filter((post) => post._id !== postId))
-      );
+      if (getState().posts !== null)
+        dispatch(
+          setPosts(getState().posts.filter((post) => post._id !== postId))
+        );
+      else
+        dispatch(
+          setUserDetails(
+            getState().userDetails.posts.filter((post) => post._id !== postId)
+          )
+        );
     })
     .catch((err) => {
-      if (err.response.status === 401) {
+      if (err.response && err.response.status === 401) {
         dispatch(setMessage({ data: err.response.data, type: FAILURE }));
         thunkLogout(true);
       } else {
-        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+        console.log(err);
+        dispatch(
+          setMessage({
+            data: err.response ? err.response.data : "Unexpected error!",
+            type: FAILURE,
+          })
+        );
       }
     });
 };
@@ -182,11 +195,14 @@ export const thunkDeleteMultiple = (dict, schema) => (
           );
       })
       .catch((err) => {
-        if (err.response.status === 401) {
-          dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-          thunkLogout(true);
-        } else {
-          dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+        console.log(err);
+        if (err.response) {
+          if (err.response.status === 401) {
+            dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+            thunkLogout(true);
+          } else {
+            dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+          }
         }
       });
 };

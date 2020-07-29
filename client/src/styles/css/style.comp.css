@@ -668,7 +668,7 @@
       align-self: center;
       object-fit: cover;
       width: 80%;
-      max-height: 60%; }
+      height: 60%; }
     .featured__posts--large__text-wrapper {
       margin: 0 10%; }
   .featured__posts--small {
@@ -698,7 +698,7 @@
     .featured__posts--large__thumbnail {
       align-self: center;
       width: 80%;
-      max-height: 60%; }
+      max-height: 80vh; }
   .featured__posts--small {
     flex-direction: row;
     margin: 0 10%;
@@ -707,7 +707,7 @@
       width: 48%; }
       .featured__posts--small-item__thumbnail {
         width: 100%;
-        max-height: 60%; } }
+        height: 50vh; } }
 
 .authentication {
   display: flex;

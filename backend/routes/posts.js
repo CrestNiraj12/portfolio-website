@@ -26,18 +26,19 @@ router.get("/:title", (req, res) => {
 
 router.delete("/:userId/:id", validAuth, (req, res) => {
   Post.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Post deleted!"))
-    .catch((err) => res.status(400).json("Error: " + err));
-
-  if (req.params.userId !== 404 || req.params.userId === null)
-    User.findByIdAndUpdate(
-      req.params.userId,
-      { $pull: { posts: mongoose.mongo.ObjectId(req.params.id) } },
-      { safe: true, upsert: true },
-      (err, obj) => {
-        if (err) console.log(err);
-      }
-    );
+    .then(() => {
+      if (req.params.userId !== 404 || req.params.userId === null)
+        User.findByIdAndUpdate(
+          req.params.userId,
+          { $pull: { posts: mongoose.mongo.ObjectId(req.params.id) } },
+          { safe: true, upsert: true },
+          (err, obj) => {
+            if (err) console.log(err);
+          }
+        );
+      return res.json("Post deleted!");
+    })
+    .catch((err) => res.status(400).json("Cant find post!"));
 });
 
 router.put("/update/:id", validAuth, (req, res) => {
@@ -63,24 +64,24 @@ router.put("/selected", validAuth, (req, res) => {
       console.log(err);
       return res.status(400).json("Error while deleting!");
     }
-    return res.json("Posts deleted successfully!");
-  });
 
-  const authorsId = [...new Set(Object.values(postsId))];
-  User.find({ _id: { $in: authorsId } }, (err, users) => {
-    if (users && users.length > 0) {
-      users.forEach((user) => {
-        user.posts = user.posts.filter(
-          (postId) => !Object.keys(postsId).includes(String(postId))
-        );
-        user
-          .save()
-          .then(() =>
-            console.log("sucessfully removed post id from author's posts!")
-          )
-          .catch((err) => console.log(err));
-      });
-    }
+    const authorsId = [...new Set(Object.values(postsId))];
+    User.find({ _id: { $in: authorsId } }, (err, users) => {
+      if (users && users.length > 0) {
+        users.forEach((user) => {
+          user.posts = user.posts.filter(
+            (postId) => !Object.keys(postsId).includes(String(postId))
+          );
+          user
+            .save()
+            .then(() =>
+              console.log("sucessfully removed post id from author's posts!")
+            )
+            .catch((err) => console.log(err));
+        });
+      }
+    });
+    return res.json("Posts deleted successfully!");
   });
 });
 

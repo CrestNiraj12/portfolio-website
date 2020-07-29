@@ -3,10 +3,9 @@ import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setMessage, thunkLogout } from "../../actions";
-import { FAILURE, ADDPOST } from "../../constants";
+import { setMessage, thunkLogout, setPage } from "../../actions";
+import { FAILURE, ADDPOST, SUCCESS } from "../../constants";
 import { useHistory } from "react-router-dom";
-import setPage from "../../reducers/setPage";
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -18,14 +17,14 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-const AddPost = ({ setMessage, logOut }) => {
+const AddPost = ({ setPage, setMessage, logOut }) => {
   var history = useHistory();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   useEffect(() => {
     setPage(ADDPOST);
-  });
+  }, [setPage]);
 
   const handleEditorChange = (content, editor) => {
     setContent(content);
@@ -56,6 +55,7 @@ const AddPost = ({ setMessage, logOut }) => {
     })
       .then((res) => {
         history.push("/user/dashboard");
+        setMessage({ data: res.data, type: SUCCESS });
       })
       .catch((err) => {
         if (err.response.status === 401) {
