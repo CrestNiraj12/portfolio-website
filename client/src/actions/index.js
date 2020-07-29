@@ -71,9 +71,14 @@ export const thunkChangeRole = (userId, role) => (dispatch, getState, axios) =>
         ])
       );
     })
-    .catch((err) =>
-      dispatch(setMessage({ data: err.response.data, type: FAILURE }))
-    );
+    .catch((err) => {
+      if (err.response.status === 401) {
+        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+        thunkLogout(true);
+      } else {
+        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+      }
+    });
 
 export const thunkLogout = (skipMessage = false) => (
   dispatch,
@@ -103,7 +108,12 @@ export const thunkRemoveAccount = (id) => (dispatch, getState, axios) => {
       if (id === localStorage.getItem("id")) dispatch(thunkLogout(true));
     })
     .catch((err) => {
-      dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+      if (err.response.status === 401) {
+        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+        thunkLogout(true);
+      } else {
+        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+      }
     });
 };
 
@@ -129,7 +139,12 @@ export const thunkDeletePost = (authorId, postId) => (
       );
     })
     .catch((err) => {
-      dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+      if (err.response.status === 401) {
+        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+        thunkLogout(true);
+      } else {
+        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+      }
     });
 };
 
@@ -167,6 +182,11 @@ export const thunkDeleteMultiple = (dict, schema) => (
           );
       })
       .catch((err) => {
-        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+        if (err.response.status === 401) {
+          dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+          thunkLogout(true);
+        } else {
+          dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+        }
       });
 };

@@ -1,0 +1,98 @@
+.addpost {
+  margin: 5% 10%;
+
+  &__head {
+    h1 {
+      font-size: 3em;
+      color: #fff;
+      font-family: "Galada";
+      text-align: center;
+    }
+  }
+
+  &__content {
+    &-form {
+      width: 100%;
+
+      input {
+        display: block;
+        margin: 2% 0;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding-left: 10px;
+      }
+
+      &-title {
+        font-weight: bold;
+        font-size: 2em;
+        padding: 5px 0;
+      }
+
+      &-description {
+        font-size: 1.1em;
+        padding: 5px 0;
+      }
+
+      &-preview {
+        width: 100%;
+        text-align: center;
+        background-color: #fff;
+        margin: 2% 0;
+        line-height: 0.8;
+
+        img {
+          width: 600px;
+          max-height: 400px;
+          object-fit: cover;
+        }
+      }
+
+      &-thumbnail {
+        display: flex;
+
+        &__label {
+          align-self: center;
+          font-size: 1.5em;
+          color: #fff;
+          font-family: "Galada";
+          width: 20%;
+        }
+
+        &__input {
+          color: #fff;
+          font-family: "Kurale";
+          border-bottom: 1px solid $blue;
+          padding-left: 0;
+        }
+      }
+
+      &-submit {
+        text-align: center;
+
+        &__button {
+          width: 30%;
+          @include button(0.5% 2%, 2% 0, $blue, #000);
+        }
+      }
+    }
+
+    &-preview {
+      &__head {
+        font-size: 2em;
+        color: #fff;
+        font-family: Galada;
+        text-decoration: underline;
+      }
+
+      &__content {
+        background-color: #fff;
+        overflow-y: scroll;
+        height: 500px;
+        margin: 2% 0;
+        padding: 0 2%;
+      }
+    }
+  }
+}

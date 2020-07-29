@@ -18,9 +18,18 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Dashboard from "./containers/Dashboard";
 import Users from "./containers/Users";
-import { LOGIN, REGISTER, DASHBOARD, USERS, POSTS, HOME } from "./constants";
+import {
+  LOGIN,
+  REGISTER,
+  DASHBOARD,
+  USERS,
+  POSTS,
+  HOME,
+  ADDPOST,
+} from "./constants";
 import { bindActionCreators } from "redux";
 import Dialog from "./components/Dialog";
+import AddPost from "./containers/AddPost";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
@@ -57,6 +66,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
     { path: "/user/dashboard", component: Dashboard, isExact: false },
     { path: "/posts", component: Posts, isExact: false },
     { path: "/users", component: Users, isExact: false },
+    { path: "/user/addpost", component: AddPost, isExact: false },
     { path: "*", component: Home, isExact: false },
   ];
 
@@ -66,9 +76,9 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
       {dialogShow && <Dialog />}
 
       <Router>
-        {![0, LOGIN, REGISTER, DASHBOARD, USERS, POSTS].includes(page) && (
-          <Navbar />
-        )}
+        {![0, LOGIN, REGISTER, DASHBOARD, USERS, POSTS, ADDPOST].includes(
+          page
+        ) && <Navbar />}
         <Switch>
           {routes.map(({ path, component, isExact }) => (
             <Route

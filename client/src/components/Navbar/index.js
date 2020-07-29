@@ -1,35 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../images/logo.png";
-import { activeNav } from "../../actions";
+import { hideOverflow } from "../../actions";
 import { ReactComponent as Home } from "./home.svg";
 import { ReactComponent as Contact } from "./call.svg";
 import { ReactComponent as Portfolio } from "./candidate.svg";
 import { ReactComponent as CloseIcon } from "../../images/close-icon.svg";
 import { HOME, CONTACT, PORTFOLIO } from "../../constants";
-import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => ({
   page: state.page,
-  activeNav: state.activeNav,
   isLandscape: state.isLandscape,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      confirmActiveNav: (confirm) => activeNav(confirm),
-    },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch) => ({
+  hideOverflow: (confirm) => dispatch(hideOverflow(confirm)),
+});
 
-const Navbar = ({ page, activeNav, isLandscape, confirmActiveNav }) => {
+const Navbar = ({ page, isLandscape, hideOverflow }) => {
+  const [activeNav, setActiveNav] = useState(false);
+
   useEffect(() => {
     const navStatus = document.getElementById("navStatus");
-    activeNav
-      ? navStatus.classList.remove("hide")
-      : navStatus.classList.add("hide");
+    if (activeNav) {
+      navStatus.classList.remove("hide");
+      navStatus.focus();
+    } else navStatus.classList.add("hide");
   }, [activeNav]);
 
   const isActivePage = (p) => page === p;
@@ -75,7 +72,8 @@ const Navbar = ({ page, activeNav, isLandscape, confirmActiveNav }) => {
   ];
 
   const handleNavShow = (confirm) => {
-    confirmActiveNav(confirm);
+    setActiveNav(confirm);
+    hideOverflow(confirm);
   };
 
   return (
@@ -92,7 +90,12 @@ const Navbar = ({ page, activeNav, isLandscape, confirmActiveNav }) => {
           {createLines(4)}
         </div>
       )}
-      <ul className={orientedNavClass() + " hide"} id="navStatus">
+      <ul
+        className={orientedNavClass() + " hide"}
+        id="navStatus"
+        tabIndex={0}
+        onBlur={() => handleNavShow(false)}
+      >
         <Link to="/">
           <img
             src={logo}

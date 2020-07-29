@@ -1,16 +1,49 @@
 const router = require("express").Router();
 const passport = require("../config/passport");
-const { validAuth } = require("../config/middleware");
+const { body, validationResult } = require("express-validator");
 
-router.post("/register", (req, res, next) => {
-  authenticate("register", req, res, next);
-});
+router.post(
+  "/register",
+  [
+    body("email")
+      .trim()
+      .isEmail()
+      .normalizeEmail()
+      .withMessage("Invalid Email Address!"),
+    body("password")
+      .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/)
+      .withMessage(
+        "Invalid password pattern! Your password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, and 1 digit"
+      ),
+  ],
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.errors[0].msg);
+    }
+    authenticate("register", req, res, next);
+  }
+);
 
-router.post("/login", (req, res, next) => {
-  authenticate("login", req, res, next);
-});
+router.post(
+  "/login",
+  [
+    body("email")
+      .trim()
+      .isEmail()
+      .normalizeEmail()
+      .withMessage("Invalid Email Address!"),
+  ],
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.errors[0].msg);
+    }
+    authenticate("login", req, res, next);
+  }
+);
 
-router.get("/logout", validAuth, (req, res) => {
+router.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.log(err);

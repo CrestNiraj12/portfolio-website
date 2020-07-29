@@ -26,7 +26,6 @@ import ShowMore from "../../components/ShowMore";
 import DetailsCard from "../../components/DetailsCard";
 
 const mapStateToProps = (state) => ({
-  userId: state.userDetails._id,
   role: state.userDetails.role,
   posts: state.userDetails.posts,
   isLandscape: state.isLandscape,
@@ -36,7 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
   showDialog: (action, payload) => dispatch(showDialog(action, payload)),
 });
 
-const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
+const Features = ({ role, posts, isLandscape, showDialog }) => {
   const [allSelection, setAllSelection] = useState(false);
   const [selected, setSelected] = useState({});
   const [postsList, setPostsList] = useState(posts);
@@ -49,8 +48,8 @@ const Features = ({ userId, role, posts, isLandscape, showDialog }) => {
     role !== EDITOR
       ? [
           { url: "/posts", text: "All Posts", Svg: PostIcon },
-          { url: `/users`, text: "All Users", Svg: UserIcon },
-          { url: "/", text: "Add Post", Svg: AddIcon },
+          { url: "/users", text: "All Users", Svg: UserIcon },
+          { url: "/user/addpost", text: "Add Post", Svg: AddIcon },
         ]
       : [{ url: "/", text: "Add Post", Svg: AddIcon }];
 

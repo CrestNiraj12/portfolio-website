@@ -8,7 +8,7 @@ const FeaturedBlog = ({ posts }) => {
       .toLowerCase()
       .split(" ")
       .join("-");
-    return title + "-" + id;
+    return "/posts/" + title + "-" + id;
   };
 
   return (

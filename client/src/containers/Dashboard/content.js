@@ -2,10 +2,15 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 
-import { LOG_OUT, REMOVE_OWN_ACCOUNT } from "../../constants";
+import { LOG_OUT, REMOVE_OWN_ACCOUNT, FAILURE } from "../../constants";
 import UpdateProfileForm from "./UpdateProfileForm";
 import { ReactComponent as LinkIcon } from "./link.svg";
-import { showDialog, setUserDetails } from "../../actions";
+import {
+  showDialog,
+  setUserDetails,
+  thunkLogout,
+  setMessage,
+} from "../../actions";
 import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => ({
@@ -19,22 +24,39 @@ const mapDispatchToProps = (dispatch) =>
     {
       showDialog: (action, payload) => showDialog(action, payload),
       setUserDetails: (details) => setUserDetails(details),
+      logOut: (skip) => thunkLogout(skip),
+      setMessage: (message) => setMessage(message),
     },
     dispatch
   );
 
-const Content = ({ isLandscape, userDetails, showDialog, setUserDetails }) => {
+const Content = ({
+  isLandscape,
+  userDetails,
+  showDialog,
+  setUserDetails,
+  logOut,
+  setMessage,
+}) => {
   useEffect(() => {
     const id = localStorage.getItem("id");
-    axios.get(`/user/${id}`).then((user) => {
-      setUserDetails({
-        ...user.data,
-        password: "",
-        newPassword: "",
-        confirmPassword: "",
+    axios
+      .get(`/user/${id}`)
+      .then((user) => {
+        setUserDetails({
+          ...user.data,
+          password: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+      })
+      .catch((e) => {
+        if (e.response.status === 401) {
+          setMessage({ data: e.response.data, type: FAILURE });
+          logOut(true);
+        }
       });
-    });
-  }, [setUserDetails]);
+  }, [setUserDetails, setMessage, logOut]);
 
   const handleEditProfile = () => {
     document.querySelector(".dashboard__head-profile__view").style.display =

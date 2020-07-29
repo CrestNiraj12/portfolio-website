@@ -3,6 +3,7 @@ const Post = require("../models/post.model");
 const User = require("../models/user.model");
 const multer = require("multer");
 const { validAuth } = require("../config/middleware");
+const { body, validationResult } = require("express-validator");
 
 router.get("/all", (req, res) => {
   User.find()
@@ -25,47 +26,66 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  fileFilter: (req, file, cb) => cb(null, true),
 }).single("image");
 
-router.put("/", validAuth, upload, (req, res) => {
-  User.findById(req.session.userId)
-    .then((user) => {
-      user.fullname = req.body.fullname;
-
-      if (req.query.changePassword === "true") {
-        const prevPassword = req.body.password;
-        const newPassword = req.body.newPassword;
-
-        if (user.checkPassword(prevPassword)) {
-          user.password = newPassword;
-        } else return res.status(400).json("Wrong password!");
-      }
-
-      var filename;
-      if (req.query.imageUpload === "true") {
-        if (req.file) {
-          filename = req.file.filename;
-          user.image = filename;
-        } else {
-          return res.status(400).json("Image upload failed!");
+router.put(
+  "/",
+  validAuth,
+  [
+    body("newPassword")
+      .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/)
+      .withMessage(
+        "Invalid password pattern! Your password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, and 1 digit"
+      ),
+    body("newPassword")
+      .matches(body("confirmPassword"))
+      .withMessage("New passwords donot match!"),
+  ],
+  upload,
+  (req, res) => {
+    User.findById(req.session.userId)
+      .then((user) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json(errors.errors[0].msg);
         }
-      }
 
-      user
-        .save()
-        .then(() => {
-          return res.json({
-            message: "User updated successfully!",
-            filename,
-          });
-        })
-        .catch((err) =>
-          res.status(400).json("User couldnt be saved! Try again!")
-        );
-    })
-    .catch((err) => res.status(400).json("Error finding user!"));
-});
+        user.fullname = req.body.fullname;
+
+        if (req.query.changePassword === "true") {
+          const prevPassword = req.body.password;
+          const newPassword = req.body.newPassword;
+
+          if (user.checkPassword(prevPassword)) {
+            user.password = newPassword;
+          } else return res.status(400).json("Wrong password!");
+        }
+
+        var filename;
+        if (req.query.imageUpload === "true") {
+          if (req.file) {
+            filename = req.file.filename;
+            user.image = filename;
+          } else {
+            return res.status(400).json("Image upload failed!");
+          }
+        }
+
+        user
+          .save()
+          .then(() => {
+            return res.json({
+              message: "User updated successfully!",
+              filename,
+            });
+          })
+          .catch((err) =>
+            res.status(400).json("User couldnt be saved! Try again!")
+          );
+      })
+      .catch((err) => res.status(400).json("Error finding user!"));
+  }
+);
 
 router.get("/:id", validAuth, (req, res) => {
   User.findById(req.params.id)
@@ -88,20 +108,28 @@ router.delete("/:id", validAuth, (req, res) => {
   });
 });
 
-router.post("/addpost", validAuth, (req, res) => {
+router.post("/addpost", validAuth, upload, (req, res) => {
   const authorId = req.session.userId;
-  const newPost = new Post({ ...req.body, authorId });
-  newPost.save();
+  const thumbnail = req.file.filename;
+  const newPost = new Post({ ...req.body, thumbnail, authorId });
 
-  User.findByIdAndUpdate(
-    authorId,
-    { $push: { posts: newPost._id } },
-    { new: true },
-    (err, user) => {
-      if (err) return res.status(400).json("Error: " + err);
-      return res.json({ message: "Post Added to user profile!", user });
-    }
-  );
+  newPost
+    .save()
+    .then(() => {
+      User.findByIdAndUpdate(
+        authorId,
+        { $push: { posts: newPost._id } },
+        { new: true },
+        (err, user) => {
+          if (err) return res.status(400).json(err);
+          return res.json("Post Added Successfully!");
+        }
+      );
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json("Error saving post! Try again!");
+    });
 });
 
 router.put("/:userId/changeRole", validAuth, (req, res) => {

@@ -326,7 +326,8 @@
     z-index: 999;
     width: 15rem;
     list-style: none;
-    padding: 10%; }
+    padding: 10%;
+    outline: none; }
     .navbar__items--portrait--logo {
       margin-bottom: 15%; }
     .navbar__items--portrait-link, .navbar__items--portrait-link--button {
@@ -1699,6 +1700,79 @@ table {
         text-align: center; }
       table tbody .dashboard__body-row td:nth-child(6) {
         text-align: left; } }
+
+.addpost {
+  margin: 5% 10%; }
+  .addpost__head h1 {
+    font-size: 3em;
+    color: #fff;
+    font-family: "Galada";
+    text-align: center; }
+  .addpost__content-form {
+    width: 100%; }
+    .addpost__content-form input {
+      display: block;
+      margin: 2% 0; }
+    .addpost__content-form input[type="text"] {
+      width: 100%;
+      padding-left: 10px; }
+    .addpost__content-form-title {
+      font-weight: bold;
+      font-size: 2em;
+      padding: 5px 0; }
+    .addpost__content-form-description {
+      font-size: 1.1em;
+      padding: 5px 0; }
+    .addpost__content-form-preview {
+      width: 100%;
+      text-align: center;
+      background-color: #fff;
+      margin: 2% 0;
+      line-height: 0.8; }
+      .addpost__content-form-preview img {
+        width: 600px;
+        max-height: 400px;
+        object-fit: cover; }
+    .addpost__content-form-thumbnail {
+      display: flex; }
+      .addpost__content-form-thumbnail__label {
+        align-self: center;
+        font-size: 1.5em;
+        color: #fff;
+        font-family: "Galada";
+        width: 20%; }
+      .addpost__content-form-thumbnail__input {
+        color: #fff;
+        font-family: "Kurale";
+        border-bottom: 1px solid #96cdef;
+        padding-left: 0; }
+    .addpost__content-form-submit {
+      text-align: center; }
+      .addpost__content-form-submit__button {
+        width: 30%;
+        background: none;
+        color: #96cdef;
+        border-radius: 12px;
+        outline: none;
+        margin: 2% 0;
+        padding: 0.5% 2%;
+        border: 1px solid #96cdef;
+        transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+        cursor: pointer; }
+        .addpost__content-form-submit__button:hover {
+          background-color: #96cdef;
+          color: #000; }
+  .addpost__content-preview__head {
+    font-size: 2em;
+    color: #fff;
+    font-family: Galada;
+    text-decoration: underline; }
+  .addpost__content-preview__content {
+    background-color: #fff;
+    overflow-y: scroll;
+    height: 500px;
+    margin: 2% 0;
+    padding: 0 2%; }
 
 .attributions {
   text-align: right;

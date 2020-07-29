@@ -2,6 +2,7 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
+const multer = require("multer");
 const { validAuth } = require("../config/middleware");
 
 router.get("/", (req, res) => {
@@ -81,6 +82,27 @@ router.put("/selected", validAuth, (req, res) => {
       });
     }
   });
+});
+
+const storage = multer.diskStorage({
+  destination: "./client/public/images/posts/",
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "-" + Date.now() + ".jpg");
+  },
+});
+
+const upload = multer({
+  storage: storage,
+}).single("image");
+
+router.post("/images/upload", upload, (req, res) => {
+  if (req.file) {
+    filename = req.file.filename;
+    console.log("Image uploaded, filename: " + filename);
+    return res.json({ location: `../images/posts/${req.file.filename}` });
+  } else {
+    return res.status(400).json("Image upload failed!");
+  }
 });
 
 module.exports = router;

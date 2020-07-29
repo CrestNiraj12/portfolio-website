@@ -9,7 +9,6 @@ import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
-  id: state.userDetails._id,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -23,7 +22,6 @@ const mapDispatchToProps = (dispatch) =>
   );
 
 const UpdateProfileForm = ({
-  id,
   userDetails,
   setUserDetails,
   setMessage,
@@ -89,17 +87,24 @@ const UpdateProfileForm = ({
           setMessage({ data: res.data.message, type: SUCCESS });
           logOut();
           return;
+        } else {
+          document.querySelector(
+            ".dashboard__head-profile__view"
+          ).style.display = "flex";
+          document.querySelector(
+            ".dashboard__head-profile > form"
+          ).style.display = "none";
+          setMessage({ data: res.data.message, type: SUCCESS });
         }
-        document.querySelector(".dashboard__head-profile__view").style.display =
-          "flex";
-        document.querySelector(
-          ".dashboard__head-profile > form"
-        ).style.display = "none";
-        setMessage({ data: res.data.message, type: SUCCESS });
       })
       .catch((err) => {
-        console.log(err);
-        setMessage({ data: err.response.data, type: FAILURE });
+        if (err.response.status === 401) {
+          setMessage({ data: err.response.data, type: FAILURE });
+          logOut(true);
+        } else {
+          console.log(err.response);
+          setMessage({ data: err.response.data, type: FAILURE });
+        }
       });
   };
 
@@ -234,8 +239,6 @@ const UpdateProfileForm = ({
           name="password"
           placeholder="Old Password"
           minLength="8"
-          title={PASSWORD_WARNING}
-          pattern={PATTERN}
           value={userDetails.password}
           onChange={handleInputChange}
           required={!disable}
@@ -256,8 +259,6 @@ const UpdateProfileForm = ({
           type="password"
           name="confirmPassword"
           minLength="8"
-          pattern={PATTERN}
-          title={PASSWORD_WARNING}
           placeholder="Confirm Password"
           onChange={handleInputChange}
           value={userDetails.confirmPassword}
