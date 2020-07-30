@@ -39,8 +39,8 @@ const Post = ({
             <h1>{post.title}</h1>
             <h5>
               Author: <span>{post.authorId.fullname}</span> | Created on:{" "}
-              <span>{post.createdAt}</span> | Updated on:{" "}
-              <span>{post.updatedAt}</span>
+              <span>{post.createdAt.substring(0, 10)}</span> | Updated on:{" "}
+              <span>{post.updatedAt.substring(0, 10)}</span>
             </h5>
           </section>
 

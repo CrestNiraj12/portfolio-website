@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const { postSchema } = require("./post.model");
 
 const userSchema = new mongoose.Schema({
   fullname: { type: String, required: true },
@@ -12,6 +11,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "https://api.adorable.io/avatars/285/abott@adorable.png",
   },
+  active: {
+    type: Boolean,
+    default: false,
+  },
+  activeToken: String,
+  activeExpires: Date,
+  passwordChangeToken: String,
+  passwordChangeTokenExpires: Date,
 });
 
 userSchema.methods = {

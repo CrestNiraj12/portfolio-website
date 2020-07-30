@@ -27,7 +27,7 @@ router.get("/:title", (req, res) => {
 router.delete("/:userId/:id", validAuth, (req, res) => {
   Post.findByIdAndDelete(req.params.id)
     .then(() => {
-      if (req.params.userId !== 404 || req.params.userId === null)
+      if (req.params.userId !== "404" || req.params.userId === null)
         User.findByIdAndUpdate(
           req.params.userId,
           { $pull: { posts: mongoose.mongo.ObjectId(req.params.id) } },

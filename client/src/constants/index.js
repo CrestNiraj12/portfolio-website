@@ -21,6 +21,8 @@ export const DELETE_MULTIPLE_POSTS = "DELETE_MULTIPLE_POSTS";
 export const DELETE_MULTIPLE_USERS = "DELETE_MULTIPLE_USERS";
 export const CHANGE_ROLE = "CHANGE_ROLE";
 export const SET_MESSAGE = "SET_MESSAGE";
+export const RECOVER_PASSWORD = "RECOVER_PASSWORD";
+export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
 export const PASSWORD_WARNING =
   "Your password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, and 1 digit";
 export const [
@@ -34,4 +36,5 @@ export const [
   POSTS,
   USERS,
   ADDPOST,
-] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  REDIRECTION_PAGE,
+] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 301];

@@ -7,7 +7,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setMessage: (message) => dispatch(setMessage),
+  setMessage: (message) => dispatch(setMessage(message)),
 });
 
 const Flash = ({ message: { type, data } }) => {
@@ -16,7 +16,7 @@ const Flash = ({ message: { type, data } }) => {
     setTimeout(() => {
       setMessage({ type: "", data: "" });
       document.querySelector(".flash__wrapper").style.opacity = "0";
-    }, 1000);
+    }, 2500);
   });
 
   return (

@@ -67,7 +67,7 @@ const Users = ({ users, isLandscape, setPage, showDialog, setAllUsers }) => {
       });
       setSelected(initialState);
     } else {
-      axios.get(`/user/all/?exclude=true`).then((u) => {
+      axios.get("/user/all/?exclude=true").then((u) => {
         setAllUsers(u.data);
       });
     }

@@ -88,6 +88,7 @@ export const thunkLogout = (skipMessage = false) => (
   axios
     .get("/auth/logout")
     .then((res) => {
+      console.log(skipMessage);
       if (!skipMessage) dispatch(setMessage({ data: res.data, type: SUCCESS }));
       localStorage.setItem("isAuthenticated", false);
       localStorage.setItem("id", "");

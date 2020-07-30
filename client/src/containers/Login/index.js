@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AuthenticationForm from "../../components/AuthenticationForm";
 import { LOGIN } from "../../constants";
+import { useHistory } from "react-router-dom";
+import { setMessage, setPage } from "../../actions";
+import { connect } from "react-redux";
 
-const Login = () => {
-  return <AuthenticationForm page={LOGIN} pageTitle="login" />;
+const mapDispatchToProps = (dispatch) => ({
+  setPage: (page) => dispatch(setPage(page)),
+  setMessage: (message) => dispatch(setMessage(message)),
+});
+
+const Login = ({ location: { state }, setPage, setMessage }) => {
+  var history = useHistory();
+
+  useEffect(() => {
+    setPage(LOGIN);
+    if (state) {
+      setMessage({ data: state.message, type: state.status });
+      history.push({ state: "" });
+    }
+  }, [state, history, setPage, setMessage]);
+
+  return <AuthenticationForm pageTitle="login" />;
 };
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);

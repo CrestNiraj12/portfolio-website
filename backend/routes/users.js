@@ -3,14 +3,17 @@ const Post = require("../models/post.model");
 const User = require("../models/user.model");
 const multer = require("multer");
 const { validAuth } = require("../config/middleware");
-const { body, validationResult } = require("express-validator");
+const { body, validationResult, checkSchema } = require("express-validator");
 
 router.get("/all", (req, res) => {
   User.find()
     .then((users) => {
       if (req.query.exclude === "true")
         return res.json(
-          users.filter((user) => String(user._id) !== req.session.userId)
+          users.filter(
+            (user) =>
+              String(user._id) !== req.session.userId || user.active === false
+          )
         );
       else return res.json(users);
     })
@@ -33,12 +36,13 @@ router.put(
   validAuth,
   [
     body("newPassword")
+      .optional({ checkFalsy: true })
       .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/)
       .withMessage(
         "Invalid password pattern! Your password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, and 1 digit"
       ),
-    body("newPassword")
-      .matches(body("confirmPassword"))
+    body("confirmPassword")
+      .equals(body("newPassword"))
       .withMessage("New passwords donot match!"),
   ],
   upload,
@@ -87,6 +91,49 @@ router.put(
   }
 );
 
+router.put(
+  "/changePassword/:passwordChangeToken",
+  [
+    body("newPassword")
+      .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/)
+      .withMessage(
+        "Invalid password pattern! Your password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, and 1 digit"
+      ),
+    body("confirmPassword")
+      .equals(body("newPassword"))
+      .withMessage("New passwords donot match!"),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      return res.status(400).json(errors.errors[0].msg);
+    }
+    User.findOne(
+      {
+        passwordChangeToken: req.params.changePasswordToken,
+        passwordChangeTokenExpires: { $gt: Date.now() },
+      },
+      (err, user) => {
+        if (err) {
+          console.log(err);
+          return res.status(400).json("Unexpected error occured!");
+        }
+        if (!user)
+          return res
+            .status(400)
+            .json("Your password reset link has expired! Please try again!");
+        user.password = req.body.newPassword;
+
+        user
+          .save()
+          .then(() => res.json("Password changed successfully"))
+          .catch((err) => res.status(400).json("Error changing password!"));
+      }
+    );
+  }
+);
+
 router.get("/:id", validAuth, (req, res) => {
   User.findById(req.params.id)
     .populate("posts")
@@ -97,8 +144,8 @@ router.get("/:id", validAuth, (req, res) => {
 });
 
 router.delete("/:id", validAuth, (req, res) => {
-  User.findById(req.params.id).then(({ role }) => {
-    if (role === "admin")
+  User.findById(req.params.id).then((user) => {
+    if (user.role === "admin")
       return res.status(400).json("Error: Cant remove admin!");
     else {
       User.findByIdAndDelete(req.params.id)
@@ -132,17 +179,35 @@ router.post("/addpost", validAuth, upload, (req, res) => {
     });
 });
 
-router.put("/:userId/changeRole", validAuth, (req, res) => {
-  User.findByIdAndUpdate(
-    req.params.userId,
-    { role: req.body.role },
-    { new: true },
-    (err, user) => {
-      if (err) return res.status(400).json("Error: " + err);
-      return res.json({ message: "Role changed successfully!", user });
+router.put(
+  "/:userId/changeRole",
+  validAuth,
+  checkSchema({
+    role: {
+      in: ["body"],
+      isIn: {
+        options: [["admin", "editor", "tester"]],
+        errorMessage: "Invalid role!",
+      },
+    },
+  }),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.errors[0].msg);
     }
-  );
-});
+
+    User.findByIdAndUpdate(
+      req.params.userId,
+      { role: req.body.role },
+      { new: true },
+      (err, user) => {
+        if (err) return res.status(400).json("Error: " + err);
+        return res.json({ message: "Role changed successfully!", user });
+      }
+    );
+  }
+);
 
 router.put("/selected", validAuth, (req, res) => {
   var usersId = req.body.dict;
@@ -166,6 +231,27 @@ router.put("/selected", validAuth, (req, res) => {
       return res.json("Users deleted successfully!");
     });
   });
+});
+
+router.get("/confirm/:activeToken", (req, res) => {
+  User.findOne(
+    { activeToken: req.params.activeToken, activeExpires: { $gt: Date.now() } },
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json("Unexpected error occured!");
+      }
+      if (!user)
+        return res
+          .status(400)
+          .json("Your activation link has expired! Please register again!");
+      user.active = true;
+      user
+        .save()
+        .then(() => res.json("Email confirmation sucess!"))
+        .catch((e) => res.status(400).json("Error confirming email!"));
+    }
+  );
 });
 
 module.exports = router;

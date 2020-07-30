@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { Redirect, Link, useHistory } from "react-router-dom";
 import axios from "axios";
-
-import { setPage } from "../../actions";
 import { ReactComponent as EyeIcon } from "./eye.svg";
 import { ReactComponent as EyeCloseIcon } from "./close-eye.svg";
 import {
-  REGISTER,
-  SUCCESS,
   FAILURE,
   PATTERN,
   EMAIL_PATTERN,
@@ -16,20 +11,17 @@ import {
   EDITOR,
   TESTER,
   PASSWORD_WARNING,
+  SUCCESS,
 } from "../../constants";
 
-const mapDispatchToProps = (dispatch) => ({
-  setPage: (page) => dispatch(setPage(page)),
-});
-
-const AuthenticationForm = ({ page, pageTitle, setPage }) => {
+const AuthenticationForm = ({ pageTitle, setPage }) => {
+  var history = useHistory();
   const [details, setDetails] = useState({});
   const [redirect, setRedirect] = useState(null);
   const [usersCount, setUsersCount] = useState(0);
   const [message, setMessage] = useState({});
 
   useEffect(() => {
-    setPage(page);
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (isAuthenticated === "true") setRedirect(`/user/dashboard`);
 
@@ -41,7 +33,7 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [setPage, page]);
+  }, []);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -49,10 +41,17 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
     axios
       .post(`/auth/${pageTitle}`, details)
       .then((res) => {
-        localStorage.setItem("isAuthenticated", true);
-        localStorage.setItem("id", res.data.user.id);
-        setMessage({ data: res.data.message, type: SUCCESS });
-        setRedirect(`/user/dashboard`);
+        if (pageTitle === "login") {
+          localStorage.setItem("isAuthenticated", true);
+          localStorage.setItem("id", res.data.user.id);
+        }
+
+        if (pageTitle === "login") setRedirect("/user/dashboard");
+
+        history.push({
+          pathname: pageTitle === "login" ? "/user/dashboard" : "/auth/login",
+          state: { message: res.data.message, status: SUCCESS },
+        });
       })
       .catch((err) => {
         setMessage({ data: err.response.data, type: FAILURE });
@@ -84,7 +83,7 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
           {redirect && <Redirect to={redirect} />}
           <h1 style={{ textTransform: "capitalize" }}>{pageTitle}</h1>
           <form className="form__authentication" onSubmit={handleFormSubmit}>
-            {page === REGISTER && (
+            {pageTitle === "register" && (
               <input
                 type="text"
                 name="fullname"
@@ -123,7 +122,7 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
                 onClick={() => handleShowPassword(false)}
               />
             </div>
-            {page === REGISTER && (
+            {pageTitle === "register" && (
               <select
                 name="role"
                 onChange={handleInputChange}
@@ -137,14 +136,19 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
               </select>
             )}
             <button>Submit</button>
-            {page === REGISTER ? (
+            {pageTitle === "register" ? (
               <p>
                 Already have an account? <Link to="./login">Log in</Link>
               </p>
             ) : (
-              <p>
-                Create an account? <Link to="./register">Sign up</Link>
-              </p>
+              <>
+                <p>
+                  Create an account? <Link to="./register">Sign up</Link>
+                </p>
+                <p>
+                  Forgot password? <Link to="./password/recover">Recover</Link>
+                </p>
+              </>
             )}
             <p style={{ fontSize: "0.6em" }}>
               <a
@@ -170,4 +174,4 @@ const AuthenticationForm = ({ page, pageTitle, setPage }) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(AuthenticationForm);
+export default AuthenticationForm;

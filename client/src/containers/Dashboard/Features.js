@@ -51,7 +51,7 @@ const Features = ({ role, posts, isLandscape, showDialog }) => {
           { url: "/users", text: "All Users", Svg: UserIcon },
           { url: "/user/addpost", text: "Add Post", Svg: AddIcon },
         ]
-      : [{ url: "/", text: "Add Post", Svg: AddIcon }];
+      : [{ url: "/user/addpost", text: "Add Post", Svg: AddIcon }];
 
   const refPosts = useRef([]);
 

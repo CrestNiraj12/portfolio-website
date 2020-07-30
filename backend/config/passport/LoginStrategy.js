@@ -11,6 +11,7 @@ const LoginStrategy = new LocalStrategy({ usernameField: "email" }, function (
     if (!user) return done("No user found!", false);
     if (!user.checkPassword(password))
       return done("Username or Password do not match!", false);
+    if (!user.active) return done("Please confirm your email first!", false);
     return done(null, user);
   });
 });

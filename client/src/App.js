@@ -18,18 +18,13 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Dashboard from "./containers/Dashboard";
 import Users from "./containers/Users";
-import {
-  LOGIN,
-  REGISTER,
-  DASHBOARD,
-  USERS,
-  POSTS,
-  HOME,
-  ADDPOST,
-} from "./constants";
+import { HOME, CONTACT, PORTFOLIO, POST } from "./constants";
 import { bindActionCreators } from "redux";
 import Dialog from "./components/Dialog";
 import AddPost from "./containers/AddPost";
+import ConfirmMail from "./containers/ConfirmMail";
+import ConfirmRecoverPassword from "./containers/ConfirmRecoverPassword";
+import ChangePassword from "./containers/ChangePassword";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
@@ -63,10 +58,21 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
     { path: "/posts/:id", component: Post, isExact: false },
     { path: "/auth/login", component: Login, isExact: true },
     { path: "/auth/register", component: Signup, isExact: true },
+    {
+      path: "/auth/password/recover",
+      component: ConfirmRecoverPassword,
+      isExact: false,
+    },
     { path: "/user/dashboard", component: Dashboard, isExact: false },
     { path: "/posts", component: Posts, isExact: false },
     { path: "/users", component: Users, isExact: false },
     { path: "/user/addpost", component: AddPost, isExact: false },
+    { path: "/user/confirm/:token", component: ConfirmMail, isExact: false },
+    {
+      path: "/password/recover/token/:token",
+      component: ChangePassword,
+      isExact: false,
+    },
     { path: "*", component: Home, isExact: false },
   ];
 
@@ -76,9 +82,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
       {dialogShow && <Dialog />}
 
       <Router>
-        {![0, LOGIN, REGISTER, DASHBOARD, USERS, POSTS, ADDPOST].includes(
-          page
-        ) && <Navbar />}
+        {[HOME, CONTACT, PORTFOLIO, POST].includes(page) && <Navbar />}
         <Switch>
           {routes.map(({ path, component, isExact }) => (
             <Route
