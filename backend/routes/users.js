@@ -3,7 +3,12 @@ const Post = require("../models/post.model");
 const User = require("../models/user.model");
 const multer = require("multer");
 const { validAuth } = require("../config/middleware");
-const { body, validationResult, checkSchema } = require("express-validator");
+const {
+  body,
+  checkSchema,
+  check,
+  validationResult,
+} = require("express-validator");
 
 router.get("/all", (req, res) => {
   User.find()
@@ -41,9 +46,13 @@ router.put(
       .withMessage(
         "Invalid password pattern! Your password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, and 1 digit"
       ),
-    body("confirmPassword")
-      .equals(body("newPassword"))
-      .withMessage("New passwords donot match!"),
+    check("newPassword")
+      .optional({ checkFalsy: true })
+      .custom((value, { req, loc, path }) => {
+        if (value && value !== "" && value !== req.body.confirmPassword)
+          throw new Error("New passwords do not match!");
+        else return value;
+      }),
   ],
   upload,
   (req, res) => {
@@ -91,6 +100,27 @@ router.put(
   }
 );
 
+router.get("/checkToken/:passwordChangeToken", (req, res) => {
+  User.findOne(
+    {
+      passwordChangeToken: req.params.passwordChangeToken,
+      passwordChangeTokenExpires: { $gt: Date.now() },
+    },
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json("Unexpected error occured!");
+      }
+      if (!user)
+        return res
+          .status(400)
+          .json("Your password reset link has expired! Please try again!");
+      console.log("Password change token valid!");
+      return res.status(200);
+    }
+  );
+});
+
 router.put(
   "/changePassword/:passwordChangeToken",
   [
@@ -99,9 +129,13 @@ router.put(
       .withMessage(
         "Invalid password pattern! Your password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, and 1 digit"
       ),
-    body("confirmPassword")
-      .equals(body("newPassword"))
-      .withMessage("New passwords donot match!"),
+    check("newPassword", "invalid password").custom(
+      (value, { req, loc, path }) => {
+        if (value !== req.body.confirmPassword)
+          throw new Error("New passwords do not match!");
+        else return value;
+      }
+    ),
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -111,7 +145,7 @@ router.put(
     }
     User.findOne(
       {
-        passwordChangeToken: req.params.changePasswordToken,
+        passwordChangeToken: req.params.passwordChangeToken,
         passwordChangeTokenExpires: { $gt: Date.now() },
       },
       (err, user) => {

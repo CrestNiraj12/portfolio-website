@@ -748,16 +748,16 @@
         padding: 5% 0; }
     .form__wrapper .form__authentication-password {
       position: relative; }
+      .form__wrapper .form__authentication-password__show {
+        top: 40%; }
+      .form__wrapper .form__authentication-password__hide {
+        top: 37%;
+        display: none; }
     .form__wrapper .form__authentication svg {
       width: 15px;
       position: absolute;
       right: 0;
       cursor: pointer; }
-    .form__wrapper .form__authentication svg#showPassword {
-      top: 40%; }
-    .form__wrapper .form__authentication svg#hidePassword {
-      top: 37%;
-      display: none; }
     .form__wrapper .form__authentication button {
       width: 100%;
       text-align: center;
@@ -791,7 +791,7 @@
     .form__wrapper .form__authentication button {
       margin: 5% 0; }
     .form__wrapper .form__authentication p {
-      font-size: 0.8em; } }
+      font-size: 0.7em; } }
 
 .dashboard {
   display: flex;

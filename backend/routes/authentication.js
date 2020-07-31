@@ -75,9 +75,7 @@ router.post("/recoverPassword", (req, res) => {
           ? req.get("host")
           : "localhost") +
         (port === 80 || port === 443 ? "" : ":" + port) +
-        "/password/recover/user/" +
-        user._id +
-        "/token/" +
+        "/password/recover/token/" +
         user.passwordChangeToken;
 
       mailer({

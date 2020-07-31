@@ -48,23 +48,22 @@
 
     &-password {
       position: relative;
+
+      &__show {
+        top: 40%;
+      }
+
+      &__hide {
+        top: 37%;
+        display: none;
+      }
     }
 
     svg {
       width: 15px;
       position: absolute;
       right: 0;
-
       cursor: pointer;
-    }
-
-    svg#showPassword {
-      top: 40%;
-    }
-
-    svg#hidePassword {
-      top: 37%;
-      display: none;
     }
 
     button {
@@ -117,7 +116,7 @@
       }
 
       p {
-        font-size: 0.8em;
+        font-size: 0.7em;
       }
     }
   }

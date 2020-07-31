@@ -24,7 +24,7 @@ import Dialog from "./components/Dialog";
 import AddPost from "./containers/AddPost";
 import ConfirmMail from "./containers/ConfirmMail";
 import ConfirmRecoverPassword from "./containers/ConfirmRecoverPassword";
-import ChangePassword from "./containers/ChangePassword";
+import ResetPassword from "./containers/ResetPassword";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
@@ -70,7 +70,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
     { path: "/user/confirm/:token", component: ConfirmMail, isExact: false },
     {
       path: "/password/recover/token/:token",
-      component: ChangePassword,
+      component: ResetPassword,
       isExact: false,
     },
     { path: "*", component: Home, isExact: false },
