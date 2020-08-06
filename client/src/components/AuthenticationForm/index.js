@@ -29,6 +29,8 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
   const [details, setDetails] = useState({});
   const [redirect, setRedirect] = useState(null);
   const [usersCount, setUsersCount] = useState(0);
+  const [resendLink, setResendLink] = useState(false);
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     if (pageTitle !== RESET_PASSWORD) {
@@ -67,7 +69,15 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
         });
       })
       .catch((err) => {
-        setMessage({ data: err.response.data, type: FAILURE });
+        console.log(err.response);
+        if (err.response.status === 403) {
+          setUserId(err.response.data.id);
+          setResendLink(true);
+          setMessage({ data: err.response.data.message, type: FAILURE });
+        } else {
+          setResendLink(false);
+          setMessage({ data: err.response.data, type: FAILURE });
+        }
       });
   };
 
@@ -122,6 +132,21 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
           pathname: "/auth/login",
           state: { message: res.data, status: SUCCESS },
         });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setMessage({ data: err.response.data, type: FAILURE });
+      });
+  };
+
+  const handleResendLink = (e) => {
+    e.preventDefault();
+
+    axios
+      .get(`/auth/resendLink/activation/${userId}`)
+      .then((res) => {
+        console.log(res);
+        setMessage({ data: res.data, type: SUCCESS });
       })
       .catch((err) => {
         console.log(err.response);
@@ -258,6 +283,12 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
               ? "Register"
               : "Login"}
           </button>
+          {pageTitle === LOGIN_PAGE && resendLink && (
+            <p>
+              Confirm your email address!{" "}
+              <button onClick={handleResendLink}>Resend link</button>
+            </p>
+          )}
           {pageTitle === REGISTER_PAGE ? (
             <p>
               Already have an account? <Link to="./login">Log in</Link>

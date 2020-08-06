@@ -225,6 +225,7 @@ const Features = ({ role, posts, isLandscape, showDialog }) => {
                     <Link
                       to={`/posts/${post.title
                         .toLowerCase()
+                        .replace(/[^a-z ]/g, "")
                         .split(" ")
                         .join("-")}-${post._id}`}
                     >
@@ -238,7 +239,7 @@ const Features = ({ role, posts, isLandscape, showDialog }) => {
                     </>
                   )}
                   <td>
-                    <Link to="/">
+                    <Link to={`/posts/update/${post._id}`}>
                       <Pencil width="15px" />
                     </Link>
                   </td>

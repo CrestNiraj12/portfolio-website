@@ -186,14 +186,17 @@ export const thunkDeleteMultiple = (dict, schema) => (
               )
             )
           );
-        else if (schema === POST_SCHEMA)
+        else if (schema === POST_SCHEMA) {
           dispatch(
-            setPosts(
-              getState().posts.filter(
+            setUserDetails({
+              ...getState().userDetails,
+              posts: getState().userDetails.posts.filter(
                 ({ _id: id }) => !Object.keys(dict).includes(String(id))
-              )
-            )
+              ),
+            })
           );
+          dispatch(setPosts(null));
+        }
       })
       .catch((err) => {
         console.log(err);

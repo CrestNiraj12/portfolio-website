@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const passport = require("../config/passport");
 const { body, validationResult } = require("express-validator");
-const mailer = require("../config/utils/mailer");
+const generateLink = require("../config/utils/linkGenerator");
+const {
+  sendResetMail,
+  sendActivationMail,
+} = require("../config/utils/mailSender");
 const crypto = require("crypto");
 const User = require("../models/user.model");
 
@@ -66,27 +70,12 @@ router.post("/recoverPassword", (req, res) => {
     crypto.randomBytes(20, (err, buf) => {
       user.passwordChangeToken = user._id + buf.toString("hex");
       user.passwordChangeTokenExpires = Date.now() + 3600 * 1000;
-      const port = process.env.PORT || 3000;
-
-      const link =
-        req.protocol +
-        "://" +
-        (process.env.NODE_ENV === "production"
-          ? req.get("host")
-          : "localhost") +
-        (port === 80 || port === 443 ? "" : ":" + port) +
-        "/password/recover/token/" +
-        user.passwordChangeToken;
-
-      mailer({
-        to: email,
-        subject: "Confirm password change",
-        html:
-          `<h2>Password Reset Request</h2><p>Please click on the following link to reset your password.</p><a href="` +
-          link +
-          `">${link}</a><p>This token is only valid for 1 hour.</p>
-            <p>If it wasn't you or if you have any questions, please reply this email.</p><p>Regards,</p><p>Admin at <a href="nirajshrestha.tech">nirajshrestha.tech</a></p>`,
-      });
+      const link = generateLink(
+        req,
+        "/password/recover/token/",
+        user.passwordChangeToken
+      );
+      sendResetMail(email, link);
 
       user
         .save()
@@ -101,9 +90,29 @@ router.post("/recoverPassword", (req, res) => {
   });
 });
 
+router.get("/resendLink/activation/:userId", (req, res) => {
+  User.findById(req.params.userId)
+    .then((user) => {
+      console.log(user);
+      const link = generateLink(req, "/user/confirm/", user.activeToken);
+
+      sendActivationMail(user.email, user.fullname, user.role, link);
+      return res.json("Activation link sent successfully!");
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json("User not found!");
+    });
+});
+
 const authenticate = (auth, req, res, next) => {
   passport.authenticate(auth, (err, user) => {
-    if (err) return res.status(400).json(err);
+    if (err) {
+      return err.status
+        ? res.status(err.status).json({ message: err.message, id: err.id })
+        : res.status(400).json(err);
+    }
+
     req.login(user, (err) => {
       if (err) return res.status(401).json("Authentication error!");
       isAuthenticated = true;

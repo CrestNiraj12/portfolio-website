@@ -8,8 +8,8 @@ const config = {
   port: 587,
   secure: false,
   auth: {
-    user: process.env.USER,
-    pass: process.env.PASS,
+    user: process.env.NOREPLY_USER,
+    pass: process.env.NOREPLY_PASS,
   },
   ignoreTLS: true,
 };
@@ -17,8 +17,7 @@ const config = {
 const transporter = nodemailer.createTransport(smtpTransport(config));
 
 const defaultMail = {
-  from: "Admin <admin@nirajshrestha.tech>",
-  text: "Hedo testing!",
+  from: "No Reply <noreply@nirajshrestha.tech>",
 };
 
 module.exports = function (mail) {

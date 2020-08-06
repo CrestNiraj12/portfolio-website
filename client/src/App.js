@@ -22,6 +22,7 @@ import { HOME, CONTACT, PORTFOLIO, POST } from "./constants";
 import { bindActionCreators } from "redux";
 import Dialog from "./components/Dialog";
 import AddPost from "./containers/AddPost";
+import EditPost from "./containers/EditPost";
 import ConfirmMail from "./containers/ConfirmMail";
 import ConfirmRecoverPassword from "./containers/ConfirmRecoverPassword";
 import ResetPassword from "./containers/ResetPassword";
@@ -55,7 +56,8 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
   const routes = [
     { path: "/contact", component: Contact, isExact: false },
     { path: "/portfolio", component: Portfolio, isExact: false },
-    { path: "/posts/:id", component: Post, isExact: false },
+    { path: "/posts/update/:postId", component: EditPost, isExact: false },
+    { path: "/posts/:postPath", component: Post, isExact: false },
     { path: "/auth/login", component: Login, isExact: true },
     { path: "/auth/register", component: Signup, isExact: true },
     {

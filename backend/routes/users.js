@@ -1,8 +1,7 @@
 const router = require("express").Router();
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
-const multer = require("multer");
-const { validAuth } = require("../config/middleware");
+const { validAuth, userUpload, postUpload } = require("../config/middleware");
 const {
   body,
   checkSchema,
@@ -25,17 +24,6 @@ router.get("/all", (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-const storage = multer.diskStorage({
-  destination: "./client/public/images/",
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + "-" + Date.now() + ".jpg");
-  },
-});
-
-const upload = multer({
-  storage: storage,
-}).single("image");
-
 router.put(
   "/",
   validAuth,
@@ -54,7 +42,7 @@ router.put(
         else return value;
       }),
   ],
-  upload,
+  userUpload,
   (req, res) => {
     User.findById(req.session.userId)
       .then((user) => {
@@ -189,7 +177,7 @@ router.delete("/:id", validAuth, (req, res) => {
   });
 });
 
-router.post("/addpost", validAuth, upload, (req, res) => {
+router.post("/addpost", validAuth, postUpload, (req, res) => {
   const authorId = req.session.userId;
   const thumbnail = req.file.filename;
   const newPost = new Post({ ...req.body, thumbnail, authorId });

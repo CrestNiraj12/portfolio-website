@@ -2,8 +2,7 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
-const multer = require("multer");
-const { validAuth } = require("../config/middleware");
+const { validAuth, postUpload } = require("../config/middleware");
 
 router.get("/", (req, res) => {
   Post.find()
@@ -14,9 +13,8 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:title", (req, res) => {
-  const id = req.params.title.split("-").pop();
-  Post.findById(id)
+router.get("/:id", (req, res) => {
+  Post.findById(req.params.id)
     .populate("authorId")
     .exec((err, post) => {
       if (err) res.status(400).json("Error: " + err);
@@ -41,18 +39,17 @@ router.delete("/:userId/:id", validAuth, (req, res) => {
     .catch((err) => res.status(400).json("Cant find post!"));
 });
 
-router.put("/update/:id", validAuth, (req, res) => {
+router.put("/update/:id", validAuth, postUpload, (req, res) => {
   Post.findById(req.params.id).then((post) => {
     post.title = req.body.title;
     post.description = req.body.description;
-    post.thumbnail = req.body.thumbnail;
+    if (req.file) post.thumbnail = req.file.filename;
     post.content = req.body.content;
-    post.images = req.body.images;
 
     post
       .save()
-      .then(() => res.json("Post Updated!"))
-      .catch((err) => res.status(400).json("Error: " + err));
+      .then(() => res.json("Post Updated Successfully!"))
+      .catch((err) => res.status(400).json(err));
   });
 });
 
@@ -85,22 +82,11 @@ router.put("/selected", validAuth, (req, res) => {
   });
 });
 
-const storage = multer.diskStorage({
-  destination: "./client/public/images/posts/",
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + "-" + Date.now() + ".jpg");
-  },
-});
-
-const upload = multer({
-  storage: storage,
-}).single("image");
-
-router.post("/images/upload", upload, (req, res) => {
+router.post("/images/upload", postUpload, (req, res) => {
   if (req.file) {
     filename = req.file.filename;
     console.log("Image uploaded, filename: " + filename);
-    return res.json({ location: `../images/posts/${req.file.filename}` });
+    return res.json({ location: `/images/posts/${req.file.filename}` });
   } else {
     return res.status(400).json("Image upload failed!");
   }

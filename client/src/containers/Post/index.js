@@ -11,7 +11,7 @@ const mapDispatchToProps = (dispatch) => ({
 const Post = ({
   setPage,
   match: {
-    params: { id },
+    params: { postPath },
   },
 }) => {
   const [post, setPost] = useState({
@@ -26,10 +26,10 @@ const Post = ({
 
   useEffect(() => {
     setPage(POST);
-    axios.get(`/posts/${id}`).then((res) => {
+    axios.get(`/posts/${postPath.split("-").pop()}`).then((res) => {
       setPost(res.data);
     });
-  }, [id, setPage]);
+  }, [postPath, setPage]);
 
   return (
     <main>

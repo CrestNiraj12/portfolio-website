@@ -7,13 +7,13 @@
       position: fixed;
       right: 0;
       top: 50%;
-      width: 96%;
+      width: 100%;
       transform: translate(0%, -50%);
       justify-content: center;
       z-index: 1000;
 
       ul {
-        background: linear-gradient(90deg, #697174, #cceaff);
+        background: linear-gradient(90deg, $blue, #cceaff);
         list-style: none;
         padding: 10% 5%;
         width: 90%;

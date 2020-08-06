@@ -5,11 +5,20 @@ export const SET_POSTS = "SET_POSTS";
 export const [SUCCESS, FAILURE] = ["success", "failure"];
 export const [USER_SCHEMA, POST_SCHEMA] = ["user", "posts"];
 export const [ADMIN, EDITOR, TESTER] = ["admin", "editor", "tester"];
-export const [LOGIN_PAGE, REGISTER_PAGE, RECOVER_PASSWORD, RESET_PASSWORD] = [
+export const [
+  LOGIN_PAGE,
+  REGISTER_PAGE,
+  RECOVER_PASSWORD,
+  RESET_PASSWORD,
+  ADDPOST_PAGE,
+  EDITPOST_PAGE,
+] = [
   "login",
   "register",
   "recover password",
   "reset password",
+  "add post",
+  "edit post",
 ];
 export const PATTERN = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
 export const EMAIL_PATTERN = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
@@ -43,4 +52,5 @@ export const [
   RESET_PASSWORD_PAGE,
   RECOVER_PASSWORD_PAGE,
   REDIRECTION_PAGE,
-] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 301];
+  EDITPOST,
+] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 301, 13];

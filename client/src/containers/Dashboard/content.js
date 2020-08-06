@@ -95,7 +95,7 @@ const Content = ({
             src={
               userDetails.image && userDetails.image.startsWith("http")
                 ? userDetails.image
-                : `/images/${userDetails.image}`
+                : `/images/users/${userDetails.image}`
             }
             alt="Profile"
             onLoad={(e) => handleImageLoad(e)}
