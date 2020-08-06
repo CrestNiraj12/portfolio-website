@@ -66,7 +66,7 @@ const SubmitPost = ({
       url:
         pageTitle === EDITPOST_PAGE
           ? `/posts/update/${postId}`
-          : "/user/addpost",
+          : "/user/submitpost",
       data: bodyForm,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -102,19 +102,19 @@ const SubmitPost = ({
   };
 
   return (
-    <main className="addpost">
+    <main className="submitpost">
       {isLandscape ? (
         <>
-          <section className="addpost__head">
+          <section className="submitpost__head">
             <FeatureHeader
               title={pageTitle === EDITPOST_PAGE ? "Edit Post" : "Add Post"}
             />
           </section>
-          <section className="addpost__content-form">
+          <section className="submitpost__content-form">
             <form onSubmit={handleSubmitPost}>
               <input
                 type="text"
-                className="addpost__content-form-title"
+                className="submitpost__content-form-title"
                 placeholder="Title"
                 name="title"
                 value={post.title}
@@ -123,7 +123,7 @@ const SubmitPost = ({
               />
               <input
                 type="text"
-                className="addpost__content-form-description"
+                className="submitpost__content-form-description"
                 placeholder="Description"
                 name="description"
                 value={post.description}
@@ -131,7 +131,7 @@ const SubmitPost = ({
                 required
               />
               <div
-                className="addpost__content-form-preview"
+                className="submitpost__content-form-preview"
                 style={{ cursor: "pointer" }}
                 onClick={() => document.querySelector("#thumbnail").click()}
               >
@@ -141,9 +141,9 @@ const SubmitPost = ({
                   id="preview"
                 />
               </div>
-              <div className="addpost__content-form-thumbnail">
+              <div className="submitpost__content-form-thumbnail">
                 <label
-                  className="addpost__content-form-thumbnail__label"
+                  className="submitpost__content-form-thumbnail__label"
                   htmlFor="thumbnail"
                 >
                   Insert Thumbnail ----&gt;
@@ -153,7 +153,7 @@ const SubmitPost = ({
                   accept="image/*"
                   id="thumbnail"
                   name="thumbnail"
-                  className="addpost__content-form-thumbnail__input"
+                  className="submitpost__content-form-thumbnail__input"
                   onChange={handleInputChange}
                 />
               </div>
@@ -209,19 +209,19 @@ const SubmitPost = ({
                 onEditorChange={(content, editor) =>
                   handleInputChange({ target: { name: "content" } }, content)
                 }
-                className="addpost__content-form-editor"
+                className="submitpost__content-form-editor"
               />
-              <div className="addpost__content-form-submit">
-                <button className="addpost__content-form-submit__button">
+              <div className="submitpost__content-form-submit">
+                <button className="submitpost__content-form-submit__button">
                   {pageTitle === EDITPOST_PAGE ? "Update Post" : "Add Post"}
                 </button>
               </div>
             </form>
           </section>
-          <section className="addpost__content-preview">
-            <p className="addpost__content-preview__head">Preview</p>
+          <section className="submitpost__content-preview">
+            <p className="submitpost__content-preview__head">Preview</p>
             <div
-              className="addpost__content-preview__content"
+              className="submitpost__content-preview__content"
               dangerouslySetInnerHTML={{
                 __html:
                   `<h1 style="font-size:3em;font-family:Kurale;text-align:center">${post.title}</h1>` +
