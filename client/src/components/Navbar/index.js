@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../images/logo.png";
 import { hideOverflow } from "../../actions";
 import { ReactComponent as Home } from "./home.svg";
 import { ReactComponent as Contact } from "./call.svg";
-import { ReactComponent as Portfolio } from "./candidate.svg";
 import { ReactComponent as CloseIcon } from "../../images/close-icon.svg";
-import { HOME, CONTACT, PORTFOLIO } from "../../constants";
+import { HOME, CONTACT } from "../../constants";
 
 const mapStateToProps = (state) => ({
   page: state.page,
@@ -48,7 +47,7 @@ const Navbar = ({ page, isLandscape, hideOverflow }) => {
     {
       Icon: Home,
       href: "/",
-      className: `${orientedNavClass()}-link`,
+      className: `${orientedNavClass()}__links-link`,
       text: "Home",
       isActive: isActivePage(HOME),
       button: false,
@@ -56,18 +55,10 @@ const Navbar = ({ page, isLandscape, hideOverflow }) => {
     {
       Icon: Contact,
       href: "/contact",
-      className: `${orientedNavClass()}-link`,
+      className: `${orientedNavClass()}__links-link`,
       text: "Contact",
       isActive: isActivePage(CONTACT),
       button: false,
-    },
-    {
-      Icon: Portfolio,
-      href: "/portfolio",
-      className: `${orientedNavClass()}-link--button`,
-      text: "Portfolio",
-      isActive: isActivePage(PORTFOLIO),
-      button: true,
     },
   ];
 
@@ -90,47 +81,45 @@ const Navbar = ({ page, isLandscape, hideOverflow }) => {
           {createLines(4)}
         </div>
       )}
-      <ul
+      <div
         className={orientedNavClass() + " hide"}
         id="navStatus"
         tabIndex={0}
-        onBlur={() => handleNavShow(false)}
+        onBlur={() => setTimeout(() => handleNavShow(false), 0)}
       >
-        <Link to="/">
-          <img
-            src={logo}
-            className={`${orientedNavClass()}--logo navbar__logo`}
-            alt="NS logo"
-          />
-        </Link>
         {!isLandscape && (
-          <CloseIcon
-            className="navbar__hide-items"
-            onClick={() => handleNavShow(false)}
-          />
-        )}
-        {navLinks.map(({ Icon, href, className, text, isActive, button }) => (
-          <li key={href}>
-            <NavLink
-              activeClassName={button ? `${className}--active` : ""}
-              className={className}
-              to={href}
-            >
-              <Icon className={`${orientedNavClass()}--icon`} />
+          <>
+            <Link to="/">
+              <img
+                src={logo}
+                className={`${orientedNavClass()}--logo navbar__logo`}
+                alt="NS logo"
+              />
+            </Link>
 
-              <span
-                className={
-                  (isActive && !isLandscape) ||
-                  (isActive && isLandscape && !button)
-                    ? `${orientedNavClass()}--active`
-                    : ""
-                }
-              >
-                {text}
-              </span>
-            </NavLink>
-          </li>
-        ))}
+            <CloseIcon
+              className="navbar__hide-items"
+              onClick={() => handleNavShow(false)}
+            />
+          </>
+        )}
+        <ul className={`${orientedNavClass()}__links`}>
+          {navLinks.map(({ Icon, href, className, text, isActive, button }) => (
+            <li key={href}>
+              <Link className={className} to={href}>
+                <Icon className={`${orientedNavClass()}__links--icon`} />
+
+                <span
+                  className={
+                    isActive ? `${orientedNavClass()}__links-link--active` : ""
+                  }
+                >
+                  {text}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
         {!isLandscape && (
           <div
             className="attributions"
@@ -198,7 +187,7 @@ const Navbar = ({ page, isLandscape, hideOverflow }) => {
             </a>
           </div>
         )}
-      </ul>
+      </div>
     </nav>
   );
 };

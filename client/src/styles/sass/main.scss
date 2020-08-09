@@ -1,9 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@500;700&family=Galada&family=Kurale&family=Encode+Sans+Expanded:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Chilanka&family=Baloo+Paaji+2:wght@500;700&family=Roboto+Slab&family=Galada&family=Kurale&family=Encode+Sans+Expanded:wght@600&display=swap");
 
 $blue: #96cdef;
+$pink: #ff1380;
+$yellow: #fff942;
 $darkblue: #263133;
 $red: #ff3939;
 $gray: #c3c3c3;
+$orange: #ff864c;
 
 @mixin buttonHover($bg, $color) {
   background-color: $bg;
@@ -55,6 +58,7 @@ $gray: #c3c3c3;
 @import "./partials/flash";
 @import "./partials/more";
 @import "./partials/navbar";
+@import "./partials/allPosts";
 @import "./partials/home";
 @import "./partials/featureHeader";
 @import "./partials/featuredPosts";

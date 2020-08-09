@@ -41,7 +41,7 @@ export const PASSWORD_WARNING =
 export const [
   HOME,
   CONTACT,
-  PORTFOLIO,
+  ALL_POSTS,
   POST,
   LOGIN,
   REGISTER,

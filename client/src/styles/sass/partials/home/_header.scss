@@ -1,0 +1,169 @@
+.emphasis-color-pink {
+  color: $pink;
+  font-size: 2em;
+  font-family: "Quicksand";
+}
+
+.emphasis-color-yellow {
+  color: $yellow;
+  font-size: 1.2em;
+  font-family: "Galada";
+  text-transform: capitalize;
+}
+
+.emphasis-color-red {
+  color: $red;
+  font-size: 1.2em;
+  font-family: "Roboto Slab";
+}
+
+.home__header {
+  height: 100vh;
+  position: relative;
+  padding: 0 10%;
+
+  &-content {
+    p {
+      color: #fff;
+      font-family: "Roboto Slab";
+      letter-spacing: 1px;
+      font-size: 1.2em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    &__desc {
+      color: $gray;
+      font-size: 0.8em;
+      margin: 5% 0;
+      font-style: italic;
+      font-family: "kurale";
+      text-transform: none;
+    }
+
+    &__sub {
+      display: flex;
+      flex-direction: column;
+      margin-top: 25px;
+
+      p {
+        font-family: inherit;
+        font-size: 0.8em;
+        line-height: 1.5;
+        letter-spacing: 0.5px;
+        color: #fff;
+      }
+
+      &-interests {
+        span {
+          font-family: "Chilanka";
+          font-size: 1.2em;
+          color: $orange;
+        }
+      }
+
+      &-social {
+        margin-top: 10%;
+        display: flex;
+        justify-content: space-between;
+        text-align: right;
+
+        p {
+          font-size: 0.75em;
+          color: $blue;
+        }
+
+        ul {
+          padding: 0;
+          margin: 0;
+          list-style: none;
+
+          li {
+            a {
+              @include formatLink(#fff, inherit, 0.7em, normal, uppercase);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .emphasis-color-pink {
+    font-size: 1.5em;
+  }
+
+  .emphasis-color-yellow,
+  .emphasis-color-red {
+    font-size: 1em;
+  }
+
+  .home__header {
+    &-content {
+      margin-top: 5%;
+
+      p {
+        font-size: 3em;
+        line-height: 1.2;
+        letter-spacing: 2px;
+      }
+
+      p:nth-of-type(3),
+      p:nth-of-type(4) {
+        float: right;
+        width: 70%;
+      }
+
+      p:nth-of-type(5),
+      p:nth-of-type(6) {
+        clear: both;
+      }
+
+      &__desc {
+        color: $gray;
+        font-size: 1.2em;
+        letter-spacing: 1.5px;
+        font-style: normal;
+        text-transform: uppercase;
+        font-family: inherit;
+        float: left;
+        width: 30%;
+        margin-top: -210px;
+      }
+
+      &__sub {
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 5% 0;
+
+        p {
+          font-size: 1em;
+          color: $gray;
+          letter-spacing: 1px;
+        }
+
+        &-social {
+          margin: 0;
+          flex-direction: column;
+
+          p {
+            font-size: 1.2em;
+            color: $blue;
+            margin-bottom: 5%;
+          }
+
+          ul {
+            li {
+              margin: 10px 0;
+
+              a {
+                font-size: 1em;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

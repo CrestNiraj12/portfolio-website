@@ -1,0 +1,205 @@
+@mixin headerBackground($url, $height) {
+  background: no-repeat $url;
+  background-size: cover;
+  height: $height;
+}
+
+@mixin corner($size, $width, $dir, $dir_val, $b_color, $topMargin) {
+  content: "";
+  position: absolute;
+  width: $size;
+  height: $size;
+  border-width: $width;
+  #{$dir}: $dir_val;
+  border-color: $b_color;
+  border-style: solid;
+  margin-top: $topMargin;
+}
+
+.body__overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 998;
+}
+
+.header {
+  &__home {
+    @include headerBackground(url(../../images/home-header.jpg), 100vh);
+
+    position: relative;
+  }
+
+  &__content-wrapper {
+    width: 100%;
+    position: absolute;
+    top: 30%;
+    letter-spacing: 2px;
+
+    text-align: center;
+
+    p {
+      @include text(#fff, "Galada", 2px, 1.2em);
+    }
+
+    h1 {
+      @include text($blue, "Roboto", 2px, 2.8em);
+      margin-top: 12%;
+    }
+  }
+}
+
+.section__bio {
+  height: 100vh;
+  background-color: $darkblue;
+
+  &-wrapper {
+    &__corner-top {
+      &::before {
+        @include corner(16px, 1px 1px 0 0, "right", 5%, $blue, 5%);
+      }
+      &::after {
+        @include corner(16px, 1px 0 0 1px, "left", 5%, $blue, 5%);
+      }
+    }
+
+    &__corner-bottom {
+      &::before {
+        @include corner(16px, 0 0 1px 1px, "left", 5%, $blue, 5%);
+      }
+      &::after {
+        @include corner(16px, 0 1px 1px 0, "right", 5%, $blue, 5%);
+      }
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 5%;
+      padding-top: 15%;
+
+      &-image {
+        width: 45vmin;
+        height: 45vmin;
+        border-radius: 100%;
+        object-fit: cover;
+        object-position: center;
+        filter: contrast(1.1) brightness(1.1) saturate(0.85);
+      }
+
+      &-desc {
+        text-align: center;
+        margin: 10% 0;
+        @include text(#fff, "Kurale", 0, 0.95em);
+      }
+    }
+    &__button {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &-item {
+        text-align: center;
+
+        @include formatLink($blue, "Galada", 0.8em, normal, none);
+        @include customButton(1.5% 10%, 1px solid $blue, 0.3s, $blue, #000);
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  &--headings {
+    margin: 30% 10%;
+
+    h2 {
+      @include text($blue, "Galada", 1px, 0.8em);
+      text-decoration: underline;
+      font-weight: normal;
+    }
+    h3 {
+      @include text(#fff, "Roboto", 0.8px, 0.9em);
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .header {
+    &__home {
+      @include headerBackground(url(../../images/home-header.jpg), 90vh);
+    }
+    &__content-wrapper {
+      margin-top: 0;
+      text-align: center;
+      width: 100%;
+
+      p {
+        @include text(#fff, "Galada", 2px, 1.5em);
+      }
+
+      h1 {
+        @include text(#fff, "Fira Sans", 5px, 4em);
+        margin-top: 5%;
+      }
+    }
+  }
+  .section__bio {
+    height: 90vh;
+
+    &-wrapper {
+      &__content {
+        flex-direction: row;
+        align-items: center;
+        margin: 0 10%;
+        padding-top: 10%;
+
+        &-wrapper {
+          display: flex;
+          flex-direction: column;
+          padding: 0 8%;
+        }
+
+        &-image {
+          width: 38vmin;
+          height: 38vmin;
+        }
+
+        &-desc {
+          text-align: left;
+          margin: 2.5% 0;
+          @include text(#fff, "Kurale", 1px, 1.25em);
+        }
+      }
+
+      &__button {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        &-item {
+          width: 30%;
+          margin-right: 5%;
+        }
+      }
+    }
+
+    &--headings {
+      margin: 10%;
+
+      h2 {
+        @include text($blue, "Galada", 1.5px, 1.1em);
+      }
+      h3 {
+        @include text(#fff, "Roboto", 1px, 1.3em);
+        margin-top: 2%;
+      }
+    }
+  }
+}
