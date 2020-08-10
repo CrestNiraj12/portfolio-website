@@ -669,6 +669,8 @@
         margin: 15% 0; }
       .home__projects-content a:nth-of-type(even) {
         margin-top: -5%; }
+      .home__projects-content a:nth-of-type(odd) {
+        margin-right: 20%; }
       .home__projects-content-item__img-wrapper {
         width: 30vw;
         height: 40vh; }

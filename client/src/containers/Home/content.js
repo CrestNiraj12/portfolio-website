@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as Arrow } from "../../images/arrow.svg";
-import CollegeProject from "../../images/project.png";
+import CollegeProject from "../../images/project.jpg";
+import AT from "../../images/at.gif";
 
 const Content = () => {
   return (
@@ -38,21 +39,20 @@ const Content = () => {
               </div>
               <h2>Personal Website</h2>
               <p>
-                College Project, developed with plain HTML5, CSS and JS with
-                JQuery
+                Second year college project, developed with plain HTML5, CSS and
+                JS with JQuery
               </p>
               <span className="link-design">View Project</span>
             </div>
           </a>
-          <a href="https://nirajshrestha01.com.np/website/index.html">
+          <a href="https://crestniraj12.github.io/profile-page/index.html">
             <div className="home__projects-content-item">
               <div className="home__projects-content-item__img-wrapper">
-                <img src={CollegeProject} alt="College Project" />
+                <img src={AT} alt="First year college project" />
               </div>
-              <h2>Personal Website</h2>
+              <h2>Profile page</h2>
               <p>
-                College Project, developed with plain HTML5, CSS and JS with
-                JQuery
+                First year college project, developed with plain HTML5 and CSS
               </p>
               <span className="link-design">View Project</span>
             </div>

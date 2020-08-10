@@ -161,6 +161,10 @@
         margin-top: -5%;
       }
 
+      a:nth-of-type(odd) {
+        margin-right: 20%;
+      }
+
       &-item {
         &__img-wrapper {
           width: 30vw;
