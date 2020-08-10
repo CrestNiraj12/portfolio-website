@@ -18,9 +18,9 @@
 }
 
 .home__header {
-  height: 100vh;
+  height: 90vh;
   position: relative;
-  padding: 0 10%;
+  padding: 5% 10%;
 
   &-content {
     p {
@@ -35,7 +35,7 @@
     &__desc {
       color: $gray;
       font-size: 0.8em;
-      margin: 5% 0;
+      margin: 10% 0;
       font-style: italic;
       font-family: "kurale";
       text-transform: none;
@@ -44,7 +44,7 @@
     &__sub {
       display: flex;
       flex-direction: column;
-      margin-top: 25px;
+      margin-top: 10%;
 
       p {
         font-family: inherit;
@@ -63,7 +63,7 @@
       }
 
       &-social {
-        margin-top: 10%;
+        margin-top: 12%;
         display: flex;
         justify-content: space-between;
         text-align: right;
@@ -100,6 +100,7 @@
   }
 
   .home__header {
+    padding: 0% 10%;
     &-content {
       margin-top: 5%;
 

@@ -1,17 +1,16 @@
 export const SET_PAGE = "SET_PAGE";
-export const ACTIVE_NAV = "ACTIVE_NAV";
 export const IS_LANDSCAPE = "IS_LANDSCAPE";
 export const SET_POSTS = "SET_POSTS";
 export const [SUCCESS, FAILURE] = ["success", "failure"];
 export const [USER_SCHEMA, POST_SCHEMA] = ["user", "posts"];
 export const [ADMIN, EDITOR, TESTER] = ["admin", "editor", "tester"];
 export const [
-  LOGIN_PAGE,
-  REGISTER_PAGE,
+  LOGIN,
+  REGISTER,
   RECOVER_PASSWORD,
   RESET_PASSWORD,
-  ADDPOST_PAGE,
-  EDITPOST_PAGE,
+  ADDPOST,
+  EDITPOST,
 ] = [
   "login",
   "register",
@@ -43,14 +42,14 @@ export const [
   CONTACT,
   ALL_POSTS,
   POST,
-  LOGIN,
-  REGISTER,
+  LOGIN_PAGE,
+  REGISTER_PAGE,
   DASHBOARD,
   POSTS,
   USERS,
-  ADDPOST,
+  ADDPOST_PAGE,
   RESET_PASSWORD_PAGE,
   RECOVER_PASSWORD_PAGE,
   REDIRECTION_PAGE,
-  EDITPOST,
+  EDITPOST_PAGE,
 ] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 301, 13];

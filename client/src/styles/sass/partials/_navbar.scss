@@ -14,6 +14,7 @@
   z-index: 999;
   align-items: center;
   justify-content: center;
+  height: 20vh;
 
   &__show-items {
     width: 30px;
@@ -41,7 +42,7 @@
 
   &__items--portrait {
     position: absolute;
-    background-color: $darkblue;
+    background-color: $darkgray;
     height: 100vh;
     top: 0;
     left: 0;

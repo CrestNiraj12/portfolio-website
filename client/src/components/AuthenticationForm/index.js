@@ -12,10 +12,10 @@ import {
   TESTER,
   PASSWORD_WARNING,
   SUCCESS,
-  LOGIN_PAGE,
-  REGISTER_PAGE,
   RECOVER_PASSWORD,
   RESET_PASSWORD,
+  REGISTER,
+  LOGIN,
 } from "../../constants";
 import { connect } from "react-redux";
 import { setMessage } from "../../actions";
@@ -38,7 +38,7 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
       if (isAuthenticated === "true") setRedirect(`/user/dashboard`);
     }
 
-    if (pageTitle === REGISTER_PAGE)
+    if (pageTitle === REGISTER)
       axios
         .get("/user/all")
         .then((users) => {
@@ -55,16 +55,15 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
     axios
       .post(`/auth/${pageTitle}`, details)
       .then((res) => {
-        if (pageTitle === LOGIN_PAGE) {
+        if (pageTitle === LOGIN) {
           localStorage.setItem("isAuthenticated", true);
           localStorage.setItem("id", res.data.user.id);
         }
 
-        if (pageTitle === LOGIN_PAGE) setRedirect("/user/dashboard");
+        if (pageTitle === LOGIN) setRedirect("/user/dashboard");
 
         history.push({
-          pathname:
-            pageTitle === LOGIN_PAGE ? "/user/dashboard" : "/auth/login",
+          pathname: pageTitle === LOGIN ? "/user/dashboard" : "/auth/login",
           state: { message: res.data.message, status: SUCCESS },
         });
       })
@@ -169,7 +168,7 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
               : handleFormSubmit
           }
         >
-          {pageTitle === REGISTER_PAGE && (
+          {pageTitle === REGISTER && (
             <input
               type="text"
               name="fullname"
@@ -205,7 +204,7 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
                 pattern={PATTERN}
                 title={PASSWORD_WARNING}
                 placeholder={
-                  pageTitle === RESET_PASSWORD ? "New Password" : "password"
+                  pageTitle === RESET_PASSWORD ? "New Password" : "Password"
                 }
                 onChange={handleInputChange}
                 required
@@ -261,7 +260,7 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
               />
             </div>
           )}
-          {pageTitle === REGISTER_PAGE && (
+          {pageTitle === REGISTER && (
             <select
               name="role"
               onChange={handleInputChange}
@@ -279,21 +278,21 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
               ? "Recover Password"
               : pageTitle === RESET_PASSWORD
               ? "Reset Password"
-              : pageTitle === REGISTER_PAGE
+              : pageTitle === REGISTER
               ? "Register"
               : "Login"}
           </button>
-          {pageTitle === LOGIN_PAGE && resendLink && (
+          {pageTitle === LOGIN && resendLink && (
             <p>
               Confirm your email address!{" "}
               <button onClick={handleResendLink}>Resend link</button>
             </p>
           )}
-          {pageTitle === REGISTER_PAGE ? (
+          {pageTitle === REGISTER ? (
             <p>
               Already have an account? <Link to="./login">Log in</Link>
             </p>
-          ) : pageTitle === LOGIN_PAGE ? (
+          ) : pageTitle === LOGIN ? (
             <>
               <p>
                 Create an account? <Link to="./register">Sign up</Link>

@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div className="home__header">
+    <header className="home__header">
       <div className="home__header-content">
         <p>I'm Niraj Shrestha</p>
         <p>
@@ -16,9 +16,9 @@ const Header = () => {
         <p>
           <span className="emphasis-color-red">Backend</span> Development
         </p>
-        <div className="home__header-content__desc">
+        <aside className="home__header-content__desc">
           “I strive to be a developer that brings about a revolutionary change”
-        </div>
+        </aside>
         <div className="home__header-content__sub">
           <div className="home__header-content__sub-interests">
             <p>
@@ -69,7 +69,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 

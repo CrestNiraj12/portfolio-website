@@ -3,11 +3,11 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#96CDEF;}
+	.arrowFill{fill:#96CDEF;}
 </style>
 <g>
 	<g>
-		<path class="st0" d="M508.9,248.5l-160-160c-4.2-4.2-10.9-4.2-15.1,0c-4.2,4.2-4.2,10.9,0,15.1l141.8,141.8H10.7
+		<path class="arrowFill" d="M508.9,248.5l-160-160c-4.2-4.2-10.9-4.2-15.1,0c-4.2,4.2-4.2,10.9,0,15.1l141.8,141.8H10.7
 			C4.8,245.3,0,250.1,0,256s4.8,10.7,10.7,10.7h464.9L333.8,408.5c-4.2,4.2-4.2,10.9,0,15.1c2.1,2.1,4.8,3.1,7.5,3.1s5.5-1,7.5-3.1
 			l160-160C513,259.4,513,252.6,508.9,248.5z"/>
 	</g>

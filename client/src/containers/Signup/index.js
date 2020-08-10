@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import AuthenticationForm from "../../components/AuthenticationForm";
-import { REGISTER } from "../../constants";
+import { REGISTER, REGISTER_PAGE } from "../../constants";
 import { connect } from "react-redux";
 import { setPage } from "../../actions";
 
@@ -10,10 +10,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Signup = ({ setPage }) => {
   useEffect(() => {
-    setPage(REGISTER);
+    setPage(REGISTER_PAGE);
   }, [setPage]);
 
-  return <AuthenticationForm pageTitle="register" />;
+  return <AuthenticationForm pageTitle={REGISTER} />;
 };
 
 export default connect(null, mapDispatchToProps)(Signup);

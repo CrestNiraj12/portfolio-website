@@ -3,6 +3,7 @@
 $blue: #96cdef;
 $pink: #ff1380;
 $yellow: #fff942;
+$darkgray: #242627;
 $darkblue: #263133;
 $red: #ff3939;
 $gray: #c3c3c3;
@@ -51,6 +52,44 @@ $orange: #ff864c;
   @include customButton($padding, 1px solid $color, 0.3s, $color, $hoverColor);
 }
 
+.link-design {
+  color: $blue;
+  text-decoration: none;
+  border-bottom: 1px solid $blue;
+  padding-bottom: 2px;
+  font-size: 0.8em;
+  width: max-content;
+  padding-right: 18px;
+}
+
+.link-design::after {
+  content: "";
+  background-image: url("../../images/arrow-link.svg");
+  width: 10px;
+  height: 9px;
+  margin-left: 5px;
+  margin-top: 7px;
+  background-size: cover;
+  position: absolute;
+  transition: margin 0.1s ease-in-out;
+}
+
+@media screen and (orientation: landscape) {
+  .link-design {
+    font-size: 1em;
+  }
+
+  .link-design::after {
+    width: 13px;
+    height: 11px;
+    margin-top: 6px;
+  }
+
+  .link-design:hover::after {
+    margin-left: 10px;
+  }
+}
+
 @import "./partials/crop";
 @import "./partials/search";
 @import "./partials/sort";
@@ -58,7 +97,6 @@ $orange: #ff864c;
 @import "./partials/flash";
 @import "./partials/more";
 @import "./partials/navbar";
-@import "./partials/allPosts";
 @import "./partials/home";
 @import "./partials/featureHeader";
 @import "./partials/featuredPosts";

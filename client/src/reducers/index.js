@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import page from "./setPage";
-import activeNav from "./activeNav";
 import isLandscape from "./isLandscape";
 import posts from "./setPosts";
 import overflowHidden from "./hideOverflow";
@@ -11,7 +10,6 @@ import users from "./setAllUsers";
 
 export default combineReducers({
   page,
-  activeNav,
   isLandscape,
   posts,
   overflowHidden,

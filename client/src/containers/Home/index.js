@@ -11,10 +11,10 @@ const Portfolio = () => {
   }, []);
 
   return (
-    <div className="home">
+    <main className="home">
       <Header />
       <Content />
-    </div>
+    </main>
   );
 };
 
