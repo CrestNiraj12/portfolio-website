@@ -1,0 +1,77 @@
+@mixin color-fill($color) {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.8em;
+  color: $color;
+
+  &__arrow {
+    width: 10px;
+    transform: rotate(90deg);
+
+    .arrowFill {
+      fill: $color;
+      stroke: $color;
+    }
+  }
+}
+
+.side__title-yellow {
+  @include color-fill($yellow);
+}
+
+.side__title-blue {
+  @include color-fill($blue);
+}
+
+.side__title-red {
+  @include color-fill($red);
+}
+
+.side__title-lightpink {
+  @include color-fill($lightpink);
+}
+
+.side__title-orange {
+  @include color-fill($orange);
+}
+
+.side__title-white {
+  @include color-fill(#fff);
+}
+
+@media screen and (min-width: 1000px) {
+  @mixin color-fill($color) {
+    transform: rotate(270deg);
+    float: left;
+    font-size: 1em;
+    margin-top: 10%;
+  }
+
+  .side__title-yellow {
+    @include color-fill($yellow);
+  }
+
+  .side__title-orange {
+    @include color-fill($orange);
+  }
+
+  .side__title-blue {
+    @include color-fill($blue);
+  }
+
+  .side__title-red {
+    @include color-fill($red);
+  }
+
+  .side__title-pink {
+    @include color-fill($pink);
+  }
+
+  .side__title-lightpink {
+    @include color-fill($lightpink);
+  }
+
+  .side__title-white {
+    @include color-fill(#fff);
+  }
+}

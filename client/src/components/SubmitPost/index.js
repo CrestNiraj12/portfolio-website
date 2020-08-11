@@ -66,7 +66,7 @@ const SubmitPost = ({
       url:
         pageTitle === EDITPOST_PAGE
           ? `/posts/update/${postId}`
-          : "/user/submitpost",
+          : "/user/addpost",
       data: bodyForm,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -136,7 +136,7 @@ const SubmitPost = ({
                 onClick={() => document.querySelector("#thumbnail").click()}
               >
                 <img
-                  src="https://dummyimage.com/600x400/ffffff/a6a6a6.jpg&text=Thumbnail"
+                  src="https://dummyimage.com/400x600/ffffff/a6a6a6.jpg&text=Thumbnail"
                   alt="Preview"
                   id="preview"
                 />
@@ -171,8 +171,6 @@ const SubmitPost = ({
                   content_css: [
                     "//fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@500;700&family=Galada&family=Kurale&family=Encode+Sans+Expanded:wght@600&display=swap",
                   ],
-                  font_formats:
-                    "Arial=arial black, avant garde, helvetica, sans-serif;Courier New=courier new,courier,monospace;Kurale=kurale, serif;Galada=galada, cursive;Baloo paaji 2=baloo paaji 2, cursive;Encode Sans Expanded=encode sans expanded, sans-serif;",
                   plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
@@ -181,7 +179,7 @@ const SubmitPost = ({
                     "checklist tinymcespellchecker a11ychecker textpattern noneditable formatpainter permanentpen pageembed mentions quickbars linkchecker emoticons advtable",
                   ],
                   toolbar:
-                    "undo redo | formatselect fontselect fontsizeselect | bold italic forecolor backcolor emoticons | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
+                    "undo redo | formatselect fontsizeselect | bold italic forecolor backcolor emoticons | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
                   images_upload_handler: (
                     blobInfo,
                     success,
@@ -224,7 +222,7 @@ const SubmitPost = ({
               className="submitpost__content-preview__content"
               dangerouslySetInnerHTML={{
                 __html:
-                  `<h1 style="font-size:3em;font-family:Kurale;text-align:center">${post.title}</h1>` +
+                  `<h1 style="font-size:3em;font-family:'Roboto Slab';text-align:center">${post.title}</h1>` +
                   post.content,
               }}
             ></div>

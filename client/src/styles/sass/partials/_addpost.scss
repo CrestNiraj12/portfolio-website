@@ -5,7 +5,6 @@
     h1 {
       font-size: 3em;
       color: #fff;
-      font-family: "Galada";
       text-align: center;
     }
   }
@@ -43,8 +42,8 @@
         line-height: 0.8;
 
         img {
-          width: 600px;
-          max-height: 400px;
+          width: 30vw;
+          height: 70vh;
           object-fit: cover;
         }
       }
@@ -82,11 +81,11 @@
       &__head {
         font-size: 2em;
         color: #fff;
-        font-family: Galada;
         text-decoration: underline;
       }
 
       &__content {
+        color: #000;
         background-color: #fff;
         overflow-y: scroll;
         height: 500px;

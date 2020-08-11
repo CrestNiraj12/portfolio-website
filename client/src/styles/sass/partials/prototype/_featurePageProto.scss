@@ -1,6 +1,7 @@
 @mixin featurePageProto($className) {
   .#{$className} {
     margin: 10% 2%;
+    color: #000;
 
     &__show-details {
       display: none;

@@ -2,6 +2,7 @@
 
 $blue: #96cdef;
 $pink: #ff1380;
+$lightpink: #ff80d8;
 $yellow: #fff942;
 $darkgray: #242627;
 $darkblue: #263133;
@@ -52,26 +53,39 @@ $orange: #ff864c;
   @include customButton($padding, 1px solid $color, 0.3s, $color, $hoverColor);
 }
 
-.link-design {
-  color: $blue;
+@mixin link-design($color) {
+  color: $color;
   text-decoration: none;
-  border-bottom: 1px solid $blue;
+  border-bottom: 1px solid $color;
   padding-bottom: 2px;
   font-size: 0.8em;
   width: max-content;
   padding-right: 18px;
 }
 
-.link-design::after {
+@mixin link-design-after($mt) {
   content: "";
   background-image: url("../../images/arrow-link.svg");
   width: 10px;
   height: 9px;
   margin-left: 5px;
-  margin-top: 7px;
+  margin-top: $mt;
   background-size: cover;
   position: absolute;
   transition: margin 0.1s ease-in-out;
+}
+
+.link-design,
+.link-design-layered {
+  @include link-design($blue);
+}
+
+.link-design::after {
+  @include link-design-after(7px);
+}
+
+.link-design-layered::after {
+  @include link-design-after(4px);
 }
 
 @media screen and (orientation: landscape) {
@@ -85,7 +99,8 @@ $orange: #ff864c;
     margin-top: 6px;
   }
 
-  .link-design:hover::after {
+  .link-design:hover::after,
+  .link-design-layered:hover::after {
     margin-left: 10px;
   }
 }
@@ -97,6 +112,7 @@ $orange: #ff864c;
 @import "./partials/flash";
 @import "./partials/more";
 @import "./partials/navbar";
+@import "./partials/sideTitle";
 @import "./partials/home";
 @import "./partials/featureHeader";
 @import "./partials/featuredPosts";
