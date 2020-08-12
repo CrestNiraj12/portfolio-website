@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.png";
 import { hideOverflow } from "../../actions";
-import { ReactComponent as Home } from "./home.svg";
-import { ReactComponent as Contact } from "./call.svg";
+import { ReactComponent as Home } from "./svg/home.svg";
+import { ReactComponent as Contact } from "../../images/call.svg";
 import { ReactComponent as CloseIcon } from "../../images/close-icon.svg";
 import { HOME, CONTACT } from "../../constants";
 

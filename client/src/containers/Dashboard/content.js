@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { LOG_OUT, REMOVE_OWN_ACCOUNT, FAILURE } from "../../constants";
 import UpdateProfileForm from "./UpdateProfileForm";
-import { ReactComponent as LinkIcon } from "./link.svg";
+import { ReactComponent as LinkIcon } from "./svg/link.svg";
 import {
   showDialog,
   setUserDetails,

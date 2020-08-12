@@ -101,6 +101,81 @@ const Content = ({ posts, setPosts }) => {
           Keep in touch <Link to="/contact">Contact me</Link>
         </p>
       </section>
+      <section className="attributions" style={{ margin: "0 10%" }}>
+        <h2
+          style={{
+            display: "inline-block",
+            borderBottom: "1px solid gray",
+            letterSpacing: "1px",
+          }}
+        >
+          Attributions
+        </h2>
+        <br />
+        <a
+          href="https://iconscout.com/icons/arrow"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Arrow
+        </a>{" "}
+        by{" "}
+        <a
+          href="https://iconscout.com/contributors/pocike"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Alpár - Etele Méder
+        </a>
+        <br />
+        <a
+          href="http://comicmess.com/at-fix.gif"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Adventure time gif
+        </a>{" "}
+        by{" "}
+        <a
+          href="http://comicmess.com/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Comic Mess
+        </a>
+        <br />
+        <a
+          href="https://iconscout.com/icons/call"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Call
+        </a>{" "}
+        by{" "}
+        <a href="https://iconscout.com/contributors/pocike">
+          Alpár - Etele Méder
+        </a>{" "}
+        on <a href="https://iconscout.com">Iconscout</a>
+        <br />
+        <span>
+          Photo by{" "}
+          <a
+            href="https://unsplash.com/@domenicoloia?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Domenico Loia
+          </a>{" "}
+          on{" "}
+          <a
+            href="https://unsplash.com/s/photos/web-development?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Unsplash
+          </a>
+        </span>
+      </section>
     </>
   );
 };

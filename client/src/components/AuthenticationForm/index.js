@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import { ReactComponent as EyeIcon } from "./eye.svg";
-import { ReactComponent as EyeCloseIcon } from "./close-eye.svg";
+import { ReactComponent as EyeIcon } from "./svg/eye.svg";
+import { ReactComponent as EyeCloseIcon } from "./svg/close-eye.svg";
 import {
   FAILURE,
   PATTERN,

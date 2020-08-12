@@ -1,9 +1,9 @@
 import React from "react";
-import { ReactComponent as Facebook } from "./fb.svg";
-import { ReactComponent as Instagram } from "./insta.svg";
-import { ReactComponent as Github } from "./github.svg";
-import { ReactComponent as Mail } from "./mail.svg";
-import { ReactComponent as Call } from "./call.svg";
+import { ReactComponent as Facebook } from "./svg/fb.svg";
+import { ReactComponent as Instagram } from "./svg/insta.svg";
+import { ReactComponent as Github } from "./svg/github.svg";
+import { ReactComponent as Mail } from "./svg/mail.svg";
+import { ReactComponent as Call } from "../../images/call.svg";
 
 const InfoCard = () => (
   <div className="info__card">

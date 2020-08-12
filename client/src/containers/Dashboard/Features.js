@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { ReactComponent as Pencil } from "../../images/pencil.svg";
-import { ReactComponent as ControlIcon } from "./control.svg";
-import { ReactComponent as UserIcon } from "./avatar.svg";
-import { ReactComponent as PostIcon } from "./paper.svg";
+import { ReactComponent as ControlIcon } from "./svg/control.svg";
+import { ReactComponent as UserIcon } from "./svg/avatar.svg";
+import { ReactComponent as PostIcon } from "./svg/paper.svg";
 import { ReactComponent as TrashIcon } from "../../images/trash.svg";
-import { ReactComponent as AddIcon } from "./add.svg";
+import { ReactComponent as AddIcon } from "./svg/add.svg";
 import {
   DELETE_OWN_POST,
   TESTER,
