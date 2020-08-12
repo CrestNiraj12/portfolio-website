@@ -133,32 +133,6 @@ a {
       }
     }
   }
-
-  &__collab {
-    text-align: center;
-    margin: 50% 10%;
-
-    p:nth-of-type(1) {
-      margin: 0;
-      font-size: 1em;
-
-      span {
-        color: $orange;
-      }
-    }
-
-    p:nth-of-type(2) {
-      margin: 5% 0;
-      font-family: "Roboto Slab";
-      font-size: 1.25em;
-
-      a {
-        font-family: "Kurale";
-        text-transform: capitalize;
-        border-bottom: 1px solid $red;
-      }
-    }
-  }
 }
 
 @media screen and (min-width: 1000px) {
@@ -240,19 +214,6 @@ a {
             text-transform: uppercase;
           }
         }
-      }
-    }
-
-    &__collab {
-      margin: 20% 10%;
-
-      p:nth-of-type(1) {
-        font-size: 1.5em;
-      }
-
-      p:nth-of-type(2) {
-        margin: 1% 0;
-        font-size: 2em;
       }
     }
   }

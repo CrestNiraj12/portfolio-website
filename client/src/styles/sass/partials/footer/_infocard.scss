@@ -1,5 +1,6 @@
 %hr {
   border-bottom: 0.8px solid $gray;
+  padding: 10px 0;
 }
 
 @mixin pad($dir, $val) {
@@ -9,15 +10,31 @@
 .info__card {
   display: flex;
   flex-direction: column;
+  margin: 4em 0;
+
+  h1 {
+    font-weight: normal;
+    font-size: 1.35em;
+    @extend %hr;
+    margin: 0;
+    padding: 0;
+
+    span {
+      font-family: "Galada";
+      color: $lightred;
+    }
+  }
 
   &--social {
     display: flex;
     justify-content: flex-start;
-    @include pad("bottom", 15px);
+    padding: 10px 0;
     @extend %hr;
 
-    .mailIcon,
-    .callIcon,
+    a {
+      margin-right: 25px;
+    }
+
     .fbIcon,
     .instaIcon,
     .githubIcon {
@@ -26,6 +43,7 @@
 
     &-icon {
       transition: transform 0.1s ease-in;
+      filter: saturate(1.2) brightness(1.2) contrast(1);
     }
 
     &-icon:hover {
@@ -49,8 +67,6 @@
     display: flex;
     flex-direction: column;
     @extend %hr;
-    @include pad("top", 15px);
-    @include pad("bottom", 15px);
 
     span {
       @include text($gray, "Quicksand", 0.5px, 0.65em);
@@ -64,7 +80,12 @@
 
     &-mail,
     &-call {
-      @include pad("top", 15px);
+      & > p {
+        margin: 5px 0;
+        text-transform: uppercase;
+        font-size: 0.75em;
+        letter-spacing: 2px;
+      }
     }
 
     &__mail-link,
@@ -74,6 +95,7 @@
       p {
         margin-bottom: 15px;
         margin-top: 0;
+        margin: 0;
       }
 
       &:hover {
@@ -84,13 +106,28 @@
 
   &--icon,
   &--social-icon {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
   }
 }
 
 @media screen and (orientation: landscape) {
   .info__card {
+    margin: 0;
+
+    h1 {
+      font-size: 1.8em;
+    }
+
+    &--social {
+      a {
+        margin-right: 0;
+      }
+
+      padding: 20px 0;
+      justify-content: space-around;
+    }
+
     &--desc {
       span {
         @include text($gray, "Quicksand", 0.5px, 0.8em);

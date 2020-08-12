@@ -5,6 +5,7 @@ import Projects from "./projects";
 import { connect } from "react-redux";
 import { setPosts } from "../../actions";
 import axios from "axios";
+import Collab from "../../components/Collab";
 
 const mapStateToProps = (state) => ({
   posts: state.posts,
@@ -93,14 +94,7 @@ const Content = ({ posts, setPosts }) => {
           </div>
         </section>
       )}
-      <section className="home__collab">
-        <p>
-          Let's get <span>started.</span>
-        </p>
-        <p>
-          Keep in touch <Link to="/contact">Contact me</Link>
-        </p>
-      </section>
+      <Collab />
       <section className="attributions" style={{ margin: "0 10%" }}>
         <h2
           style={{

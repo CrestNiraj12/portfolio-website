@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import logo from "../../images/logo.png";
 import { hideOverflow } from "../../actions";
 import { ReactComponent as Home } from "./svg/home.svg";
-import { ReactComponent as Contact } from "../../images/call.svg";
+import { ReactComponent as About } from "./svg/candidate.svg";
 import { ReactComponent as CloseIcon } from "../../images/close-icon.svg";
-import { HOME, CONTACT } from "../../constants";
+import { HOME, ABOUT } from "../../constants";
 
 const mapStateToProps = (state) => ({
   page: state.page,
@@ -53,11 +53,11 @@ const Navbar = ({ page, isLandscape, hideOverflow }) => {
       button: false,
     },
     {
-      Icon: Contact,
-      href: "/contact",
+      Icon: About,
+      href: "/about",
       className: `${orientedNavClass()}__links-link`,
-      text: "Contact",
-      isActive: isActivePage(CONTACT),
+      text: "About",
+      isActive: isActivePage(ABOUT),
       button: false,
     },
   ];

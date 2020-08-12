@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import InfoCard from "../InfoCard";
 import { ReactComponent as Arrow } from "../../images/arrow.svg";
 
@@ -20,21 +19,10 @@ const Footer = () => {
           <span>Go North</span>
         </div>
       </div>
-      <div className="footer__links">
-        <Link className="footer__links--link" to="/">
-          Terms {"&"} conditions
-        </Link>
+      <div className="footer__copy">
+        <span>&copy; 2020 Niraj Shrestha</span>
         <span>|</span>
-
-        <Link className="footer__links--link" to="/">
-          Privacy Policy
-        </Link>
-        <span>|</span>
-        <Link className="footer__links--link" to="/">
-          Cookies
-        </Link>
-        <span>|</span>
-        <span className="footer__links--copy">&copy; 2020 Niraj Shrestha</span>
+        <span>All rights reserved</span>
       </div>
     </footer>
   );

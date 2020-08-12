@@ -1,6 +1,6 @@
 $gray: #8a8a8a;
 
-@import "./infocard";
+@import "./footer/infocard";
 
 .footer {
   display: flex;
@@ -12,8 +12,8 @@ $gray: #8a8a8a;
   left: 0;
   height: 70vh;
   background-size: cover;
-  margin: 0;
-  padding: 10% 5%;
+  margin-top: 20%;
+  padding: 15% 10%;
   overflow: hidden;
 
   &__content {
@@ -23,18 +23,19 @@ $gray: #8a8a8a;
   }
 
   &__go-top {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    height: 11%;
-    @include customButton(0.5% 5%, 1px solid $blue, 0.3s, $blue, #000);
+    height: max-content;
+    margin-top: 15px;
+    @include customButton(2px 30px, 1px solid $blue, 0.3s, $blue, #000);
     color: $blue;
     font-family: "Galada";
     font-size: 1em;
+    position: relative;
 
     &--icon {
       width: 30px;
       transform: rotate(-90deg);
+      position: absolute;
+      left: 2px;
     }
 
     .arrowFill {
@@ -48,22 +49,16 @@ $gray: #8a8a8a;
     }
   }
 
-  &__links {
+  &__copy {
     display: flex;
     width: 100%;
     justify-content: center;
-    @include text($gray, "Roboto Slab", 0, 0.5em);
+    @include text($gray, "Quicksand", 0, 0.8em);
 
-    &--link,
-    &--copy {
-      @include formatLink($gray, "Roboto Slab", 0.5rem, normal, none);
+    span {
       letter-spacing: 0.5px;
       margin: 0 1%;
       text-transform: capitalize;
-    }
-
-    &--link:hover {
-      text-decoration: underline;
     }
   }
 }
@@ -74,20 +69,10 @@ $gray: #8a8a8a;
     margin-top: 10%;
 
     &__go-top {
+      margin-top: 0;
       height: 12%;
       font-size: 1em;
-      @include customButton(0.5% 2.5%, 1px solid $blue, 0.3s, $blue, #000);
-    }
-
-    &__links {
-      justify-content: flex-end;
-      @include text($gray, "Roboto Slab", 0, 0.8em);
-
-      &--link,
-      &--copy {
-        @include formatLink($gray, "Roboto Slab", 0.9em, normal, none);
-        letter-spacing: 0;
-      }
+      @include customButton(5px 40px, 1px solid $blue, 0.3s, $blue, #000);
     }
   }
 }

@@ -7,6 +7,7 @@ $yellow: #fff942;
 $darkgray: #242627;
 $darkblue: #263133;
 $red: #ff3939;
+$lightred: #ff6363;
 $gray: #c3c3c3;
 $orange: #ff864c;
 
@@ -105,6 +106,31 @@ $orange: #ff864c;
   }
 }
 
+.emphasis-color-blue {
+  color: $blue;
+  font-size: 1.2em;
+  font-family: "Quicksand";
+}
+
+.emphasis-color-pink {
+  color: $pink;
+  font-size: 2em;
+  font-family: "Quicksand";
+}
+
+.emphasis-color-yellow {
+  color: $yellow;
+  font-size: 1.2em;
+  font-family: "Galada";
+  text-transform: capitalize;
+}
+
+.emphasis-color-red {
+  color: $red;
+  font-size: 1.2em;
+  font-family: "Roboto Slab";
+}
+
 @import "./partials/crop";
 @import "./partials/search";
 @import "./partials/sort";
@@ -113,7 +139,9 @@ $orange: #ff864c;
 @import "./partials/more";
 @import "./partials/navbar";
 @import "./partials/sideTitle";
+@import "./partials/collab";
 @import "./partials/home";
+@import "./partials/about";
 @import "./partials/featureHeader";
 @import "./partials/featuredPosts";
 @import "./partials/authenticate";

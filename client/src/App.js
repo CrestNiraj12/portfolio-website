@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Home from "./containers/Home";
-import Contact from "./containers/Contact";
 import Posts from "./containers/Posts";
 import Post from "./containers/Post";
 import Flash from "./components/Flash";
@@ -17,7 +16,7 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Dashboard from "./containers/Dashboard";
 import Users from "./containers/Users";
-import { HOME, CONTACT, ALL_POSTS, POST } from "./constants";
+import { HOME, ALL_POSTS, POST, ABOUT } from "./constants";
 import { bindActionCreators } from "redux";
 import Dialog from "./components/Dialog";
 import AddPost from "./containers/AddPost";
@@ -25,6 +24,7 @@ import EditPost from "./containers/EditPost";
 import ConfirmMail from "./containers/ConfirmMail";
 import ConfirmRecoverPassword from "./containers/ConfirmRecoverPassword";
 import ResetPassword from "./containers/ResetPassword";
+import About from "./containers/About";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
@@ -50,7 +50,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
   }, [page, isLandscape, overflowHidden]);
 
   const routes = [
-    { path: "/contact", component: Contact, isExact: false },
+    { path: "/about", component: About, isExact: false },
     { path: "/posts/update/:postId", component: EditPost, isExact: false },
     { path: "/posts/:postPath", component: Post, isExact: false },
     { path: "/auth/login", component: Login, isExact: true },
@@ -79,7 +79,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
       {dialogShow && <Dialog />}
 
       <Router>
-        {[HOME, CONTACT, ALL_POSTS, POST].includes(page) && <Navbar />}
+        {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
         <Switch>
           {routes.map(({ path, component, isExact }) => (
             <Route

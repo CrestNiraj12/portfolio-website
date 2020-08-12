@@ -2,17 +2,23 @@ import React from "react";
 import { ReactComponent as Facebook } from "./svg/fb.svg";
 import { ReactComponent as Instagram } from "./svg/insta.svg";
 import { ReactComponent as Github } from "./svg/github.svg";
-import { ReactComponent as Mail } from "./svg/mail.svg";
-import { ReactComponent as Call } from "../../images/call.svg";
 
 const InfoCard = () => (
-  <div className="info__card">
+  <div className="info__card" id="contact">
+    <h1>
+      Let's <span>Collab!</span>
+    </h1>
+
+    <div className="info__card--desc">
+      <span>Niraj Shrestha</span>
+      <span>Buddhanagar 44600</span>
+      <span>New Baneshwor, Kathmandu</span>
+    </div>
     <div className="info__card--social">
       <a
         href="https://www.facebook.com/crestniraz"
         target="_blank"
         rel="noopener noreferrer"
-        style={{ marginRight: "15%" }}
       >
         <Facebook className="info__card--social-icon" />
       </a>
@@ -20,7 +26,6 @@ const InfoCard = () => (
         href="https://www.instagram.com/crestniraz"
         target="_blank"
         rel="noopener noreferrer"
-        style={{ marginRight: "15%" }}
       >
         <Instagram className="info__card--social-icon" />
       </a>
@@ -32,13 +37,9 @@ const InfoCard = () => (
         <Github className="info__card--social-icon" />
       </a>
     </div>
-    <div className="info__card--desc">
-      <span>Niraj Shrestha</span>
-      <span>Buddhanagar, Kathmandu</span>
-    </div>
     <div className="info__card--contact">
       <div className="info__card--contact-mail">
-        <Mail className="info__card--icon" />
+        <p>Email</p>
         <a
           href="mailto:crestniraj@gmail.com"
           target="_blank"
@@ -49,7 +50,7 @@ const InfoCard = () => (
         </a>
       </div>
       <div className="info__card--contact-call">
-        <Call className="info__card--icon" />
+        <p>Phone</p>
         <a
           href="tel:+9779821911389"
           target="_blank"

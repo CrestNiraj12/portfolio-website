@@ -39,7 +39,7 @@ export const PASSWORD_WARNING =
   "Your password must be atleast 8 characters long and must contain atleast 1 lowercase letter, 1 uppercase letter, and 1 digit";
 export const [
   HOME,
-  CONTACT,
+  ABOUT,
   ALL_POSTS,
   POST,
   LOGIN_PAGE,

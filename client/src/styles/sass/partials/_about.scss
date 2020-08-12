@@ -1,0 +1,91 @@
+.about {
+  margin: 7.5% 10%;
+
+  &__content {
+    width: 100%;
+
+    & > p {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.8em;
+      color: $gray;
+    }
+
+    & > h1 {
+      font-family: "Roboto Slab";
+      font-weight: normal;
+      letter-spacing: 1px;
+      font-size: 1.8em;
+
+      span[role="img"] {
+        font-size: 0.8em;
+      }
+    }
+
+    &-description {
+      width: 100%;
+      margin-top: 20%;
+
+      p {
+        font-size: 0.8em;
+        margin: 10% 0;
+        line-height: 1.8;
+        letter-spacing: 0.5px;
+      }
+
+      &__skills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 10%;
+
+        &-item {
+          &__logo {
+            width: 100px;
+            height: 100px;
+          }
+
+          p {
+            font-size: 0.75em;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .about {
+    &__content {
+      width: 60%;
+
+      & > h1 {
+        font-size: 3em;
+      }
+
+      &-description {
+        width: 70%;
+        margin-top: 10%;
+
+        p {
+          margin: 7.5% 0;
+          font-size: 1em;
+        }
+
+        &__skills {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 5%;
+
+          &-item {
+            &__logo {
+              width: 50px;
+              height: 50px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
