@@ -8,7 +8,7 @@
     "url": "https://github.com/CrestNiraj12/portfolio-website.git"
   },
   "scripts": {
-    "start": "cd client && npm install && npm run build && cd .. && node server",
+    "start": "concurrently \"nodemon server\" \"cd client && npm install\" \"npm run build\"",
     "serve": "serve -s client/build",
     "dev": "concurrently \"nodemon server\" \"cd client && npm start\" \"cd client && npm run watch-sass\"",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^5.3.0",
     "connect-mongo": "^3.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -36,7 +37,5 @@
     "passport-local": "^1.0.0",
     "serve": "^11.3.2"
   },
-  "devDependencies": {
-    "concurrently": "^5.2.0"
-  }
+  "devDependencies": {}
 }
