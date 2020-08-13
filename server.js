@@ -21,10 +21,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + "/client/public"));
 
-const url = process.env.ATLAS_URL;
+const url = process.env.COSMOS_URL;
 
 mongoose
   .connect(url, {
+    auth: {
+      user: process.env.COSMOS_USER,
+      password: process.env.COSMOS_PASS,
+    },
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
