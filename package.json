@@ -8,7 +8,7 @@
     "url": "https://github.com/CrestNiraj12/portfolio-website.git"
   },
   "scripts": {
-    "start": "concurrently \"node server\" \"cd client && npm install\" \"cd client && npm run build\"",
+    "start": "concurrently \"npm install\" \"node server\" \"cd client && npm install\" \"cd client && npm run build\"",
     "serve": "serve -s client/build",
     "dev": "concurrently \"nodemon server\" \"cd client && npm start\" \"cd client && npm run watch-sass\"",
     "test": "echo \"Error: no test specified\" && exit 1"
