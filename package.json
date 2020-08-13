@@ -8,13 +8,16 @@
     "url": "https://github.com/CrestNiraj12/portfolio-website.git"
   },
   "scripts": {
-    "start": "cd client && npm install && npm run build && cd .. && node server",
+    "start": "node server && cd client && npm install && npm run build",
     "serve": "serve -s client/build",
     "dev": "concurrently \"nodemon server\" \"cd client && npm start\" \"cd client && npm run watch-sass\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Niraj Shrestha",
   "license": "ISC",
+  "engines": {
+    "node": "10.15"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^3.2.0",
