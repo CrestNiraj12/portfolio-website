@@ -51,7 +51,7 @@ const sessionStore = {
   }),
 };
 
-if (app.get("env") === "production") {
+if (process.env.NODE_ENV === "production") {
   const hour = 24 * 60 * 60 * 1000;
   app.set("trust proxy", 1);
   sessionStore.cookie.secure = true;
