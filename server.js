@@ -1,3 +1,4 @@
+console.log(process.env);
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -8,7 +9,7 @@ const helmet = require("helmet");
 const path = require("path");
 
 require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV || "development"}`,
+  path: `.env.${process.env.NODE_ENV.trim() || "development"}`,
 });
 
 const app = express();
