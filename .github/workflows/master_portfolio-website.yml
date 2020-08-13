@@ -23,7 +23,7 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          cd client && npm install && npm run build
+          npm run azure
           npm run test --if-present
 
       - name: "Deploy to Azure Web App"
