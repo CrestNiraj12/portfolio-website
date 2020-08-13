@@ -15,7 +15,7 @@
     "react-input-checkbox": "^0.1.6",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
@@ -24,7 +24,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve": "serve -s build",
     "watch-sass": "node-sass --watch src/styles/sass/main.scss src/styles/css/style.comp.css",
     "compile-sass": "node-sass src/styles/sass/main.scss src/styles/css/style.comp.css",
     "concat-css": "concat -o src/styles/css/style.comp.css src/styles/css/additional.css src/styles/css/style.comp.css",
