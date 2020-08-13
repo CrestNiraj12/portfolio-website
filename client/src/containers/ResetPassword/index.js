@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { RESET_PASSWORD, RESET_PASSWORD_PAGE, FAILURE } from "../../constants";
 import { connect } from "react-redux";
-import { setPage } from "../../actions";
+import { setPage, setIsLoadingPage } from "../../actions";
 import AuthenticationForm from "../../components/AuthenticationForm";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 const mapDispatchToProps = (dispatch) => ({
   setPage: (page) => dispatch(setPage(page)),
+  setIsLoadingPage: (confirm) => dispatch(setIsLoadingPage(confirm)),
 });
 
 const ResetPassword = ({
@@ -19,6 +20,7 @@ const ResetPassword = ({
   var history = useHistory();
 
   useEffect(() => {
+    setIsLoadingPage(true);
     setPage(RESET_PASSWORD_PAGE);
     axios.get(`/user/checkToken/${token}`).catch((err) => {
       history.push({
@@ -26,6 +28,7 @@ const ResetPassword = ({
         state: { message: err.response.data, status: FAILURE },
       });
     });
+    setIsLoadingPage(false);
   }, [setPage, token, history]);
 
   return <AuthenticationForm pageTitle={RESET_PASSWORD} token={token} />;

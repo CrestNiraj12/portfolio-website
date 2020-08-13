@@ -25,12 +25,14 @@ import ConfirmMail from "./containers/ConfirmMail";
 import ConfirmRecoverPassword from "./containers/ConfirmRecoverPassword";
 import ResetPassword from "./containers/ResetPassword";
 import About from "./containers/About";
+import Preloader from "./components/Preloader";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
   page: state.page,
   dialogShow: state.dialog.show,
   overflowHidden: state.overflowHidden,
+  loading: state.loading,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -41,7 +43,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
+const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
   useEffect(() => {
     if (overflowHidden) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "visible";
@@ -50,27 +52,27 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
   }, [page, isLandscape, overflowHidden]);
 
   const routes = [
-    { path: "/about", component: About, isExact: false },
-    { path: "/posts/update/:postId", component: EditPost, isExact: false },
-    { path: "/posts/:postPath", component: Post, isExact: false },
-    { path: "/auth/login", component: Login, isExact: true },
-    { path: "/auth/register", component: Signup, isExact: true },
+    { path: "/about", Component: About, isExact: true },
+    { path: "/posts/update/:postId", Component: EditPost, isExact: false },
+    { path: "/posts/:postPath", Component: Post, isExact: true },
+    { path: "/auth/login", Component: Login, isExact: true },
+    { path: "/auth/register", Component: Signup, isExact: true },
     {
       path: "/auth/password/recover",
-      component: ConfirmRecoverPassword,
+      Component: ConfirmRecoverPassword,
       isExact: false,
     },
-    { path: "/user/dashboard", component: Dashboard, isExact: false },
-    { path: "/posts", component: Posts, isExact: false },
-    { path: "/users", component: Users, isExact: false },
-    { path: "/user/addpost", component: AddPost, isExact: false },
-    { path: "/user/confirm/:token", component: ConfirmMail, isExact: false },
+    { path: "/user/dashboard", Component: Dashboard, isExact: false },
+    { path: "/posts", Component: Posts, isExact: true },
+    { path: "/users", Component: Users, isExact: true },
+    { path: "/user/addpost", Component: AddPost, isExact: false },
+    { path: "/user/confirm/:token", Component: ConfirmMail, isExact: true },
     {
       path: "/password/recover/token/:token",
-      component: ResetPassword,
+      Component: ResetPassword,
       isExact: false,
     },
-    { path: "*", component: Home, isExact: false },
+    { path: "*", Component: Home, isExact: false },
   ];
 
   return (
@@ -78,15 +80,16 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow }) => {
       <Flash />
       {dialogShow && <Dialog />}
 
+      {loading && <Preloader />}
       <Router>
         {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
         <Switch>
-          {routes.map(({ path, component, isExact }) => (
+          {routes.map(({ path, Component, isExact }) => (
             <Route
               key={path}
               path={path}
               exact={isExact}
-              component={component}
+              component={Component}
             />
           ))}
         </Switch>

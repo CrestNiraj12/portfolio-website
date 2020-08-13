@@ -10,6 +10,7 @@ import {
   SET_ALL_USERS,
   USER_SCHEMA,
   POST_SCHEMA,
+  IS_LOADING_PAGE,
 } from "../constants";
 
 export const setPage = (page) => ({
@@ -50,6 +51,11 @@ export const setMessage = (message) => ({
 export const setAllUsers = (users) => ({
   type: SET_ALL_USERS,
   payload: users,
+});
+
+export const setIsLoadingPage = (confirm) => ({
+  type: IS_LOADING_PAGE,
+  payload: confirm,
 });
 
 export const thunkChangeRole = (userId, role) => (dispatch, getState, axios) =>

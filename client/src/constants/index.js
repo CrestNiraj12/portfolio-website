@@ -27,6 +27,7 @@ export const SET_USER_DETAILS = "SET_DETAILS";
 export const SET_ALL_POSTS = "SET_ALL_POSTS";
 export const SET_ALL_USERS = "SET_ALL_USERS";
 export const LOG_OUT = "LOG_OUT";
+export const IS_LOADING_PAGE = "IS_LOADING_PAGE";
 export const REMOVE_ACCOUNT = "REMOVE_ACCOUNT";
 export const REMOVE_OWN_ACCOUNT = "REMOVE_OWN_ACCOUNT";
 export const DELETE_POST = "DELETE_POST";

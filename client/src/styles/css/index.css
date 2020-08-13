@@ -26,13 +26,25 @@
 }
 
 body {
-  min-height: 100%;
+  min-height: 100vh;
   background-color: #141718;
   color: #fff;
   margin: 0;
   font-family: "Quicksand", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body .dribbble {
+  position: fixed;
+  display: block;
+  right: 20px;
+  bottom: 20px;
+}
+
+body .dribbble img {
+  display: block;
+  height: 28px;
 }
 
 code {

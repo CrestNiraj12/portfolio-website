@@ -44,7 +44,7 @@ const DeleteMultiple = ({
 
   return (
     <button
-      className="posts__features-select__multiple-delete__button"
+      className="control__features-select__multiple-delete__button"
       onClick={() => handleDeleteMultiple(schema)}
       disabled={isDisabled}
     >

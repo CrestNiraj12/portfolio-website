@@ -7,6 +7,7 @@ import dialog from "./showDialog";
 import userDetails from "./setUserDetails";
 import message from "./setMessage";
 import users from "./setAllUsers";
+import loading from "./isLoadingPage";
 
 export default combineReducers({
   page,
@@ -17,4 +18,5 @@ export default combineReducers({
   userDetails,
   message,
   users,
+  loading,
 });

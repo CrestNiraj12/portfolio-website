@@ -3,7 +3,12 @@ import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setMessage, thunkLogout, setPosts } from "../../actions";
+import {
+  setMessage,
+  thunkLogout,
+  setPosts,
+  setIsLoadingPage,
+} from "../../actions";
 import { FAILURE, SUCCESS, EDITPOST_PAGE } from "../../constants";
 import { useHistory } from "react-router-dom";
 import FeatureHeader from "../FeatureHeader";
@@ -18,6 +23,7 @@ const mapDispatchToProps = (dispatch) =>
       setPosts: (posts) => setPosts(posts),
       setMessage: (message) => setMessage(message),
       logOut: () => thunkLogout(true),
+      setIsLoadingPage: (confirm) => setIsLoadingPage(confirm),
     },
     dispatch
   );
@@ -29,6 +35,7 @@ const SubmitPost = ({
   setMessage,
   setPosts,
   logOut,
+  setIsLoadingPage,
 }) => {
   var history = useHistory();
   const [post, setPost] = useState({
@@ -39,11 +46,13 @@ const SubmitPost = ({
   const [thumbnailImage, setThumbnailImage] = useState(null);
 
   useEffect(() => {
+    setIsLoadingPage(true);
     if (pageTitle === EDITPOST_PAGE)
       axios
         .get(`/posts/${postId}`)
         .then((res) => {
           setPost(res.data);
+          setIsLoadingPage(false);
           const preview = document.querySelector("#preview");
           preview.src = `/images/posts/${res.data.thumbnail}`;
         })
@@ -51,7 +60,8 @@ const SubmitPost = ({
           console.log(err.response);
           setMessage({ message: err.response.data, type: FAILURE });
         });
-  }, [postId, pageTitle, setMessage]);
+    else setIsLoadingPage(false);
+  }, [postId, pageTitle, setMessage, setIsLoadingPage]);
 
   const handleSubmitPost = (e) => {
     e.preventDefault();
@@ -102,7 +112,7 @@ const SubmitPost = ({
   };
 
   return (
-    <main className="submitpost">
+    <main className="submitpost" onLoad={() => setIsLoadingPage(false)}>
       {isLandscape ? (
         <>
           <section className="submitpost__head">

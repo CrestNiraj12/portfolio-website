@@ -10,8 +10,10 @@ import {
   setUserDetails,
   thunkLogout,
   setMessage,
+  setIsLoadingPage,
 } from "../../actions";
 import { bindActionCreators } from "redux";
+import ImageOverlay from "../../components/ImageOverlay";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
@@ -26,6 +28,7 @@ const mapDispatchToProps = (dispatch) =>
       setUserDetails: (details) => setUserDetails(details),
       logOut: (skip) => thunkLogout(skip),
       setMessage: (message) => setMessage(message),
+      setIsLoadingPage: (confirm) => dispatch(setIsLoadingPage(confirm)),
     },
     dispatch
   );
@@ -37,12 +40,15 @@ const Content = ({
   setUserDetails,
   logOut,
   setMessage,
+  setIsLoadingPage,
 }) => {
   useEffect(() => {
+    setIsLoadingPage(true);
     const id = localStorage.getItem("id");
     axios
       .get(`/user/${id}`)
       .then((user) => {
+        setIsLoadingPage(false);
         setUserDetails({
           ...user.data,
           password: "",
@@ -56,7 +62,7 @@ const Content = ({
           logOut(true);
         }
       });
-  }, [setUserDetails, setMessage, logOut]);
+  }, [setUserDetails, setMessage, logOut, setIsLoadingPage]);
 
   const handleEditProfile = () => {
     document.querySelector(".dashboard__head-profile__view").style.display =
@@ -66,9 +72,7 @@ const Content = ({
   };
 
   const handleImageLoad = (e) => {
-    document.querySelector(
-      ".dashboard__head-profile__img-loader"
-    ).style.display = "none";
+    e.target.previousSibling.style.display = "none";
     e.target.style.position = "relative";
     e.target.style.visibility = "visible";
   };
@@ -90,7 +94,7 @@ const Content = ({
 
       <div className="dashboard__head-profile">
         <div className="dashboard__head-profile__img">
-          <div className="dashboard__head-profile__img-loader"></div>
+          <ImageOverlay cls="dashboard__head-profile__img-loader" />
           <img
             src={
               userDetails.image && userDetails.image.startsWith("http")
@@ -98,7 +102,7 @@ const Content = ({
                 : `/images/users/${userDetails.image}`
             }
             alt="Profile"
-            onLoad={(e) => handleImageLoad(e)}
+            onLoad={handleImageLoad}
           />
         </div>
 

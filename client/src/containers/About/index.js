@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { setPage } from "../../actions";
+import { setPage, setIsLoadingPage } from "../../actions";
 import { ABOUT } from "../../constants";
 import { connect } from "react-redux";
 import { ReactComponent as NodeJS } from "./svg/nodejs.svg";
@@ -13,12 +13,15 @@ import Collab from "../../components/Collab";
 
 const mapDispatchToProps = (dispatch) => ({
   setPage: (page) => dispatch(setPage(page)),
+  setIsLoadingPage: (confirm) => dispatch(setIsLoadingPage(confirm)),
 });
 
-const About = ({ setPage }) => {
+const About = ({ setPage, setIsLoadingPage }) => {
   useEffect(() => {
+    setIsLoadingPage(true);
     setPage(ABOUT);
-  });
+    setIsLoadingPage(false);
+  }, [setPage, setIsLoadingPage]);
 
   return (
     <>

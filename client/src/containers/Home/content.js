@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import SideTitle from "../../components/SideTitle";
 import Projects from "./projects";
 import { connect } from "react-redux";
-import { setPosts } from "../../actions";
+import { setPosts, setIsLoadingPage } from "../../actions";
 import axios from "axios";
 import Collab from "../../components/Collab";
+import ImageOverlay from "../../components/ImageOverlay";
 
 const mapStateToProps = (state) => ({
   posts: state.posts,
@@ -13,20 +14,28 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setPosts: (posts) => dispatch(setPosts(posts)),
+  setIsLoadingPage: (confirm) => dispatch(setIsLoadingPage(confirm)),
 });
 
 const Content = ({ posts, setPosts }) => {
   const [featuredPost, setFeaturedPost] = useState(null);
 
   useEffect(() => {
-    if (posts !== null)
+    setIsLoadingPage(true);
+    if (posts !== null) {
       if (posts.length < 1) setFeaturedPost(null);
       else setFeaturedPost(posts[0]);
-    else
+      setIsLoadingPage(false);
+    } else
       axios.get("/posts/").then((p) => {
         setPosts(p.data);
       });
   }, [posts, setPosts]);
+
+  const handleHideOverlay = (e) => {
+    e.target.previousSibling.style.display = "none";
+    e.target.style.visibility = "visible";
+  };
 
   return (
     <>
@@ -74,9 +83,11 @@ const Content = ({ posts, setPosts }) => {
               }`}
             >
               <div className="home__featured-post__thumbnail">
+                <ImageOverlay />
                 <img
                   src={`/images/posts/${featuredPost.thumbnail}`}
                   alt="Featured post"
+                  onLoad={handleHideOverlay}
                 />
               </div>
               <div className="home__featured-post__content">

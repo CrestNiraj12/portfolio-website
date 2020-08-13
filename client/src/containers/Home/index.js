@@ -3,16 +3,22 @@ import Header from "./header";
 import Content from "./content";
 import Footer from "../../components/Footer";
 import store from "../../store";
-import { setPage } from "../../actions";
+import { setPage, setIsLoadingPage } from "../../actions";
 import { HOME } from "../../constants";
+import { connect } from "react-redux";
 
-const Portfolio = () => {
+const mapDispatchToProps = (dispatch) => ({
+  setIsLoadingPage: (confirm) => dispatch(setIsLoadingPage(confirm)),
+});
+
+const Home = ({ setIsLoadingPage }) => {
   useEffect(() => {
+    setIsLoadingPage(true);
     store.dispatch(setPage(HOME));
-  }, []);
+  }, [setIsLoadingPage]);
 
   return (
-    <main className="home">
+    <main className="home" onLoad={() => setIsLoadingPage(false)}>
       <Header />
       <Content />
       <Footer />
@@ -20,4 +26,4 @@ const Portfolio = () => {
   );
 };
 
-export default Portfolio;
+export default connect(null, mapDispatchToProps)(Home);

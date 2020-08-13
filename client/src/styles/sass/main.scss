@@ -6,6 +6,7 @@ $lightpink: #ff80d8;
 $yellow: #fff942;
 $darkgray: #242627;
 $darkblue: #263133;
+$lessdarkblue: #303f8b;
 $red: #ff3939;
 $lightred: #ff6363;
 $gray: #c3c3c3;
@@ -131,6 +132,8 @@ $orange: #ff864c;
   font-family: "Roboto Slab";
 }
 
+@import "./partials/preloader";
+@import "./partials/imageOverlay";
 @import "./partials/crop";
 @import "./partials/search";
 @import "./partials/sort";
@@ -147,7 +150,6 @@ $orange: #ff864c;
 @import "./partials/authenticate";
 @import "./partials/dashboard";
 @import "./partials/footer";
-@import "./partials/posts";
-@import "./partials/users";
+@import "./partials/adminControl";
 @import "./partials/addpost";
 @import "./partials/attributions";

@@ -50,18 +50,19 @@
           object-fit: cover;
           border-radius: 50%;
           margin: 10% 0;
-          align-self: center;
-          position: absolute;
           visibility: hidden;
         }
 
         &-loader {
-          width: $size;
-          height: $size;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
           margin-top: 10%;
           align-self: center;
           background: $gray;
           border-radius: 50%;
+          z-index: 2;
         }
       }
 

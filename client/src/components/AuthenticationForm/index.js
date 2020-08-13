@@ -18,13 +18,19 @@ import {
   LOGIN,
 } from "../../constants";
 import { connect } from "react-redux";
-import { setMessage } from "../../actions";
+import { setMessage, setIsLoadingPage } from "../../actions";
 
 const mapDispatchToProps = (dispatch) => ({
   setMessage: (message) => dispatch(setMessage(message)),
+  setIsLoadingPage: (confirm) => dispatch(setIsLoadingPage(confirm)),
 });
 
-const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
+const AuthenticationForm = ({
+  token,
+  pageTitle,
+  setMessage,
+  setIsLoadingPage,
+}) => {
   var history = useHistory();
   const [details, setDetails] = useState({});
   const [redirect, setRedirect] = useState(null);
@@ -33,21 +39,23 @@ const AuthenticationForm = ({ token, pageTitle, setMessage }) => {
   const [userId, setUserId] = useState("");
 
   useEffect(() => {
+    setIsLoadingPage(true);
     if (pageTitle !== RESET_PASSWORD) {
       const isAuthenticated = localStorage.getItem("isAuthenticated");
       if (isAuthenticated === "true") setRedirect(`/user/dashboard`);
     }
-
     if (pageTitle === REGISTER)
       axios
         .get("/user/all")
         .then((users) => {
           setUsersCount(users.data.length);
+          setIsLoadingPage(false);
         })
         .catch((err) => {
           console.log(err.response.data);
         });
-  }, [pageTitle]);
+    else setIsLoadingPage(false);
+  }, [pageTitle, setIsLoadingPage]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
