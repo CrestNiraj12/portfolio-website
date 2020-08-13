@@ -51,6 +51,9 @@ const sessionStore = {
   store: new MongoStore({
     mongooseConnection: connection,
     secret: process.env.STORE_SECRET,
+    ttl: 24 * 60 * 60 * 1000,
+    autoRemove: "interval",
+    autoRemoveInterval: 10,
   }),
 };
 
