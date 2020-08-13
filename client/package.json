@@ -22,7 +22,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "watch-sass": "node-sass --watch src/styles/sass/main.scss src/styles/css/style.comp.css",
     "compile-sass": "node-sass src/styles/sass/main.scss src/styles/css/style.comp.css",
