@@ -74,6 +74,7 @@ connection
   })
   .catch((err) => console.log(err));
 
+console.log(process.env);
 if (process.env.NODE_ENV === "production") {
   const path = require("path");
   app.use(express.static(path.join(__dirname, "client/build")));
