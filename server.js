@@ -6,7 +6,9 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const helmet = require("helmet");
 
-require("dotenv").config();
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,13 +23,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + "/client/public"));
 
-const url = process.env.COSMOS_URL;
+const url = process.env.CONNECTION_URL;
 
 mongoose
   .connect(url, {
     auth: {
-      user: process.env.COSMOS_USER,
-      password: process.env.COSMOS_PASS,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
     },
     useNewUrlParser: true,
     useCreateIndex: true,
