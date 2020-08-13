@@ -25,12 +25,6 @@ jobs:
           npm install
           npm run azure
           npm run test --if-present
-        env:
-          CONNECTION_URL: mongodb://portfolio-website:w2HYeBImnpRcZqIe6jWa6IaJqY6MP3R8QLwPctZPhy6l9G6za0HF4LlUx9Bic5EiN9TI2FB49AsNBQIIQrL6mA==@portfolio-website.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@portfolio-website@
-          DB_USER: portfolio-website
-          DB_PASS: w2HYeBImnpRcZqIe6jWa6IaJqY6MP3R8QLwPctZPhy6l9G6za0HF4LlUx9Bic5EiN9TI2FB49AsNBQIIQrL6mA==
-          STORE_SECRET: MyVErYHarDToCraCkSTORESeCReT2332121
-          SESSION_SECRET: MyVErYHarDToCraCkSessIonSeCReT998867
 
       - name: "Deploy to Azure Web App"
         uses: azure/webapps-deploy@v1

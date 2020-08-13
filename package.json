@@ -8,8 +8,8 @@
     "url": "https://github.com/CrestNiraj12/portfolio-website.git"
   },
   "scripts": {
-    "start": "NODE_ENV=production node server",
-    "azure": "npm install --prefix client && npm run build --prefix client && npm run start",
+    "start": "node server",
+    "azure": "npm install --prefix client && npm run build --prefix client",
     "serve": "serve -s client/build",
     "dev": "concurrently \"nodemon server\" \"cd client && npm start\" \"cd client && npm run watch-sass\""
   },
