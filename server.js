@@ -5,6 +5,7 @@ const passport = require("./backend/config/passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const helmet = require("helmet");
+const path = require("path");
 
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV || "development"}`,
@@ -75,8 +76,7 @@ connection
   .catch((err) => console.log(err));
 
 if (process.env.NODE_ENV === "production") {
-  const path = require("path");
-  app.use(express.static(path.join(__dirname, "client/build")));
+  app.use(express.static("client/build"));
   app.get("*", (req, res) => {
     console.log("here");
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
