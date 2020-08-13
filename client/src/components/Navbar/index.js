@@ -2,23 +2,37 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.png";
-import { hideOverflow } from "../../actions";
+import { hideOverflow, setPosts } from "../../actions";
 import { ReactComponent as Home } from "./svg/home.svg";
 import { ReactComponent as About } from "./svg/candidate.svg";
+import { ReactComponent as Download } from "./svg/download.svg";
 import { ReactComponent as CloseIcon } from "../../images/close-icon.svg";
-import { HOME, ABOUT } from "../../constants";
+import { HOME, ABOUT, ALL_POSTS } from "../../constants";
+import axios from "axios";
+import { useCallback } from "react";
 
 const mapStateToProps = (state) => ({
   page: state.page,
   isLandscape: state.isLandscape,
+  posts: state.posts,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   hideOverflow: (confirm) => dispatch(hideOverflow(confirm)),
+  setPosts: (posts) => dispatch(setPosts(posts)),
 });
 
-const Navbar = ({ page, isLandscape, hideOverflow }) => {
+const Navbar = ({ page, posts, isLandscape, hideOverflow }) => {
   const [activeNav, setActiveNav] = useState(false);
+
+  const isActivePage = useCallback((p) => page === p, [page]);
+
+  const orientedNavClass = useCallback(() => {
+    if (isLandscape) return "navbar__items--landscape";
+    else return "navbar__items--portrait";
+  }, [isLandscape]);
+
+  const [navLinks, setNavLinks] = useState([]);
 
   useEffect(() => {
     const navStatus = document.getElementById("navStatus");
@@ -26,9 +40,40 @@ const Navbar = ({ page, isLandscape, hideOverflow }) => {
       navStatus.classList.remove("hide");
       navStatus.focus();
     } else navStatus.classList.add("hide");
-  }, [activeNav]);
 
-  const isActivePage = (p) => page === p;
+    const links = [
+      {
+        Icon: Home,
+        href: "/",
+        className: `${orientedNavClass()}__links-link`,
+        text: "Home",
+        isActive: isActivePage(HOME),
+      },
+      {
+        Icon: About,
+        href: "/about",
+        className: `${orientedNavClass()}__links-link`,
+        text: "About",
+        isActive: isActivePage(ABOUT),
+      },
+    ];
+
+    if (posts !== null) {
+      if (posts.length > 0)
+        links.push({
+          Icon: About,
+          href: "/all/posts",
+          className: `${orientedNavClass()}__links-link`,
+          text: "Posts",
+          isActive: isActivePage(ALL_POSTS),
+        });
+    } else
+      axios.get("/posts/").then((p) => {
+        setPosts(p.data);
+      });
+
+    setNavLinks(links);
+  }, [activeNav, posts, isActivePage, orientedNavClass]);
 
   const createLines = (n) => {
     let lines = [];
@@ -38,33 +83,24 @@ const Navbar = ({ page, isLandscape, hideOverflow }) => {
     return lines;
   };
 
-  const orientedNavClass = () => {
-    if (isLandscape) return "navbar__items--landscape";
-    else return "navbar__items--portrait";
-  };
-
-  const navLinks = [
-    {
-      Icon: Home,
-      href: "/",
-      className: `${orientedNavClass()}__links-link`,
-      text: "Home",
-      isActive: isActivePage(HOME),
-      button: false,
-    },
-    {
-      Icon: About,
-      href: "/about",
-      className: `${orientedNavClass()}__links-link`,
-      text: "About",
-      isActive: isActivePage(ABOUT),
-      button: false,
-    },
-  ];
-
   const handleNavShow = (confirm) => {
     setActiveNav(confirm);
     hideOverflow(confirm);
+  };
+
+  const handleDownloadCV = () => {
+    axios({
+      url: "/download/CV.pdf",
+      method: "GET",
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Niraj_Shrestha_CV_2020.pdf");
+      document.body.appendChild(link);
+      link.click();
+    });
   };
 
   return (
@@ -104,7 +140,7 @@ const Navbar = ({ page, isLandscape, hideOverflow }) => {
           </>
         )}
         <ul className={`${orientedNavClass()}__links`}>
-          {navLinks.map(({ Icon, href, className, text, isActive, button }) => (
+          {navLinks.map(({ Icon, href, className, text, isActive }) => (
             <li key={href}>
               <Link className={className} to={href}>
                 <Icon className={`${orientedNavClass()}__links--icon`} />
@@ -119,6 +155,16 @@ const Navbar = ({ page, isLandscape, hideOverflow }) => {
               </Link>
             </li>
           ))}
+          <li>
+            <button
+              className={`${orientedNavClass()}__links-link--button`}
+              onClick={handleDownloadCV}
+              title="Download CV"
+            >
+              <Download className="download__svg" title="Download CV" />{" "}
+              {!isLandscape ? "Download CV" : "Resumé"}
+            </button>
+          </li>
         </ul>
         {!isLandscape && (
           <div

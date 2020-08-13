@@ -5,6 +5,31 @@
   background-repeat: $repeat;
 }
 
+@mixin button_download($color) {
+  display: flex;
+  @include formatLink(#fff, "Baloo Paaji 2", 0.8rem, 700, uppercase);
+  @include customButton(5px 20px, 1px solid #fff, 0.3s, #fff, #000);
+  background-color: transparent;
+
+  &--active {
+    border-color: $color;
+    color: $color;
+
+    &:hover {
+      @include buttonHover($color, #000);
+    }
+  }
+}
+
+.download__svg {
+  width: 18px;
+  height: 18px;
+  align-self: center;
+  margin-right: 8px;
+  fill: #fff;
+  transition: fill 0.3s ease-in;
+}
+
 .navbar {
   position: relative;
   min-width: 100%;
@@ -72,6 +97,15 @@
           margin-right: 5%;
         }
 
+        &--button {
+          @include button_download($blue);
+          margin-top: 20%;
+
+          &:hover .download__svg {
+            fill: #000;
+          }
+        }
+
         &--active {
           border-bottom: 1.5px solid $blue;
         }
@@ -98,14 +132,15 @@
     &__items--landscape {
       outline: none;
       display: block;
-      width: 30%;
+      width: 25%;
 
       &__links {
         list-style: none;
         padding: 0;
         flex-shrink: 0;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
+        align-items: center;
 
         &--icon {
           display: none;
@@ -125,20 +160,10 @@
           }
 
           &--button {
-            @include formatLink(#fff, "Baloo Paaji 2", 0.8rem, 700, uppercase);
-            @include customButton(10% 30%, 1px solid #fff, 0.3s, #fff, #000);
+            @include button_download($blue);
 
-            span {
-              display: inline-block;
-            }
-
-            &--active {
-              border-color: $blue;
-              color: $blue;
-
-              &:hover {
-                @include buttonHover($blue, #000);
-              }
+            &:hover .download__svg {
+              fill: #000;
             }
           }
 

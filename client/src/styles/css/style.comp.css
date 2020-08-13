@@ -353,6 +353,14 @@
       .more ul li:nth-child(1), .more ul li:nth-child(2) {
         border-radius: 10px; } }
 
+.download__svg {
+  width: 18px;
+  height: 18px;
+  align-self: center;
+  margin-right: 8px;
+  fill: #fff;
+  transition: fill 0.3s ease-in; }
+
 .navbar {
   position: relative;
   min-width: 100%;
@@ -412,6 +420,32 @@
           width: 15px;
           height: auto;
           margin-right: 5%; }
+        .navbar__items--portrait__links-link--button {
+          display: flex;
+          color: #fff;
+          text-decoration: none;
+          font-family: "Baloo Paaji 2", cursive;
+          text-transform: uppercase;
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 1px;
+          padding: 5px 20px;
+          border: 1px solid #fff;
+          transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
+          cursor: pointer;
+          background-color: transparent;
+          margin-top: 20%; }
+          .navbar__items--portrait__links-link--button:hover {
+            background-color: #fff;
+            color: #000; }
+          .navbar__items--portrait__links-link--button--active {
+            border-color: #96cdef;
+            color: #96cdef; }
+            .navbar__items--portrait__links-link--button--active:hover {
+              background-color: #96cdef;
+              color: #000; }
+          .navbar__items--portrait__links-link--button:hover .download__svg {
+            fill: #000; }
         .navbar__items--portrait__links-link--active {
           border-bottom: 1.5px solid #96cdef; }
   .navbar__logo {
@@ -428,13 +462,14 @@
     .navbar__items--landscape {
       outline: none;
       display: block;
-      width: 30%; }
+      width: 25%; }
       .navbar__items--landscape__links {
         list-style: none;
         padding: 0;
         flex-shrink: 0;
         display: flex;
-        justify-content: space-evenly; }
+        justify-content: space-between;
+        align-items: center; }
         .navbar__items--landscape__links--icon {
           display: none; }
         .navbar__items--landscape__links-link {
@@ -451,6 +486,7 @@
             background-size: auto 4px;
             background-repeat: repeat-x; }
           .navbar__items--landscape__links-link--button {
+            display: flex;
             color: #fff;
             text-decoration: none;
             font-family: "Baloo Paaji 2", cursive;
@@ -458,21 +494,22 @@
             font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 1px;
-            padding: 10% 30%;
+            padding: 5px 20px;
             border: 1px solid #fff;
             transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
-            cursor: pointer; }
+            cursor: pointer;
+            background-color: transparent; }
             .navbar__items--landscape__links-link--button:hover {
               background-color: #fff;
               color: #000; }
-            .navbar__items--landscape__links-link--button span {
-              display: inline-block; }
             .navbar__items--landscape__links-link--button--active {
               border-color: #96cdef;
               color: #96cdef; }
               .navbar__items--landscape__links-link--button--active:hover {
                 background-color: #96cdef;
                 color: #000; }
+            .navbar__items--landscape__links-link--button:hover .download__svg {
+              fill: #000; }
           .navbar__items--landscape__links-link--active {
             border-bottom: 1.5px solid #96cdef; }
             .navbar__items--landscape__links-link--active:hover {
@@ -843,7 +880,7 @@ a {
       background-color: #242627; }
       .home__featured-post__thumbnail {
         width: 30vw;
-        height: 75vh; }
+        height: 80vh; }
       .home__featured-post__content-tag {
         width: max-content;
         font-size: 1em; }

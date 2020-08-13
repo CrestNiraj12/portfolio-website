@@ -107,6 +107,22 @@ const Content = ({ posts, setPosts }) => {
         </h2>
         <br />
         <a
+          href="https://iconscout.com/icons/download"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Download
+        </a>{" "}
+        by{" "}
+        <a
+          href="https://iconscout.com/contributors/unicons"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Unicons Font
+        </a>
+        <br />
+        <a
           href="https://iconscout.com/icons/arrow"
           rel="noopener noreferrer"
           target="_blank"
