@@ -9,9 +9,6 @@
 /coverage
 /public/images
 
-# production
-/build
-
 
 # misc
 .DS_Store
