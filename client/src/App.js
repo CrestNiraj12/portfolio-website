@@ -72,6 +72,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
       Component: ResetPassword,
       isExact: false,
     },
+    { path: "*", Component: Home, isExact: false },
   ];
 
   return (
@@ -80,7 +81,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
       {dialogShow && <Dialog />}
 
       {loading && <Preloader />}
-      <Router>
+      <Router basename="uwu">
         <Route path="/" exact component={Home} />
         {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
         <Switch>
