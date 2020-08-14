@@ -17,7 +17,7 @@ const config = {
 const transporter = nodemailer.createTransport(smtpTransport(config));
 
 const defaultMail = {
-  from: "No Reply <noreply@nirajshrestha.live>",
+  from: "No Reply <noreply@nirajshrestha.tech>",
 };
 
 module.exports = function (mail) {
