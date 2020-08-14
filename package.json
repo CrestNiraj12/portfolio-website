@@ -15,6 +15,10 @@
   },
   "author": "Niraj Shrestha",
   "license": "ISC",
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^3.2.0",

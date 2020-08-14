@@ -18,6 +18,8 @@
 /client/.DS_Store
 /client/.env.*
 
+.deployment
+/.vscode/
 npm-debug.log*
 /client/npm-debug.log*
 /client/yarn-debug.log*
