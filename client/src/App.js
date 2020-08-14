@@ -81,8 +81,8 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
       {dialogShow && <Dialog />}
 
       {loading && <Preloader />}
-      <Router basename="uwu">
-        <Route path="/" exact component={Home} />
+      <Router>
+        <Route path="/home" exact component={Home} />
         {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
         <Switch>
           {routes.map(({ path, Component, isExact }) => (
