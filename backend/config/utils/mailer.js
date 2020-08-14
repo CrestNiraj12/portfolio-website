@@ -17,7 +17,7 @@ const config = {
 const transporter = nodemailer.createTransport(smtpTransport(config));
 
 const defaultMail = {
-  from: `Niraj Shrestha <${process.env.MAIL}>`,
+  from: `Niraj Shrestha <${process.env.NOREPLY_USER}>`,
 };
 
 module.exports = function (mail) {
