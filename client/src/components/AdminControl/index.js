@@ -61,6 +61,7 @@ const AdminControl = ({
   setAllUsers,
   setPosts,
   hide,
+  setIsLoadingPage,
 }) => {
   const [list, setList] = useState([]);
   const [sort, setSort] = useState(page === USERS ? "name" : "title");
@@ -92,6 +93,7 @@ const AdminControl = ({
       } else {
         axios.get("/user/all/?exclude=true").then((u) => {
           setAllUsers(u.data);
+          setIsLoadingPage(false);
         });
       }
     else if (posts !== null) {
@@ -105,11 +107,11 @@ const AdminControl = ({
     } else
       axios.get("/posts/").then((p) => {
         setPosts(p.data);
+        setIsLoadingPage(false);
       });
-  }, [page, setAllUsers, users, posts, setPosts]);
+  }, [page, setIsLoadingPage, setAllUsers, users, posts, setPosts]);
 
   useEffect(() => {
-    setIsLoadingPage(true);
     const data_list =
       page === USERS
         ? sortBy(refList.current, (a) => {
@@ -143,8 +145,7 @@ const AdminControl = ({
     if (!ascendingOrder) data_list.reverse();
     setList(data_list);
     refList.current = data_list;
-    setIsLoadingPage(false);
-  }, [ascendingOrder, sort, page]);
+  }, [ascendingOrder, setIsLoadingPage, sort, page]);
 
   const checkSelected = (selections) => {
     if (Object.values(selections).some((elem) => elem)) setDisabled(false);
@@ -302,34 +303,29 @@ const AdminControl = ({
                     {isLandscape && (
                       <>
                         <td>{data._id}</td>
-                        <td>
-                          <select
-                            style={{
-                              background: "transparent",
-                              border: "none",
-                              outline: "none",
-                              cursor: "pointer",
-                            }}
-                            value={data.role}
-                            onChange={(e) =>
-                              showDialog(CHANGE_ROLE, {
-                                userId: data._id,
-                                role: e.target.value,
-                              })
-                            }
-                          >
-                            <option value={ADMIN}>Admin</option>
-                            <option value={EDITOR}>Editor</option>
-                            <option value={TESTER}>Tester</option>
-                          </select>
-                        </td>
                         <td>{data.posts.length}</td>
                       </>
                     )}
                     <td>
-                      <Link to="/">
-                        <Pencil width="15px" />
-                      </Link>
+                      <select
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          outline: "none",
+                          cursor: "pointer",
+                        }}
+                        value={data.role}
+                        onChange={(e) =>
+                          showDialog(CHANGE_ROLE, {
+                            userId: data._id,
+                            role: e.target.value,
+                          })
+                        }
+                      >
+                        <option value={ADMIN}>Admin</option>
+                        <option value={EDITOR}>Editor</option>
+                        <option value={TESTER}>Tester</option>
+                      </select>
                     </td>
                     <td>
                       {isLandscape && data.role !== ADMIN ? (
@@ -387,7 +383,7 @@ const AdminControl = ({
                     )}
 
                     <td>
-                      <Link to={`/posts/update/${data._id}`}>
+                      <Link to={`/update/posts/${data._id}`}>
                         <Pencil width="15px" />
                       </Link>
                     </td>

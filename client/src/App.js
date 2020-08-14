@@ -54,26 +54,26 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
   const routes = [
     { path: "/", Component: Home, isExact: true },
     { path: "/about", Component: About, isExact: false },
-    { path: "/posts/update/:postId", Component: EditPost, isExact: false },
-    { path: "/posts/:postPath", Component: Post, isExact: true },
-    { path: "/auth/login", Component: Login, isExact: true },
-    { path: "/auth/register", Component: Signup, isExact: true },
+    { path: "/update/posts/:postId", Component: EditPost, isExact: false },
+    { path: "/posts/:postPath", Component: Post, isExact: false },
+    { path: "/auth/login", Component: Login, isExact: false },
+    { path: "/auth/register", Component: Signup, isExact: false },
     {
       path: "/auth/password/recover",
       Component: ConfirmRecoverPassword,
       isExact: false,
     },
     { path: "/user/dashboard", Component: Dashboard, isExact: false },
-    { path: "/posts", Component: Posts, isExact: true },
-    { path: "/users", Component: Users, isExact: true },
+    { path: "/posts", Component: Posts, isExact: false },
+    { path: "/users", Component: Users, isExact: false },
     { path: "/user/addpost", Component: AddPost, isExact: false },
-    { path: "/user/confirm/:token", Component: ConfirmMail, isExact: true },
+    { path: "/user/confirm/:token", Component: ConfirmMail, isExact: false },
     {
       path: "/password/recover/token/:token",
       Component: ResetPassword,
       isExact: false,
     },
-    { path: "*", Component: Home, isExact: true },
+    { path: "*", Component: Home, isExact: false },
   ];
 
   return (
