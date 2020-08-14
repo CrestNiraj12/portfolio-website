@@ -52,6 +52,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
   }, [page, isLandscape, overflowHidden]);
 
   const routes = [
+    { path: "/", Component: Home, isExact: true },
     { path: "/about", Component: About, isExact: true },
     { path: "/posts/update/:postId", Component: EditPost, isExact: false },
     { path: "/posts/:postPath", Component: Post, isExact: true },
@@ -72,8 +73,6 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
       Component: ResetPassword,
       isExact: false,
     },
-    { path: "/", Component: Home, isExact: true },
-    { path: "*", Component: Home, isExact: false },
   ];
 
   return (
