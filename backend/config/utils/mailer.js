@@ -4,7 +4,7 @@ const _ = require("lodash");
 require("dotenv").config();
 
 const config = {
-  host: "smtp.nirajshrestha.tech",
+  host: process.env.SMTP_MAILER,
   port: 587,
   secure: false,
   auth: {
@@ -17,7 +17,7 @@ const config = {
 const transporter = nodemailer.createTransport(smtpTransport(config));
 
 const defaultMail = {
-  from: "No Reply <noreply@nirajshrestha.tech>",
+  from: `Niraj Shrestha <${process.env.NOREPLY_USER}>`,
 };
 
 module.exports = function (mail) {
