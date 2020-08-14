@@ -22,7 +22,7 @@ Sets NPM_CONFIG_PRODUCTION to false then,
 
 - #### `npm run imagemin`
 
-  Optimizes images with extension jpg, png, and gif in the client/src/images directory
+  Runs the imagemin script
 
 - #### `npm install --prefix client`
 
@@ -31,6 +31,10 @@ Sets NPM_CONFIG_PRODUCTION to false then,
 - #### `npm run build --prefix client`
 
   Runs the build script of client
+
+### `npm run imagemin`
+
+Optimizes images with extension jpg, png, and gif in the client/src/images directory
 
 ### `npm run dev`
 
