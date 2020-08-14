@@ -69,7 +69,7 @@ const Content = ({ posts, setPosts }) => {
           </a>
         </div>
       </section>
-      {featuredPost !== null && (
+      {featuredPost && (
         <section className="home__featured">
           <SideTitle text="Featured Post" color="white" />
 
@@ -77,9 +77,7 @@ const Content = ({ posts, setPosts }) => {
             <Link
               className="home__featured-post"
               to={`/posts/${
-                (featuredPost.title
-                  ? featuredPost.title.toLowerCase().split(" ").join("-")
-                  : "") +
+                featuredPost.title.toLowerCase().split(" ").join("-") +
                 "-" +
                 featuredPost._id
               }`}
@@ -99,10 +97,7 @@ const Content = ({ posts, setPosts }) => {
                   {featuredPost.description}
                 </p>
                 <p className="home__featured-post__content-published">
-                  Published{" "}
-                  {featuredPost.updatedAt
-                    ? featuredPost.updatedAt.substring(0, 10)
-                    : ""}
+                  Published {featuredPost.updatedAt.substring(0, 10)}
                 </p>
                 <span className="link-design-layered">Read More</span>
               </div>
