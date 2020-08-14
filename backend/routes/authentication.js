@@ -80,7 +80,9 @@ router.post("/recoverPassword", (req, res) => {
       user
         .save()
         .then(() =>
-          res.json("Link to reset password has been sent to your email!")
+          res.json(
+            "Link to reset password has been sent to your email! It can take upto 10 mins, please be patient."
+          )
         )
         .catch((e) => {
           console.log(e);
@@ -121,7 +123,7 @@ const authenticate = (auth, req, res, next) => {
       return res.json({
         message: `${
           auth === "register"
-            ? "Registration successful! Please confirm your email sent to your email address!"
+            ? "Registration successful! Please confirm your email sent to your email address! It can take upto 10 mins, please be patient."
             : "User logged in"
         }!`,
         user: {

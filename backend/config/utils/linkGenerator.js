@@ -5,7 +5,7 @@ module.exports = (req, path, token) => {
     req.protocol +
     "://" +
     (process.env.NODE_ENV === "production" ? req.get("host") : "localhost") +
-    (port === 80 || port === 443 ? "" : ":" + port) +
+    (port === 80 ? "" : `:${port}`) +
     path +
     token
   );
