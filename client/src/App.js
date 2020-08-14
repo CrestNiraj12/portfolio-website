@@ -73,7 +73,6 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
       Component: ResetPassword,
       isExact: false,
     },
-    { path: "*", Component: Home, isExact: false },
   ];
 
   return (
