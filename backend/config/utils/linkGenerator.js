@@ -1,7 +1,7 @@
 module.exports = (req, path, token) => {
   const port = process.env.PORT || 3000;
   console.log(typeof port);
-  console.log(port === 80);
+  console.log(port === "80", port === 80, typeof port);
   console.log(path);
   return (
     req.protocol +
