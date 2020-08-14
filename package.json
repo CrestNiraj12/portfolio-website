@@ -11,7 +11,8 @@
     "start": "NODE_ENV=production node server",
     "azure": "NPM_CONFIG_PRODUCTION=false npm run imagemin && npm install --prefix client && npm run build --prefix client",
     "imagemin": "imagemin client/src/images/*.{jpg,png,gif} --out-dir=client/src/images",
-    "dev": "concurrently \"nodemon server\" \"cd client && npm start\" \"cd client && npm run watch-sass\""
+    "dev": "concurrently \"nodemon server\" \"cd client && npm start\" \"cd client && npm run watch-sass\"",
+    "serve": "serve -s client/build"
   },
   "author": "Niraj Shrestha",
   "license": "ISC",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "serve": "^11.3.2"
   }
 }

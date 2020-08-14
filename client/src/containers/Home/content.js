@@ -23,13 +23,14 @@ const Content = ({ posts, setPosts }) => {
   useEffect(() => {
     setIsLoadingPage(true);
     if (posts !== null) {
+      console.log(posts);
       setFeaturedPost(posts.length < 1 ? null : posts[0]);
       setIsLoadingPage(false);
     } else
       axios.get("/posts/").then((p) => {
         setPosts(p.data);
       });
-  }, [posts, setPosts]);
+  }, [posts, setPosts, featuredPost]);
 
   const handleHideOverlay = (e) => {
     e.target.previousSibling.style.display = "none";
@@ -68,7 +69,7 @@ const Content = ({ posts, setPosts }) => {
           </a>
         </div>
       </section>
-      {featuredPost && (
+      {featuredPost !== null && (
         <section className="home__featured">
           <SideTitle text="Featured Post" color="white" />
 
@@ -76,7 +77,9 @@ const Content = ({ posts, setPosts }) => {
             <Link
               className="home__featured-post"
               to={`/posts/${
-                featuredPost.title.toLowerCase().split(" ").join("-") +
+                (featuredPost.title
+                  ? featuredPost.title.toLowerCase().split(" ").join("-")
+                  : "") +
                 "-" +
                 featuredPost._id
               }`}
@@ -96,7 +99,10 @@ const Content = ({ posts, setPosts }) => {
                   {featuredPost.description}
                 </p>
                 <p className="home__featured-post__content-published">
-                  Published {featuredPost.updatedAt.substring(0, 10)}
+                  Published{" "}
+                  {featuredPost.updatedAt
+                    ? featuredPost.updatedAt.substring(0, 10)
+                    : ""}
                 </p>
                 <span className="link-design-layered">Read More</span>
               </div>
