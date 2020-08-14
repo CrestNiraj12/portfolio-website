@@ -14,7 +14,23 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the server to start responding for requests.
+Sets NODE_ENV to production and runs the server to start responding for requests.
+
+### `npm azure`
+
+Sets NPM_CONFIG_PRODUCTION to false then,
+
+- #### `npm run imagemin`
+
+  Optimizes images with extension jpg, png, and gif in the client/src/images directory
+
+- #### `npm install --prefix client`
+
+  Installs client dependency packages
+
+- #### `npm run build --prefix client`
+
+  Runs the build script of client
 
 ### `npm run dev`
 
