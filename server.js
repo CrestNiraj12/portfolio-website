@@ -23,12 +23,12 @@ app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-if (process.env.NODE_ENV === "production")
-  app.get("/", (req, res) => {
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
-
-app.use(express.static(__dirname + "/client/public"));
+} else app.use(express.static(__dirname + "/client/public"));
 
 const url = process.env.CONNECTION_URL;
 
@@ -83,12 +83,5 @@ connection
     console.log("Established database connection!");
   })
   .catch((err) => console.log(err));
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  app.get("/*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
 
 app.listen(port, () => console.log("Server running on port: " + port));
