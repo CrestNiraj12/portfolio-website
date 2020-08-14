@@ -52,7 +52,6 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
   }, [page, isLandscape, overflowHidden]);
 
   const routes = [
-    { path: "/", Component: Home, isExact: true },
     { path: "/about", Component: About, isExact: false },
     { path: "/update/posts/:postId", Component: EditPost, isExact: false },
     { path: "/posts/:postPath", Component: Post, isExact: false },
@@ -82,6 +81,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
 
       {loading && <Preloader />}
       <Router>
+        <Route path="/" exact component={Home} />
         {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
         <Switch>
           {routes.map(({ path, Component, isExact }) => (
