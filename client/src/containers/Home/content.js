@@ -23,8 +23,7 @@ const Content = ({ posts, setPosts }) => {
   useEffect(() => {
     setIsLoadingPage(true);
     if (posts !== null) {
-      if (posts.length < 1) setFeaturedPost(null);
-      else setFeaturedPost(posts[0]);
+      setFeaturedPost(posts.length < 1 ? null : posts[0]);
       setIsLoadingPage(false);
     } else
       axios.get("/posts/").then((p) => {

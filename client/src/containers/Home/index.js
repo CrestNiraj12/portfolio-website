@@ -2,21 +2,23 @@ import React, { useEffect } from "react";
 import Header from "./header";
 import Content from "./content";
 import Footer from "../../components/Footer";
-import { setPage } from "../../actions";
+import { setPage, setIsLoadingPage } from "../../actions";
 import { HOME } from "../../constants";
 import { connect } from "react-redux";
 
 const mapDispatchToProps = (dispatch) => ({
+  setIsLoadingPage: (confirm) => dispatch(setIsLoadingPage(confirm)),
   setPage: (page) => dispatch(setPage(page)),
 });
 
-const Home = ({ setPage }) => {
+const Home = ({ setIsLoadingPage, setPage }) => {
   useEffect(() => {
+    setIsLoadingPage(true);
     setPage(HOME);
-  }, [setPage]);
+  }, [setIsLoadingPage, setPage]);
 
   return (
-    <main className="home">
+    <main className="home" onLoad={() => setIsLoadingPage(false)}>
       <Header />
       <Content />
       <Footer />
