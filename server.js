@@ -23,12 +23,14 @@ app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-} else app.use(express.static(__dirname + "/client/public"));
+app.use(
+  express.static(
+    path.join(
+      __dirname,
+      process.env.NODE_ENV === "production" ? "/client/build" : "/client/public"
+    )
+  )
+);
 
 const url = process.env.CONNECTION_URL;
 
@@ -77,6 +79,10 @@ app.use(passport.session());
 app.use("/posts", postsRouter);
 app.use("/user", usersRouter);
 app.use("/auth", authenticationRouter);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 
 connection
   .once("open", () => {
