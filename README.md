@@ -34,7 +34,7 @@ Sets NPM_CONFIG_PRODUCTION to false then,
 
 ### `npm run imagemin`
 
-Optimizes images with extension jpg, png, and gif in the client/src/images directory
+Uses [imagemin-cli](https://www.npmjs.com/package/imagemin-cli) package to optimize images with extension jpg, png, and gif in the client/src/images directory
 
 ### `npm run dev`
 
