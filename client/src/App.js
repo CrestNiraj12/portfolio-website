@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import { connect } from "react-redux";
 
 import Home from "./containers/Home";
@@ -52,6 +53,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
   }, [page, isLandscape, overflowHidden]);
 
   const routes = [
+    { path: "/", Component: Home, isExact: true },
     { path: "/about", Component: About, isExact: false },
     { path: "/update/posts/:postId", Component: EditPost, isExact: false },
     { path: "/posts/:postPath", Component: Post, isExact: false },
@@ -81,7 +83,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
       {dialogShow && <Dialog />}
 
       {loading && <Preloader />}
-      <Router>
+      <Router history={createBrowserHistory()}>
         {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
         <Switch>
           {routes.map(({ path, Component, isExact }) => (
