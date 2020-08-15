@@ -95,7 +95,6 @@ router.post("/recoverPassword", (req, res) => {
 router.get("/resendLink/activation/:userId", (req, res) => {
   User.findById(req.params.userId)
     .then((user) => {
-      console.log(user);
       const link = generateLink(req, "/user/confirm/", user.activeToken);
 
       sendActivationMail(user.email, user.fullname, user.role, link);

@@ -1,7 +1,9 @@
 const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 const _ = require("lodash");
-require("dotenv").config();
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV.trim() || "development"}`,
+});
 
 const config = {
   host: process.env.SMTP_MAILER,
