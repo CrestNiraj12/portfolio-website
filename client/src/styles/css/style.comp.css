@@ -549,7 +549,6 @@
           height: auto;
           margin-right: 5%; }
         .navbar__items--portrait__links-link--button {
-          display: flex;
           color: #fff;
           text-decoration: none;
           font-family: "Baloo Paaji 2", cursive;
@@ -562,6 +561,9 @@
           transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
           cursor: pointer;
           background-color: transparent;
+          height: 35px;
+          position: relative;
+          width: 100%;
           margin-top: 20%; }
           .navbar__items--portrait__links-link--button:hover {
             background-color: #fff;
@@ -614,7 +616,6 @@
             background-size: auto 4px;
             background-repeat: repeat-x; }
           .navbar__items--landscape__links-link--button {
-            display: flex;
             color: #fff;
             text-decoration: none;
             font-family: "Baloo Paaji 2", cursive;
@@ -626,7 +627,10 @@
             border: 1px solid #fff;
             transition: background-color 0.3s ease-in, color 0.3s ease-in, transform 0.3s ease-in;
             cursor: pointer;
-            background-color: transparent; }
+            background-color: transparent;
+            height: 35px;
+            position: relative;
+            width: 140px; }
             .navbar__items--landscape__links-link--button:hover {
               background-color: #fff;
               color: #000; }

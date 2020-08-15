@@ -6,10 +6,11 @@
 }
 
 @mixin button_download($color) {
-  display: flex;
   @include formatLink(#fff, "Baloo Paaji 2", 0.8rem, 700, uppercase);
   @include customButton(5px 20px, 1px solid #fff, 0.3s, #fff, #000);
   background-color: transparent;
+  height: 35px;
+  position: relative;
 
   &--active {
     border-color: $color;
@@ -99,6 +100,7 @@
 
         &--button {
           @include button_download($blue);
+          width: 100%;
           margin-top: 20%;
 
           &:hover .download__svg {
@@ -161,6 +163,7 @@
 
           &--button {
             @include button_download($blue);
+            width: 140px;
 
             &:hover .download__svg {
               fill: #000;
