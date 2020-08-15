@@ -65,11 +65,15 @@ router.post("/recoverPassword", (req, res) => {
   const email = req.body.email;
 
   User.findOne({ email }, (err, user) => {
-    if (err) return res.status(400).json("No user found!");
+    if (err) return res.status(400).json(err);
+    if (!user) return res.status(400).json("No user found!");
 
     crypto.randomBytes(20, (err, buf) => {
+      if (err) return res.status(400).json(err);
+
       user.passwordChangeToken = user._id + buf.toString("hex");
       user.passwordChangeTokenExpires = Date.now() + 3600 * 1000;
+
       const link = generateLink(
         req,
         "/password/recover/token/",

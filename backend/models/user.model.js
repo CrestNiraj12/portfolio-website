@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
   },
   activeToken: String,
   activeExpires: Date,
+  registrationExpired: { type: Boolean, default: true },
   passwordChangeToken: String,
   passwordChangeTokenExpires: Date,
 });

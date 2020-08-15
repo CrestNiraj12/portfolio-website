@@ -19,6 +19,7 @@ import {
 } from "../../constants";
 import { connect } from "react-redux";
 import { setMessage, setIsLoadingPage } from "../../actions";
+import CustomButton from "../CustomButton";
 
 const mapDispatchToProps = (dispatch) => ({
   setMessage: (message) => dispatch(setMessage(message)),
@@ -36,6 +37,8 @@ const AuthenticationForm = ({
   const [redirect, setRedirect] = useState(null);
   const [usersCount, setUsersCount] = useState(0);
   const [resendLink, setResendLink] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [resetButtonLoading, setResetButtonLoading] = useState(false);
   const [userId, setUserId] = useState("");
 
   useEffect(() => {
@@ -48,18 +51,21 @@ const AuthenticationForm = ({
       axios
         .get("/user/all")
         .then((users) => {
+          setButtonLoading(false);
           setUsersCount(users.data.length);
           setIsLoadingPage(false);
         })
         .catch((err) => {
-          console.log(err.response.data);
+          setButtonLoading(false);
+          setMessage({ data: err.response.data, type: FAILURE });
         });
     else setIsLoadingPage(false);
-  }, [pageTitle, setIsLoadingPage]);
+  }, [pageTitle, setIsLoadingPage, setMessage]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
+    setButtonLoading(true);
     axios
       .post(`/auth/${pageTitle}`, details)
       .then((res) => {
@@ -67,7 +73,7 @@ const AuthenticationForm = ({
           localStorage.setItem("isAuthenticated", true);
           localStorage.setItem("id", res.data.user.id);
         }
-
+        setButtonLoading(false);
         if (pageTitle === LOGIN) setRedirect("/user/dashboard");
 
         history.push({
@@ -76,6 +82,7 @@ const AuthenticationForm = ({
         });
       })
       .catch((err) => {
+        setButtonLoading(false);
         console.log(err.response);
         if (err.response.status === 403) {
           setUserId(err.response.data.id);
@@ -106,41 +113,45 @@ const AuthenticationForm = ({
 
   const handleRecoverPassword = (e) => {
     e.preventDefault();
+
+    setButtonLoading(true);
     const email = details.email;
     axios
       .post("/auth/recoverPassword", { email })
       .then((res) => {
+        setButtonLoading(false);
         history.push({
           pathname: "../login",
           state: { message: res.data, status: SUCCESS },
         });
       })
       .catch((err) => {
-        console.log(err);
-        history.push({
-          state: { message: err.response.data, status: FAILURE },
-        });
+        setButtonLoading(false);
+        console.log(err.response);
+        setMessage({ data: err.response.data, type: FAILURE });
       });
   };
 
   const handleResetPassword = (e) => {
     e.preventDefault();
 
+    setButtonLoading(true);
     const newPassword = details.newPassword;
     const confirmPassword = details.confirmPassword;
-    console.log(token);
     axios
       .put(`/user/changePassword/${token}`, {
         newPassword,
         confirmPassword,
       })
       .then((res) => {
+        setButtonLoading(false);
         history.push({
           pathname: "/auth/login",
           state: { message: res.data, status: SUCCESS },
         });
       })
       .catch((err) => {
+        setButtonLoading(false);
         console.log(err.response);
         setMessage({ data: err.response.data, type: FAILURE });
       });
@@ -149,13 +160,16 @@ const AuthenticationForm = ({
   const handleResendLink = (e) => {
     e.preventDefault();
 
+    setResetButtonLoading(true);
+
     axios
       .get(`/auth/resendLink/activation/${userId}`)
       .then((res) => {
-        console.log(res);
+        setResetButtonLoading(false);
         setMessage({ data: res.data, type: SUCCESS });
       })
       .catch((err) => {
+        setResetButtonLoading(false);
         console.log(err.response);
         setMessage({ data: err.response.data, type: FAILURE });
       });
@@ -281,19 +295,26 @@ const AuthenticationForm = ({
               <option value={TESTER}>Tester</option>
             </select>
           )}
-          <button>
-            {pageTitle === RECOVER_PASSWORD
-              ? "Recover Password"
-              : pageTitle === RESET_PASSWORD
-              ? "Reset Password"
-              : pageTitle === REGISTER
-              ? "Register"
-              : "Login"}
-          </button>
+          <CustomButton
+            loading={buttonLoading}
+            text={
+              pageTitle === RECOVER_PASSWORD
+                ? "Recover Password"
+                : pageTitle === RESET_PASSWORD
+                ? "Reset Password"
+                : pageTitle === REGISTER
+                ? "Register"
+                : "Login"
+            }
+          />
           {pageTitle === LOGIN && resendLink && (
             <p>
               Confirm your email address!{" "}
-              <button onClick={handleResendLink}>Resend link</button>
+              <CustomButton
+                loading={resetButtonLoading}
+                handleClick={handleResendLink}
+                text="Resend link"
+              ></CustomButton>
             </p>
           )}
           {pageTitle === REGISTER ? (
@@ -333,6 +354,14 @@ const AuthenticationForm = ({
                   rel="noopener noreferrer"
                 >
                   Dario Ferrando
+                </a>
+                <br />
+                <a
+                  href="https://loading.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  "Button loading" is provided by loading.io
                 </a>
               </p>
             </>
