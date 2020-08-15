@@ -98,7 +98,7 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
   const handleDownloadCV = () => {
     setButtonLoading(true);
     axios({
-      url: "/download/CV.pdf",
+      url: "/download/Resume.pdf",
       method: "GET",
       responseType: "blob",
     })
@@ -106,7 +106,7 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", "Niraj_Shrestha_CV_2020.pdf");
+        link.setAttribute("download", "Niraj_Shrestha_Resume_2020.pdf");
         document.body.appendChild(link);
         link.click();
         setButtonLoading(false);
