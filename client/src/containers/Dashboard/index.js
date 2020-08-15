@@ -39,6 +39,10 @@ const Dashboard = ({
 
       <Features />
       <div className="attributions">
+        <a href="https://loading.io/" target="_blank" rel="noopener noreferrer">
+          "Button loading" is provided by loading.io
+        </a>
+        <br />
         <a
           href="https://iconscout.com/icons/denied-icon"
           target="_blank"

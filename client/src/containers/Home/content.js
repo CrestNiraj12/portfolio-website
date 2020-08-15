@@ -23,7 +23,6 @@ const Content = ({ posts, setPosts }) => {
   useEffect(() => {
     setIsLoadingPage(true);
     if (posts !== null) {
-      console.log(posts);
       setFeaturedPost(posts.length < 1 ? null : posts[0]);
       setIsLoadingPage(false);
     } else
@@ -116,6 +115,10 @@ const Content = ({ posts, setPosts }) => {
         >
           Attributions
         </h2>
+        <br />
+        <a href="https://loading.io/" target="_blank" rel="noopener noreferrer">
+          "Button loading" is provided by loading.io
+        </a>
         <br />
         <a
           href="https://iconscout.com/icons/download"

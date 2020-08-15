@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.png";
-import { hideOverflow, setPosts } from "../../actions";
+import { hideOverflow, setPosts, setMessage } from "../../actions";
 import { ReactComponent as Home } from "./svg/home.svg";
 import { ReactComponent as About } from "./svg/candidate.svg";
-import { ReactComponent as Download } from "./svg/download.svg";
 import { ReactComponent as CloseIcon } from "../../images/close-icon.svg";
-import { HOME, ABOUT, ALL_POSTS } from "../../constants";
+import { HOME, ABOUT, ALL_POSTS, FAILURE } from "../../constants";
 import axios from "axios";
 import { useCallback } from "react";
+import CustomButton from "../CustomButton";
+import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => ({
   page: state.page,
@@ -17,12 +18,17 @@ const mapStateToProps = (state) => ({
   posts: state.posts,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  hideOverflow: (confirm) => dispatch(hideOverflow(confirm)),
-  setPosts: (posts) => dispatch(setPosts(posts)),
-});
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      hideOverflow: (confirm) => hideOverflow(confirm),
+      setPosts: (posts) => setPosts(posts),
+      setMessage: (message) => setMessage(message),
+    },
+    dispatch
+  );
 
-const Navbar = ({ page, posts, isLandscape, hideOverflow }) => {
+const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
   const [activeNav, setActiveNav] = useState(false);
 
   const isActivePage = useCallback((p) => page === p, [page]);
@@ -33,6 +39,7 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow }) => {
   }, [isLandscape]);
 
   const [navLinks, setNavLinks] = useState([]);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     const navStatus = document.getElementById("navStatus");
@@ -89,18 +96,25 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow }) => {
   };
 
   const handleDownloadCV = () => {
+    setButtonLoading(true);
     axios({
       url: "/download/CV.pdf",
       method: "GET",
       responseType: "blob",
-    }).then((res) => {
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "Niraj_Shrestha_CV_2020.pdf");
-      document.body.appendChild(link);
-      link.click();
-    });
+    })
+      .then((res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Niraj_Shrestha_CV_2020.pdf");
+        document.body.appendChild(link);
+        link.click();
+        setButtonLoading(false);
+      })
+      .catch((err) => {
+        setButtonLoading(false);
+        setMessage({ data: err.response.data, type: FAILURE });
+      });
   };
 
   return (
@@ -156,14 +170,13 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow }) => {
             </li>
           ))}
           <li>
-            <button
-              className={`${orientedNavClass()}__links-link--button`}
-              onClick={handleDownloadCV}
-              title="Download CV"
-            >
-              <Download className="download__svg" title="Download CV" />{" "}
-              {!isLandscape ? "Download CV" : "Resumé"}
-            </button>
+            <CustomButton
+              loading={buttonLoading}
+              handleClick={handleDownloadCV}
+              clsName={`${orientedNavClass()}__links-link--button`}
+              text="Download CV"
+              style={{ marginTop: "-5px" }}
+            />
           </li>
         </ul>
         {!isLandscape && (

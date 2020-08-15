@@ -6,13 +6,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import store from "./store";
 
-const fancyLog = () => {
-  console.log("%c Rendered with 👉 👉 👇", "background: purple; color: #FFF");
-  console.log(store.getState());
-};
-
 const render = () => {
-  fancyLog();
   return ReactDOM.render(
     <Provider store={store}>
       <React.StrictMode>
