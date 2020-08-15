@@ -73,18 +73,23 @@
       margin: 10% 0;
       background: $darkblue;
       color: #fff;
-      padding: 3%;
       border-radius: 10px;
       border: none;
       outline: none;
       cursor: pointer;
+      height: 25px;
+
+      &:hover {
+        background: #90b0b5;
+      }
     }
 
-    button:hover {
-      background: #90b0b5;
+    button:disabled {
+      background: $blue;
+      cursor: wait;
     }
 
-    p {
+    & > p {
       font-size: 0.6em;
       text-align: center;
 
@@ -116,7 +121,7 @@
         margin: 5% 0;
       }
 
-      p {
+      & > p {
         font-size: 0.7em;
       }
     }

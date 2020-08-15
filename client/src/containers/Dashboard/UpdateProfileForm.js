@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "./cropImage";
 import { bindActionCreators } from "redux";
+import CustomButton from "../../components/CustomButton";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
@@ -27,6 +28,7 @@ const UpdateProfileForm = ({
   setMessage,
   logOut,
 }) => {
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [disable, setDisable] = useState(true);
   const [imageData, setImageData] = useState({
     src: null,
@@ -49,7 +51,7 @@ const UpdateProfileForm = ({
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
+    setButtonLoading(true);
     if (!disable) {
       if (userDetails.newPassword !== userDetails.confirmPassword) {
         setMessage({ data: "New passwords do not match!", type: FAILURE });
@@ -82,7 +84,6 @@ const UpdateProfileForm = ({
     })
       .then((res) => {
         if (imageUpload) setUserDetails({ image: res.data.filename });
-        console.log(disable);
         if (!disable) {
           setMessage({ data: res.data.message, type: SUCCESS });
           logOut();
@@ -94,10 +95,12 @@ const UpdateProfileForm = ({
           document.querySelector(
             ".dashboard__head-profile > form"
           ).style.display = "none";
+          setButtonLoading(false);
           setMessage({ data: res.data.message, type: SUCCESS });
         }
       })
       .catch((err) => {
+        setButtonLoading(false);
         if (err.response.status === 401) {
           setMessage({ data: err.response.data, type: FAILURE });
           logOut(true);
@@ -231,7 +234,7 @@ const UpdateProfileForm = ({
           type="email"
           name="email"
           placeholder="Email"
-          value={userDetails.email}
+          value={userDetails.email + " (Permanent)"}
           disabled
         />
         <input
@@ -277,9 +280,11 @@ const UpdateProfileForm = ({
         </div>
 
         <div className="dashboard__head-profile-button">
-          <button className="dashboard__head-profile-button__update">
-            Update Profile
-          </button>
+          <CustomButton
+            loading={buttonLoading}
+            clsName="dashboard__head-profile-button__update"
+            text="Update Profile"
+          />
           <button
             className="dashboard__head-profile-button__cancel"
             onClick={handleCancel}

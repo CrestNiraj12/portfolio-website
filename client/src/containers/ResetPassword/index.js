@@ -16,20 +16,26 @@ const ResetPassword = ({
     params: { token },
   },
   setPage,
+  setIsLoadingPage,
 }) => {
   var history = useHistory();
 
   useEffect(() => {
     setIsLoadingPage(true);
     setPage(RESET_PASSWORD_PAGE);
-    axios.get(`/user/checkToken/${token}`).catch((err) => {
-      history.push({
-        pathname: "/auth/login",
-        state: { message: err.response.data, status: FAILURE },
+    axios
+      .get(`/user/checkToken/${token}`)
+      .then(() => {
+        setIsLoadingPage(false);
+      })
+      .catch((err) => {
+        setIsLoadingPage(false);
+        history.push({
+          pathname: "/auth/login",
+          state: { message: err.response.data, status: FAILURE },
+        });
       });
-    });
-    setIsLoadingPage(false);
-  }, [setPage, token, history]);
+  }, [setPage, token, setIsLoadingPage, history]);
 
   return <AuthenticationForm pageTitle={RESET_PASSWORD} token={token} />;
 };

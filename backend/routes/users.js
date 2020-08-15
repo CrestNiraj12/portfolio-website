@@ -146,7 +146,8 @@ router.put(
             .status(400)
             .json("Your password reset link has expired! Please try again!");
         user.password = req.body.newPassword;
-
+        user.passwordChangeToken = "";
+        user.passwordChangeTokenExpires = new Date(0);
         user
           .save()
           .then(() => res.json("Password changed successfully"))
@@ -168,7 +169,7 @@ router.get("/:id", validAuth, (req, res) => {
 router.delete("/:id", validAuth, (req, res) => {
   User.findById(req.params.id).then((user) => {
     if (user.role === "admin")
-      return res.status(400).json("Error: Cant remove admin!");
+      return res.status(400).json("Cant remove admin!");
     else {
       User.findByIdAndDelete(req.params.id)
         .then(() => res.json("Account deleted!"))
@@ -243,7 +244,7 @@ router.put("/selected", validAuth, (req, res) => {
     });
 
     if (triedDeletingAdmin)
-      return res.status(400).json("Error: Admin accounts cant be deleted!");
+      return res.status(400).json("Admin accounts cant be deleted!");
 
     User.deleteMany({ _id: { $in: usersId } }, (err, result) => {
       if (err) {
@@ -256,24 +257,28 @@ router.put("/selected", validAuth, (req, res) => {
 });
 
 router.get("/confirm/:activeToken", (req, res) => {
-  User.findOne(
-    { activeToken: req.params.activeToken, activeExpires: { $gt: Date.now() } },
-    (err, user) => {
-      if (err) {
-        console.log(err);
-        return res.status(400).json("Unexpected error occured!");
-      }
-      if (!user)
-        return res
-          .status(400)
-          .json("Your activation link has expired! Please register again!");
-      user.active = true;
-      user
-        .save()
-        .then(() => res.json("Email confirmation sucess!"))
-        .catch((e) => res.status(400).json("Error confirming email!"));
+  User.findOne({ activeToken: req.params.activeToken }, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json("Unexpected error occured!");
     }
-  );
+    if (!user) return res.status(400).json("No user found! Please register!");
+
+    if (user.activeExpires > Date.now() || user.registrationExpired) {
+      if (user.activeExpires > Date.now()) user.registrationExpired = true;
+      return res
+        .status(400)
+        .json("Your activation link has expired! Please register again!");
+    }
+    user.active = true;
+    user.activeToken = "";
+    user.activeExpires = new Date(0);
+    user.registrationExpired = true;
+    user
+      .save()
+      .then(() => res.json("Email confirmation sucess!"))
+      .catch((e) => res.status(400).json("Error confirming email!"));
+  });
 });
 
 module.exports = router;

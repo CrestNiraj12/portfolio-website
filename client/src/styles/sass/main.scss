@@ -5,11 +5,12 @@ $pink: #ff1380;
 $lightpink: #ff80d8;
 $yellow: #fff942;
 $darkgray: #242627;
+$lessdarkgray: #545660;
+$gray: #c3c3c3;
 $darkblue: #263133;
 $lessdarkblue: #303f8b;
 $red: #ff3939;
 $lightred: #ff6363;
-$gray: #c3c3c3;
 $orange: #ff864c;
 
 @mixin buttonHover($bg, $color) {
@@ -143,6 +144,7 @@ $orange: #ff864c;
 @import "./partials/navbar";
 @import "./partials/sideTitle";
 @import "./partials/collab";
+@import "./partials/buttonLoading";
 @import "./partials/home";
 @import "./partials/about";
 @import "./partials/featureHeader";

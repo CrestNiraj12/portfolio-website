@@ -51,6 +51,7 @@
           border-radius: 50%;
           margin: 10% 0;
           visibility: hidden;
+          align-self: center;
         }
 
         &-loader {
@@ -62,6 +63,8 @@
           align-self: center;
           background: $gray;
           border-radius: 50%;
+          width: 200px;
+          height: 200px;
           z-index: 2;
         }
       }
@@ -131,15 +134,23 @@
       }
 
       &-button {
+        display: flex;
+        flex-direction: column;
+
         &__update {
+          position: relative;
+          text-align: center;
           @include button($padding, 0, #fff, #000);
           margin-right: 1em;
-          width: 120px;
+          height: 28px;
+          width: 100%;
         }
 
         &__cancel {
+          width: 100%;
           @include button($padding, 0, #fff, #000);
-          width: 120px;
+          margin-top: 5px;
+          height: 28px;
         }
       }
     }
@@ -152,10 +163,18 @@
       input {
         margin: 5% 0;
         border: none;
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid $lessdarkgray;
         background-color: $darkblue;
         color: #fff;
         outline: none;
+      }
+
+      input:nth-of-type(2) {
+        color: $gray;
+      }
+
+      input[disabled] {
+        border: none;
       }
     }
   }
@@ -306,6 +325,7 @@
 
         &-button {
           display: flex;
+          flex-direction: row;
           margin-top: 5%;
 
           &__update {
@@ -330,13 +350,6 @@
         input {
           width: 45%;
           font-size: 1.2em;
-        }
-
-        input[disabled] {
-          border: none;
-        }
-
-        input {
           margin: 5% 0;
         }
       }
