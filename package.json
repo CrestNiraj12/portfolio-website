@@ -8,9 +8,8 @@
     "url": "https://github.com/CrestNiraj12/portfolio-website.git"
   },
   "scripts": {
-    "start": "npm run sharp && node server",
+    "start": "node server",
     "azure": "npm install --prefix client && npm run build --prefix client && node backend/config/utils/optimizeImages.js",
-    "sharp": "rm -rf node_modules/sharp && npm install --arch=x64 --platform=linux sharp",
     "dev": "concurrently \"nodemon server\" \"cd client && npm start\" \"cd client && npm run watch-sass\"",
     "serve": "serve -s client/build"
   },
@@ -30,17 +29,16 @@
     "express-validator": "^6.6.0",
     "helmet": "^3.23.3",
     "imagemin": "^7.0.1",
-    "imagemin-cli": "^6.0.0",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-pngquant": "^9.0.0",
+    "jimp": "^0.16.0",
     "lodash": "^4.17.19",
     "mongoose": "^5.9.22",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.11",
     "nodemailer-smtp-transport": "^2.7.4",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "sharp": "^0.25.4"
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",

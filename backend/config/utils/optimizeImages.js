@@ -1,4 +1,4 @@
-const sharp = require("sharp");
+const Jimp = require("jimp");
 const fs = require("fs");
 const path = require("path");
 const imagemin = require("imagemin");
@@ -18,7 +18,7 @@ exports.optimizeImage = (filePath, dest, build = false, maxWidth = null) => {
       }),
     ],
   })
-    .then((files) => {
+    .then(() => {
       if (build) filterFilesAndResize(dest);
       else resizeFile(filePath, maxWidth ? maxWidth : null);
     })
@@ -38,15 +38,11 @@ const filterFilesAndResize = (dirPath) => {
 const resizeFile = (fullPath, maxWidth) => {
   defaultWidth = maxWidth ? maxWidth : 800;
 
-  sharp(fullPath)
-    .resize({ width: defaultWidth, fit: "contain" })
-    .toBuffer()
-    .then((buf) => {
-      fs.writeFile(fullPath, buf, (e) => {
-        if (e) console.log(e);
-      });
+  Jimp.read(fullPath)
+    .then((image) => {
+      return image.contain(defaultWidth, Jimp.AUTO).write(fullPath);
     })
-    .catch((err) => console.log(err));
+    .then((err) => console.log(err));
 };
 
 this.optimizeImage(`${defaultPath}/*.{jpg,png,jpeg}`, defaultPath, true);
