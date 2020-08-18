@@ -11,6 +11,7 @@ import axios from "axios";
 import { useCallback } from "react";
 import CustomButton from "../CustomButton";
 import { bindActionCreators } from "redux";
+import Attributions from "./attributions";
 
 const mapStateToProps = (state) => ({
   page: state.page,
@@ -179,34 +180,7 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
             />
           </li>
         </ul>
-        {!isLandscape && (
-          <div
-            className="attributions"
-            style={{
-              position: "absolute",
-              bottom: "5%",
-              textAlign: "left",
-              fontSize: "0.5em",
-            }}
-          >
-            <a
-              href="https://iconscout.com/icons/home"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              home
-            </a>{" "}
-            by{" "}
-            <a
-              href="https://iconscout.com/contributors/oviyan"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Vignesh Oviyan
-            </a>
-            <br />
-          </div>
-        )}
+        {!isLandscape && <Attributions />}
       </div>
     </nav>
   );
