@@ -1,6 +1,6 @@
 import React from "react";
 import CollegeProject from "../../images/project.jpg";
-import AT from "../../images/at.gif";
+import AT from "../../images/at.png";
 import Card from "../../components/Card";
 
 const Projects = () => (

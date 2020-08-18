@@ -8,6 +8,8 @@ const {
   check,
   validationResult,
 } = require("express-validator");
+const { optimizeImage } = require("../config/utils/optimizeImages");
+const path = require("path");
 
 router.get("/all", (req, res) => {
   User.find()
@@ -66,6 +68,12 @@ router.put(
         if (req.query.imageUpload === "true") {
           if (req.file) {
             filename = req.file.filename;
+            optimizeImage(
+              req.file.path,
+              path.resolve(req.file.path, ".."),
+              false,
+              350
+            );
             user.image = filename;
           } else {
             return res.status(400).json("Image upload failed!");
@@ -181,6 +189,7 @@ router.delete("/:id", validAuth, (req, res) => {
 router.post("/addpost", validAuth, postUpload, (req, res) => {
   const authorId = req.session.userId;
   const thumbnail = req.file.filename;
+  optimizeImage(req.file.path, path.resolve(req.file.path, ".."), false);
   const newPost = new Post({ ...req.body, thumbnail, authorId });
 
   newPost
