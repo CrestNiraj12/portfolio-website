@@ -39,6 +39,41 @@ const Dashboard = ({
 
       <Features />
       <div className="attributions">
+        <a
+          href="https://iconscout.com/icons/avatar"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Avatar
+        </a>{" "}
+        by{" "}
+        <a href="https://iconscout.com/contributors/google-inc">Google Inc.</a>{" "}
+        on <a href="https://iconscout.com">Iconscout</a>
+        <br />
+        <a
+          href="https://iconscout.com/icons/candidate"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Candidate
+        </a>{" "}
+        by{" "}
+        <a
+          href="https://iconscout.com/contributors/jemismali"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Jemis Mali
+        </a>{" "}
+        on{" "}
+        <a
+          href="https://iconscout.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Iconscout
+        </a>
+        <br />
         <a href="https://loading.io/" target="_blank" rel="noopener noreferrer">
           "Button loading" is provided by loading.io
         </a>

@@ -7,6 +7,7 @@ import {
   DELETE_POST,
   DELETE_MULTIPLE_POSTS,
   DELETE_MULTIPLE_USERS,
+  NONE,
 } from "../constants";
 
 const initialState = {
@@ -17,7 +18,7 @@ const initialState = {
     denyText: "Cancel",
   },
   show: false,
-  action: "NONE",
+  action: NONE,
   payload: "",
 };
 

@@ -93,7 +93,6 @@ const AdminControl = ({
       } else {
         axios.get("/user/all/?exclude=true").then((u) => {
           setAllUsers(u.data);
-          setIsLoadingPage(false);
         });
       }
     else if (posts !== null) {
@@ -107,7 +106,6 @@ const AdminControl = ({
     } else
       axios.get("/posts/").then((p) => {
         setPosts(p.data);
-        setIsLoadingPage(false);
       });
   }, [page, setIsLoadingPage, setAllUsers, users, posts, setPosts]);
 

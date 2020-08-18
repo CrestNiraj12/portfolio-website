@@ -70,15 +70,9 @@ export const thunkChangeRole = (userId, role) => (dispatch, getState, axios) =>
           res.data.user,
         ])
       );
+      dispatch(setIsLoadingPage(false));
     })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-        thunkLogout(true);
-      } else {
-        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-      }
-    });
+    .catch((err) => provideErrorResponse(err, dispatch));
 
 export const thunkLogout = (skipMessage = false) => (
   dispatch,
@@ -94,9 +88,7 @@ export const thunkLogout = (skipMessage = false) => (
       localStorage.setItem("id", "");
       window.location = "/auth/login";
     })
-    .catch((err) => {
-      dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-    });
+    .catch((err) => provideErrorResponse(err, dispatch, false));
 
 export const thunkRemoveAccount = (id) => (dispatch, getState, axios) => {
   axios
@@ -106,16 +98,10 @@ export const thunkRemoveAccount = (id) => (dispatch, getState, axios) => {
       const users = getState().users;
       if (users !== null)
         dispatch(setAllUsers(users.filter(({ _id: userId }) => userId !== id)));
+      dispatch(setIsLoadingPage(false));
       if (id === localStorage.getItem("id")) dispatch(thunkLogout(true));
     })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-        thunkLogout(true);
-      } else {
-        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-      }
-    });
+    .catch((err) => provideErrorResponse(err, dispatch));
 };
 
 export const thunkDeletePost = (authorId, postId) => (
@@ -145,21 +131,9 @@ export const thunkDeletePost = (authorId, postId) => (
             getState().userDetails.posts.filter((post) => post._id !== postId)
           )
         );
+      dispatch(setIsLoadingPage(false));
     })
-    .catch((err) => {
-      if (err.response && err.response.status === 401) {
-        dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-        thunkLogout(true);
-      } else {
-        console.log(err);
-        dispatch(
-          setMessage({
-            data: err.response ? err.response.data : "Unexpected error!",
-            type: FAILURE,
-          })
-        );
-      }
-    });
+    .catch((err) => provideErrorResponse(err, dispatch));
 };
 
 export const thunkDeleteMultiple = (dict, schema) => (
@@ -197,16 +171,20 @@ export const thunkDeleteMultiple = (dict, schema) => (
           );
           dispatch(setPosts(null));
         }
+        dispatch(setIsLoadingPage(false));
       })
-      .catch((err) => {
-        console.log(err);
-        if (err.response) {
-          if (err.response.status === 401) {
-            dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-            thunkLogout(true);
-          } else {
-            dispatch(setMessage({ data: err.response.data, type: FAILURE }));
-          }
-        }
-      });
+      .catch((err) => provideErrorResponse(err, dispatch));
+};
+
+const provideErrorResponse = (err, dispatch, logout = true) => {
+  console.log(err);
+  if (err.response) {
+    if (err.response.status === 401 && logout) {
+      dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+      dispatch(thunkLogout(true));
+    } else {
+      dispatch(setIsLoadingPage(false));
+      dispatch(setMessage({ data: err.response.data, type: FAILURE }));
+    }
+  }
 };

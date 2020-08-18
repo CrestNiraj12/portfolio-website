@@ -7,6 +7,7 @@ import {
   showDialog,
   thunkChangeRole,
   thunkDeleteMultiple,
+  setIsLoadingPage,
 } from "../../actions";
 import {
   LOG_OUT,
@@ -19,6 +20,7 @@ import {
   DELETE_MULTIPLE_USERS,
   USER_SCHEMA,
   POST_SCHEMA,
+  NONE,
 } from "../../constants";
 import { bindActionCreators } from "redux";
 
@@ -36,6 +38,7 @@ const mapDispatchToProps = (dispatch) =>
       deletePost: (id, payload) => thunkDeletePost(id, payload),
       changeRole: (userId, role) => thunkChangeRole(userId, role),
       deleteMultiple: (list, schema) => thunkDeleteMultiple(list, schema),
+      setIsLoadingPage: (confirm) => setIsLoadingPage(confirm),
     },
     dispatch
   );
@@ -49,8 +52,10 @@ const Dialog = ({
   deletePost,
   changeRole,
   deleteMultiple,
+  setIsLoadingPage,
 }) => {
   const handleConfirmation = (action, payload = "") => {
+    if (action !== NONE) setIsLoadingPage(true);
     switch (action) {
       case LOG_OUT:
         logOut();
@@ -75,7 +80,7 @@ const Dialog = ({
         deleteMultiple(payload, POST_SCHEMA);
         break;
       default:
-        showDialog("NO");
+        showDialog(NONE);
     }
   };
 
@@ -92,7 +97,7 @@ const Dialog = ({
         </button>
         <button
           className="dialog__confirm-button__no"
-          onClick={() => handleConfirmation("NO")}
+          onClick={() => handleConfirmation(NONE)}
         >
           {dialog.message.denyText}
         </button>

@@ -5,6 +5,7 @@ import { ReactComponent as ControlIcon } from "./svg/control.svg";
 import { ReactComponent as UserIcon } from "./svg/avatar.svg";
 import { ReactComponent as PostIcon } from "./svg/paper.svg";
 import { ReactComponent as AddIcon } from "./svg/add.svg";
+import { ReactComponent as YourPostsIcon } from "./svg/posts.svg";
 import { EDITOR, POSTS } from "../../constants";
 import { connect } from "react-redux";
 import AdminControl from "../../components/AdminControl";
@@ -40,9 +41,11 @@ const Features = ({ role, posts }) => {
           </Link>
         ))}
       </div>
-
-      <div className="posts__content-posts">
-        <h1>Your Posts {posts.length > 0 && `(${posts.length})`}</h1>
+      <div className="posts__content">
+        <div className="posts__content-wrapper">
+          <YourPostsIcon />
+          <h1>Your Posts {posts.length > 0 && `(${posts.length})`}</h1>
+        </div>
         <AdminControl page={POSTS} hide={true} />
       </div>
     </section>

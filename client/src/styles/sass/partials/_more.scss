@@ -1,6 +1,7 @@
 .more {
   position: relative;
   outline: none;
+  margin-top: 5px;
 
   &__icon {
     width: 4px;
@@ -13,7 +14,7 @@
     background-color: #fff;
     list-style: none;
     padding: 0;
-    top: 0;
+    top: -40px;
     right: 0;
     z-index: 999;
     margin: 0;
