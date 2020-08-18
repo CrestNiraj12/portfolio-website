@@ -25,6 +25,8 @@ jobs:
           npm install
           npm run azure
           npm run test --if-present
+        env:
+          NPM_CONFIG_PRODUCTION: false
 
       - name: "Deploy to Azure Web App"
         uses: azure/webapps-deploy@v1
