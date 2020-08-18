@@ -20,10 +20,6 @@ Sets NODE_ENV to production and runs the server to start responding for requests
 
 Sets NPM_CONFIG_PRODUCTION to false then,
 
-- #### `npm run imagemin`
-
-  Runs the imagemin script
-
 - #### `npm install --prefix client`
 
   Installs client dependency packages
@@ -32,9 +28,14 @@ Sets NPM_CONFIG_PRODUCTION to false then,
 
   Runs the build script of client
 
-### `npm run imagemin`
+- #### `node backend/config/utils/optimizeImages.js`
 
-Uses [imagemin-cli](https://www.npmjs.com/package/imagemin-cli) package to optimize images with extension jpg, png, and gif in the client/src/images directory
+  Optimizes and Resizes images for better performance. Makes use of [imagemin](https://www.npmjs.com/package/imagemin) package that uses the following plugins to optimize:
+
+  - [imagemin-pngquant](https://www.npmjs.com/package/imagemin-pngquant)
+  - [imagemin-mozjpeg](https://www.npmjs.com/package/imagemin-mozjpeg)
+
+  For resizing, [sharp](https://www.npmjs.com/package/sharp) package is used.
 
 ### `npm run dev`
 
