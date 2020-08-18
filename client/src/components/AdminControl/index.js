@@ -33,6 +33,7 @@ import { bindActionCreators } from "redux";
 import DeleteMultiple from "../DeleteMultiple";
 import ShowMore from "../ShowMore";
 import DetailsCard from "../DetailsCard";
+import Attributions from "./attributions";
 
 const mapStateToProps = (state) => ({
   isLandscape: state.isLandscape,
@@ -427,73 +428,12 @@ const AdminControl = ({
               fontSize: isLandscape ? "2em" : "1.1em",
             }}
           >
-            There are no {page === USERS ? "users" : "posts"} here except you!
+            There are no {page === USERS ? "users" : "posts"} here
+            {page === USERS && " except you"}!
           </p>
         )}
       </section>
-      {refList.current.length > 0 && !hide && (
-        <section className="attributions">
-          <a
-            href="https://iconscout.com/icons/denied-icon"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Denied Icon
-          </a>{" "}
-          by{" "}
-          <a
-            href="https://iconscout.com/contributors/chamedesign/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Chameleon Design
-          </a>
-          <br />
-          <a
-            href="https://iconscout.com/icons/more"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            more
-          </a>{" "}
-          by{" "}
-          <a
-            href="https://iconscout.com/contributors/pocike"
-            rel="noopener noreferrer"
-          >
-            Alpár - Etele Méder
-          </a>{" "}
-          on <a href="https://iconscout.com">Iconscout</a>
-          <br />
-          <a
-            href="https://iconscout.com/icons/pencil"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Pencil
-          </a>{" "}
-          by{" "}
-          <a
-            href="https://iconscout.com/contributors/pocike"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Alpár - Etele Méder
-          </a>{" "}
-          on <a href="https://iconscout.com">Iconscout</a>
-          <br />
-          <a
-            href="https://iconscout.com/icons/delete"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            delete
-          </a>{" "}
-          by{" "}
-          <a href="https://iconscout.com/contributors/oviyan">Vignesh Oviyan</a>{" "}
-          on <a href="https://iconscout.com">Iconscout</a>
-        </section>
-      )}
+      {refList.current.length > 0 && !hide && <Attributions />}
     </main>
   );
 };

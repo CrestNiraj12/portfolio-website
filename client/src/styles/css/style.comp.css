@@ -1087,7 +1087,7 @@ a {
       margin: 5% 0; } }
 
 .about {
-  margin: 7.5% 10%; }
+  margin: 5% 10%; }
   .about__content {
     width: 100%; }
     .about__content > p {
@@ -2159,3 +2159,7 @@ table {
   margin: 5% 0; }
   .attributions a {
     color: #fff; }
+  .attributions h2 {
+    display: inline-block;
+    border-bottom: 1px solid gray;
+    letter-spacing: 1px; }

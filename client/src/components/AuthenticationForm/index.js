@@ -20,6 +20,7 @@ import {
 import { connect } from "react-redux";
 import { setMessage, setIsLoadingPage } from "../../actions";
 import CustomButton from "../CustomButton";
+import Attributions from "./attributions";
 
 const mapDispatchToProps = (dispatch) => ({
   setMessage: (message) => dispatch(setMessage(message)),
@@ -337,35 +338,7 @@ const AuthenticationForm = ({
               </p>
             )
           )}
-          {pageTitle !== RECOVER_PASSWORD && (
-            <>
-              <p style={{ fontSize: "0.5em" }}>
-                <a
-                  href="https://iconscout.com/icons/eye"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Eye Icon
-                </a>{" "}
-                by{" "}
-                <a
-                  href="https://iconscout.com/contributors/dario-ferrando"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Dario Ferrando
-                </a>
-                <br />
-                <a
-                  href="https://loading.io/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  "Button loading" is provided by loading.io
-                </a>
-              </p>
-            </>
-          )}
+          {pageTitle !== RECOVER_PASSWORD && <Attributions />}
         </form>
       </div>
     </main>
