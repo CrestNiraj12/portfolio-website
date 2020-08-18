@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../../images/logo.png";
 import { hideOverflow, setPosts, setMessage } from "../../actions";
 import { ReactComponent as Home } from "./svg/home.svg";
-import { ReactComponent as About } from "./svg/candidate.svg";
+import { ReactComponent as About } from "./svg/avatar.svg";
 import { ReactComponent as CloseIcon } from "../../images/close-icon.svg";
 import { HOME, ABOUT, ALL_POSTS, FAILURE } from "../../constants";
 import axios from "axios";
@@ -205,45 +205,6 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
               Vignesh Oviyan
             </a>
             <br />
-            <a
-              href="https://iconscout.com/icons/call"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Call
-            </a>{" "}
-            by{" "}
-            <a
-              href="https://iconscout.com/contributors/pocike"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Alpár - Etele Méder
-            </a>
-            <br />
-            <a
-              href="https://iconscout.com/icons/candidate"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Candidate
-            </a>{" "}
-            by{" "}
-            <a
-              href="https://iconscout.com/contributors/jemismali"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Jemis Mali
-            </a>{" "}
-            on{" "}
-            <a
-              href="https://iconscout.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Iconscout
-            </a>
           </div>
         )}
       </div>

@@ -1,3 +1,4 @@
+export const NONE = "NONE";
 export const SET_PAGE = "SET_PAGE";
 export const IS_LANDSCAPE = "IS_LANDSCAPE";
 export const SET_POSTS = "SET_POSTS";

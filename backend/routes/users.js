@@ -44,7 +44,6 @@ router.put(
         else return value;
       }),
   ],
-  userUpload,
   (req, res) => {
     User.findById(req.session.userId)
       .then((user) => {
@@ -64,37 +63,50 @@ router.put(
           } else return res.status(400).json("Wrong password!");
         }
 
-        var filename;
-        if (req.query.imageUpload === "true") {
-          if (req.file) {
-            filename = req.file.filename;
-            optimizeImage(
-              req.file.path,
-              path.resolve(req.file.path, ".."),
-              false,
-              350
-            );
-            user.image = filename;
-          } else {
-            return res.status(400).json("Image upload failed!");
-          }
-        }
+        user
+          .save()
+          .then(() => {
+            return res.json("User updated successfully!");
+          })
+          .catch((err) =>
+            res.status(400).json("User couldnt be saved! Try again!")
+          );
+      })
+      .catch((err) => res.status(400).json("User not found!"));
+  }
+);
+
+router.put("/imageUpload", userUpload, (req, res) => {
+  User.findById(req.session.userId)
+    .then((user) => {
+      var filename;
+      if (req.file) {
+        filename = req.file.filename;
+        optimizeImage(
+          req.file.path,
+          path.resolve(req.file.path, ".."),
+          false,
+          350
+        );
+        user.image = filename;
 
         user
           .save()
           .then(() => {
             return res.json({
-              message: "User updated successfully!",
+              message: "Profile picture updated!",
               filename,
             });
           })
           .catch((err) =>
             res.status(400).json("User couldnt be saved! Try again!")
           );
-      })
-      .catch((err) => res.status(400).json("Error finding user!"));
-  }
-);
+      } else {
+        return res.status(400).json("Image upload failed!");
+      }
+    })
+    .catch((err) => res.status(400).json("User not found!"));
+});
 
 router.get("/checkToken/:passwordChangeToken", (req, res) => {
   User.findOne(
