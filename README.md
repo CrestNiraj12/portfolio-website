@@ -35,7 +35,7 @@ Sets NPM_CONFIG_PRODUCTION to false then,
   - [imagemin-pngquant](https://www.npmjs.com/package/imagemin-pngquant)
   - [imagemin-mozjpeg](https://www.npmjs.com/package/imagemin-mozjpeg)
 
-  For resizing, [sharp](https://www.npmjs.com/package/sharp) package is used.
+  For resizing, [Jimp](https://www.npmjs.com/package/jimp) package is used.
 
 ### `npm run dev`
 
