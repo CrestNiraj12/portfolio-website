@@ -9,7 +9,7 @@ const config = {
   service: process.env.NODE_ENV === "production" ? "Mailgun" : "Webmail",
   host: process.env.SMTP_MAILER,
   port: 587,
-  secure: process.env.NODE_ENV === "production",
+  secure: false,
   auth: {
     user: process.env.NOREPLY_USER,
     pass: process.env.NOREPLY_PASS,
