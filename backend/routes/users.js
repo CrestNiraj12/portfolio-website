@@ -123,8 +123,7 @@ router.get("/checkToken/:passwordChangeToken", (req, res) => {
         return res
           .status(400)
           .json("Your password reset link has expired! Please try again!");
-      console.log("Password change token valid!");
-      return res.status(200);
+      return res.status(200).json("Password change token valid!");
     }
   );
 });
