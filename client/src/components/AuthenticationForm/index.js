@@ -60,7 +60,9 @@ const AuthenticationForm = ({
           setButtonLoading(false);
           setMessage({ data: err.response.data, type: FAILURE });
         });
-    else setIsLoadingPage(false);
+    else {
+      setIsLoadingPage(false);
+    }
   }, [pageTitle, setIsLoadingPage, setMessage]);
 
   const handleFormSubmit = (e) => {

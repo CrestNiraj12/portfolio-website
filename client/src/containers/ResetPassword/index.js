@@ -25,7 +25,7 @@ const ResetPassword = ({
     setPage(RESET_PASSWORD_PAGE);
     axios
       .get(`/user/checkToken/${token}`)
-      .then(() => {
+      .then((res) => {
         setIsLoadingPage(false);
       })
       .catch((err) => {

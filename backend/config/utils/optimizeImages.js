@@ -42,7 +42,10 @@ const resizeFile = (fullPath, maxWidth) => {
     .then((image) => {
       return image.contain(defaultWidth, Jimp.AUTO).write(fullPath);
     })
-    .then((err) => console.log(err));
+    .catch((err) => {
+      console.log(fullPath);
+      console.log(err);
+    });
 };
 
 this.optimizeImage(`${defaultPath}/*.{jpg,png,jpeg}`, defaultPath, true);

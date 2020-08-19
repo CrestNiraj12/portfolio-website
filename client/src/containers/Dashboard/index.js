@@ -13,12 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
   setMessage: (message) => dispatch(setMessage(message)),
 });
 
-const Dashboard = ({
-  location: { state },
-  setPage,
-  setMessage,
-  setIsLoadingPage,
-}) => {
+const Dashboard = ({ location: { state }, setPage, setMessage }) => {
   var history = useHistory();
   const [redirect, setRedirect] = useState(null);
 
@@ -30,7 +25,7 @@ const Dashboard = ({
     }
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (isAuthenticated === "false") setRedirect("/auth/login");
-  }, [state, setPage, setMessage, setIsLoadingPage, history]);
+  }, [state, setPage, setMessage, history]);
 
   return (
     <main className="dashboard">

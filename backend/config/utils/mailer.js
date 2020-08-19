@@ -14,6 +14,7 @@ const config = {
     user: process.env.NOREPLY_USER,
     pass: process.env.NOREPLY_PASS,
   },
+  ignoreTLS: process.env.NODE_ENV === "development",
 };
 
 const transporter = nodemailer.createTransport(smtpTransport(config));
