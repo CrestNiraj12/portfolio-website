@@ -10,54 +10,31 @@ const SignupStrategy = new LocalStrategy(
     User.findOne({ email }, (err, user) => {
       if (err) return done(err, null);
       if (user && user.active) return done("User already exists!", null);
-      if (user && !user.active && !user.registrationExpired)
+      if (user && !user.active)
         return done(
           "User already registered! Please confirm your email address!",
           null
         );
+      const newUser = new User({
+        fullname: req.body.fullname,
+        email,
+        password,
+        role: req.body.role,
+      });
 
-      if (!user) {
-        const newUser = new User({
-          fullname: req.body.fullname,
-          email,
-          password,
-          role: req.body.role,
-        });
+      crypto.randomBytes(20, (err, buf) => {
+        if (err) return done(err, null);
 
-        crypto.randomBytes(20, (err, buf) => {
+        newUser.activeToken = newUser._id + buf.toString("hex");
+        newUser.activeExpires = Date.now() + 24 * 60 * 60 * 1000;
+
+        sendSignupActivationMail(req, email, newUser.activeToken);
+
+        newUser.save((err, data) => {
           if (err) return done(err, null);
-
-          newUser.activeToken = newUser._id + buf.toString("hex");
-          newUser.activeExpires = Date.now() + 24 * 60 * 60 * 1000;
-          newUser.registrationExpired = false;
-
-          sendSignupActivationMail(req, email, newUser.activeToken);
-
-          newUser.save((err, data) => {
-            if (err) return done(err, null);
-            return done(null, data);
-          });
+          return done(null, data);
         });
-      } else {
-        user.fullname = req.body.fullname;
-        user.password = password;
-        user.role = req.body.role;
-
-        crypto.randomBytes(20, (err, buf) => {
-          if (err) return done(err, null);
-
-          user.activeToken = user._id + buf.toString("hex");
-          user.activeExpires = Date.now() + 24 * 60 * 60 * 1000;
-          user.registrationExpired = false;
-
-          sendSignupActivationMail(req, email, user.activeToken);
-
-          user.save((err, data) => {
-            if (err) return done(err, null);
-            return done(null, data);
-          });
-        });
-      }
+      });
     });
   }
 );

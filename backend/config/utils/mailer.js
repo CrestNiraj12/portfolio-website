@@ -6,14 +6,14 @@ require("dotenv").config({
 });
 
 const config = {
+  service: process.env.NODE_ENV === "production" ? "Mailgun" : "Webmail",
   host: process.env.SMTP_MAILER,
   port: 587,
-  secure: false,
+  secure: process.env.NODE_ENV === "production",
   auth: {
     user: process.env.NOREPLY_USER,
     pass: process.env.NOREPLY_PASS,
   },
-  ignoreTLS: true,
 };
 
 const transporter = nodemailer.createTransport(smtpTransport(config));
@@ -22,7 +22,7 @@ const defaultMail = {
   from: `Niraj Shrestha <${process.env.NOREPLY_USER}>`,
 };
 
-module.exports = function (mail) {
+module.exports = (mail) => {
   mail = _.merge({}, defaultMail, mail);
 
   transporter.sendMail(mail, function (error, info) {
