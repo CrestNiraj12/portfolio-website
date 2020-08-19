@@ -278,28 +278,27 @@ router.put("/selected", validAuth, (req, res) => {
 });
 
 router.get("/confirm/:activeToken", (req, res) => {
-  User.findOne({ activeToken: req.params.activeToken }, (err, user) => {
-    if (err) {
-      console.log(err);
-      return res.status(400).json("Unexpected error occured!");
-    }
-    if (!user) return res.status(400).json("No user found! Please register!");
+  User.findOne(
+    { activeToken: req.params.activeToken, activeExpires: { $gt: Date.now() } },
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json("Unexpected error occured!");
+      }
+      if (!user)
+        return res
+          .status(400)
+          .json("Your activation link has expired! Please register again!");
 
-    if (user.activeExpires > Date.now() || user.registrationExpired) {
-      if (user.activeExpires > Date.now()) user.registrationExpired = true;
-      return res
-        .status(400)
-        .json("Your activation link has expired! Please register again!");
+      user.active = true;
+      user.activeToken = "";
+      user.activeExpires = new Date(0);
+      user
+        .save()
+        .then(() => res.json("Email confirmation sucess!"))
+        .catch((e) => res.status(400).json("Error confirming email!"));
     }
-    user.active = true;
-    user.activeToken = "";
-    user.activeExpires = new Date(0);
-    user.registrationExpired = true;
-    user
-      .save()
-      .then(() => res.json("Email confirmation sucess!"))
-      .catch((e) => res.status(400).json("Error confirming email!"));
-  });
+  );
 });
 
 module.exports = router;
