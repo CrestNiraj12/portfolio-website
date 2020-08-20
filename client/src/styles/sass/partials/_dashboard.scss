@@ -203,6 +203,10 @@
         width: 25px;
         margin-right: 2%;
       }
+
+      h2 {
+        font-weight: normal;
+      }
     }
 
     &-features {
@@ -318,8 +322,10 @@
 
           $width: 100%;
           &-fullname {
-            font-size: 4em;
+            font-size: 3.5em;
             width: $width;
+            font-family: "Roboto Slab";
+            font-weight: normal;
             margin: 0 0 0 5%;
             align-self: center;
           }
