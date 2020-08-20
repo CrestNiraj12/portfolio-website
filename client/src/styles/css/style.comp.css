@@ -208,7 +208,8 @@
     position: absolute;
     justify-content: center; }
     .crop__button button {
-      width: 150px; }
+      width: 150px;
+      height: 50px; }
     .crop__button-crop {
       background: none;
       color: #2fdb74;
