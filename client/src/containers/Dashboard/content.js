@@ -16,6 +16,7 @@ import { bindActionCreators } from "redux";
 import ImageOverlay from "../../components/ImageOverlay";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "./cropImage";
+import CustomButton from "../../components/CustomButton";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
@@ -208,13 +209,13 @@ const Content = ({
             />
           </div>
           <div className="crop__button">
-            <button
-              className="crop__button-crop"
-              onClick={handleCrop}
-              disabled={imageData.isCropping}
-            >
-              Crop
-            </button>
+            <CustomButton
+              clsName="crop__button-crop"
+              text="Crop"
+              handleClick={handleCrop}
+              loading={imageData.isCropping}
+              svgStyle={{ left: "-8px" }}
+            />
             <button
               className="crop__button-cancel"
               onClick={handleCancelCrop}

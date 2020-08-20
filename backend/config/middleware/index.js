@@ -1,6 +1,10 @@
 const multer = require("multer");
+require("dotenv").config();
 
-const path = "./client/public/images/";
+const path =
+  process.env.NODE_ENV === "production"
+    ? "./client/build/images"
+    : "./client/public/images/";
 
 var config = {
   destination: path,
