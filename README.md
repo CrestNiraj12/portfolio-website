@@ -1,4 +1,4 @@
-[![Awesome Badges](https://img.shields.io/badge/badges-awesome-green.svg)](https://github.com/Naereen/badges)
+[![Awesome Badges](https://img.shields.io/badge/badges-awesome-blue.svg)](https://github.com/Naereen/badges)
 [![ISC license](https://img.shields.io/badge/License-GPL%20v3.0-green.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 # Portfolio Website

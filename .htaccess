@@ -1,3 +1,0 @@
-RewriteEngine On
-RewriteCond %{HTTP_HOST} ^portfolio-website.azurewebsites.net$ [NC]
-RewriteRule ^(.*)$ https://nirajshrestha.live/$1 [L,R=301]
