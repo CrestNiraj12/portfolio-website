@@ -43,12 +43,9 @@ const Content = ({ posts, setPosts }) => {
         <SideTitle text="Who am I?" color="yellow" />
         <div className="home__content-main">
           <p className="home__content-main__bio">
-            I am{" "}
-            <span id="traits">
-              a{" "}
-              <span className="home__content-main__bio-emphasis">creative</span>{" "}
-              programmer
-            </span>
+            I am a{" "}
+            <span className="home__content-main__bio-emphasis">diligent</span>{" "}
+            programmer
           </p>
           <p className="home__content-main__sub-bio">
             I will help you reach out the <span>best potential</span> of your

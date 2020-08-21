@@ -5,8 +5,6 @@ const imagemin = require("imagemin");
 const imageminMozJpeg = require("imagemin-mozjpeg");
 const imageminPngquant = require("imagemin-pngquant");
 
-const defaultPath = "client/build/static/media";
-
 exports.optimizeImage = (filePath, dest, build = false, maxWidth = null) => {
   imagemin([filePath], {
     cache: false,
@@ -47,5 +45,3 @@ const resizeFile = (fullPath, maxWidth) => {
       console.log(err);
     });
 };
-
-this.optimizeImage(`${defaultPath}/*.{jpg,png,jpeg}`, defaultPath, true);
