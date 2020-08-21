@@ -88,12 +88,13 @@
   .home__header {
     padding: 0% 10%;
     height: 100vh;
+    position: relative;
 
     &-content {
       margin-top: 5%;
 
       p {
-        font-size: 3em;
+        font-size: 3.5vw;
         line-height: 1.2;
         letter-spacing: 2px;
       }
@@ -101,7 +102,7 @@
       p:nth-of-type(3),
       p:nth-of-type(4) {
         float: right;
-        width: 70%;
+        width: 69%;
       }
 
       p:nth-of-type(5),
@@ -111,14 +112,16 @@
 
       &__desc {
         color: $gray;
-        font-size: 1.25vw;
+        font-size: 1.35vw;
         letter-spacing: 1.5px;
+        line-height: 1.4;
         font-style: normal;
         text-transform: uppercase;
         font-family: inherit;
-        float: left;
-        width: 30%;
-        margin-top: -210px;
+        position: absolute;
+        width: 25%;
+        top: 12vw;
+        margin: 0;
       }
 
       &__sub {
