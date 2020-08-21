@@ -859,30 +859,33 @@
     font-size: 1em; }
   .home__header {
     padding: 0% 10%;
-    height: 100vh; }
+    height: 100vh;
+    position: relative; }
     .home__header-content {
       margin-top: 5%; }
       .home__header-content p {
-        font-size: 3em;
+        font-size: 3.5vw;
         line-height: 1.2;
         letter-spacing: 2px; }
       .home__header-content p:nth-of-type(3),
       .home__header-content p:nth-of-type(4) {
         float: right;
-        width: 70%; }
+        width: 69%; }
       .home__header-content p:nth-of-type(5),
       .home__header-content p:nth-of-type(6) {
         clear: both; }
       .home__header-content__desc {
         color: #c3c3c3;
-        font-size: 1.25vw;
+        font-size: 1.35vw;
         letter-spacing: 1.5px;
+        line-height: 1.4;
         font-style: normal;
         text-transform: uppercase;
         font-family: inherit;
-        float: left;
-        width: 30%;
-        margin-top: -210px; }
+        position: absolute;
+        width: 25%;
+        top: 12vw;
+        margin: 0; }
       .home__header-content__sub {
         flex-direction: row;
         justify-content: space-between;
