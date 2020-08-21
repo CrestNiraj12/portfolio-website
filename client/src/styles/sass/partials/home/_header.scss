@@ -27,24 +27,29 @@
       flex-direction: column;
       margin-top: 10%;
 
-      p {
-        font-family: inherit;
-        font-size: 0.8em;
-        line-height: 1.5;
-        letter-spacing: 0.5px;
-        color: #fff;
-      }
-
       &-interests {
-        span {
-          font-family: "Chilanka";
-          font-size: 1.2em;
-          color: $orange;
+        p {
+          font-family: inherit;
+          font-size: 0.8em;
+          line-height: 1.5;
+          letter-spacing: 0.5px;
+          color: #fff;
+          position: relative;
+          white-space: break-spaces;
+
+          span {
+            position: absolute;
+            display: block;
+            font-family: "Chilanka";
+            font-size: 1em;
+            color: $orange;
+            margin: 5px 0;
+          }
         }
       }
 
       &-social {
-        margin-top: 12%;
+        margin-top: 12vh;
         display: flex;
         justify-content: space-between;
         text-align: right;
@@ -106,7 +111,7 @@
 
       &__desc {
         color: $gray;
-        font-size: 1.2em;
+        font-size: 1.25vw;
         letter-spacing: 1.5px;
         font-style: normal;
         text-transform: uppercase;
@@ -125,6 +130,11 @@
           font-size: 1em;
           color: $gray;
           letter-spacing: 1px;
+
+          span {
+            display: inline-block;
+            margin: 2.5px 0;
+          }
         }
 
         &-social {

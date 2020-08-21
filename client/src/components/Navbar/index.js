@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.png";
@@ -12,6 +12,7 @@ import { useCallback } from "react";
 import CustomButton from "../CustomButton";
 import { bindActionCreators } from "redux";
 import Attributions from "./attributions";
+import { useSpring, animated } from "react-spring";
 
 const mapStateToProps = (state) => ({
   page: state.page,
@@ -32,6 +33,8 @@ const mapDispatchToProps = (dispatch) =>
 const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
   const [activeNav, setActiveNav] = useState(false);
 
+  const ref = useRef();
+
   const isActivePage = useCallback((p) => page === p, [page]);
 
   const orientedNavClass = useCallback(() => {
@@ -43,11 +46,7 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
   const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
-    const navStatus = document.getElementById("navStatus");
-    if (activeNav) {
-      navStatus.classList.remove("hide");
-      navStatus.focus();
-    } else navStatus.classList.add("hide");
+    hideOverflow(activeNav);
 
     const links = [
       {
@@ -81,7 +80,7 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
       });
 
     setNavLinks(links);
-  }, [activeNav, posts, isActivePage, orientedNavClass]);
+  }, [hideOverflow, activeNav, posts, isActivePage, orientedNavClass]);
 
   const createLines = (n) => {
     let lines = [];
@@ -89,11 +88,6 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
       lines.push(<div key={i} className="navbar__show-items--line"></div>);
     }
     return lines;
-  };
-
-  const handleNavShow = (confirm) => {
-    setActiveNav(confirm);
-    hideOverflow(confirm);
   };
 
   const handleDownloadCV = () => {
@@ -118,8 +112,21 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
       });
   };
 
+  const fade = useSpring({ from: { opacity: 0 }, opacity: 1, delay: 200 });
+  const showNav = useSpring({
+    from: { transform: "translateX(-15rem)", opacity: 0 },
+    transform:
+      activeNav || isLandscape ? "translateX(0)" : "translateX(-15rem)",
+    opacity: activeNav || isLandscape ? 1 : 0,
+  });
+
+  const handleNavShow = () => {
+    setActiveNav(true);
+    ref.current.focus();
+  };
+
   return (
-    <nav className="navbar">
+    <animated.nav className="navbar" style={fade}>
       <Link to="/" className="navbar__logo-wrapper">
         <img src={logo} className="navbar__logo" alt="NS logo" />
       </Link>
@@ -127,16 +134,17 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
         <div
           id="showItem"
           className="navbar__show-items"
-          onClick={() => handleNavShow(true)}
+          onClick={() => handleNavShow()}
         >
           {createLines(4)}
         </div>
       )}
-      <div
-        className={orientedNavClass() + " hide"}
-        id="navStatus"
+      <animated.div
+        style={showNav}
+        className={orientedNavClass()}
         tabIndex={0}
-        onBlur={() => setTimeout(() => handleNavShow(false), 0)}
+        onBlur={() => setActiveNav(false)}
+        ref={ref}
       >
         {!isLandscape && (
           <>
@@ -150,7 +158,7 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
 
             <CloseIcon
               className="navbar__hide-items"
-              onClick={() => handleNavShow(false)}
+              onClick={() => ref.current.blur()}
             />
           </>
         )}
@@ -181,8 +189,8 @@ const Navbar = ({ page, posts, isLandscape, hideOverflow, setMessage }) => {
           </li>
         </ul>
         {!isLandscape && <Attributions />}
-      </div>
-    </nav>
+      </animated.div>
+    </animated.nav>
   );
 };
 

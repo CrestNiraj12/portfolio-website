@@ -19,10 +19,7 @@ a {
         font-weight: normal;
         font-size: 2em;
         word-spacing: 2px;
-
-        #traits {
-          font-family: "Roboto Slab";
-        }
+        font-family: "Roboto Slab";
 
         &-emphasis {
           color: $orange;

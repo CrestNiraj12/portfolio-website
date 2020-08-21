@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node server",
-    "azure": "npm install --prefix client && npm run build --prefix client && node backend/config/utils/optimizeImages.js",
+    "azure": "npm install --prefix client && npm run build --prefix client && node backend/config/utils/optimizeBuildImages.js",
     "dev": "concurrently \"nodemon server\" \"cd client && npm start\" \"cd client && npm run watch-sass\"",
     "serve": "serve -s client/build"
   },
