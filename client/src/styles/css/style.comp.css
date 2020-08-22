@@ -723,37 +723,30 @@
 
 @media screen and (min-width: 1000px) {
   .side__title-yellow {
-    transform: rotate(270deg);
     float: left;
     font-size: 1em;
     margin-top: 10%; }
   .side__title-orange {
-    transform: rotate(270deg);
     float: left;
     font-size: 1em;
     margin-top: 10%; }
   .side__title-blue {
-    transform: rotate(270deg);
     float: left;
     font-size: 1em;
     margin-top: 10%; }
   .side__title-red {
-    transform: rotate(270deg);
     float: left;
     font-size: 1em;
     margin-top: 10%; }
   .side__title-pink {
-    transform: rotate(270deg);
     float: left;
     font-size: 1em;
     margin-top: 10%; }
   .side__title-lightpink {
-    transform: rotate(270deg);
     float: left;
     font-size: 1em;
     margin-top: 10%; }
   .side__title-white {
-    transform: rotate(270deg);
     float: left;
     font-size: 1em;
     margin-top: 10%; } }
@@ -923,7 +916,16 @@ a {
     font-weight: normal;
     font-size: 2em;
     word-spacing: 2px;
-    font-family: "Roboto Slab"; }
+    font-family: "Roboto Slab";
+    position: relative;
+    overflow: hidden; }
+    .home__content-main__bio-content {
+      position: absolute;
+      margin-left: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 0.6em;
+      top: 12.5px; }
     .home__content-main__bio-emphasis {
       color: #ff864c;
       font-family: "Galada";
@@ -1008,6 +1010,10 @@ a {
       .home__content-main__bio {
         margin: 0;
         font-size: 3.5em; }
+        .home__content-main__bio-content {
+          margin-left: 15px;
+          top: unset;
+          font-size: inherit; }
       .home__content-main__sub-bio {
         margin: 8% 0 5% 0;
         font-size: 1em;

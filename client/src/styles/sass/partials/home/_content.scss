@@ -20,6 +20,17 @@ a {
         font-size: 2em;
         word-spacing: 2px;
         font-family: "Roboto Slab";
+        position: relative;
+        overflow: hidden;
+
+        &-content {
+          position: absolute;
+          margin-left: 10px;
+          white-space: nowrap;
+          overflow: hidden;
+          font-size: 0.6em;
+          top: 12.5px;
+        }
 
         &-emphasis {
           color: $orange;
@@ -145,6 +156,12 @@ a {
         &__bio {
           margin: 0;
           font-size: 3.5em;
+
+          &-content {
+            margin-left: 15px;
+            top: unset;
+            font-size: inherit;
+          }
         }
 
         &__sub-bio {

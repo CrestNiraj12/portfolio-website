@@ -11,7 +11,7 @@ const interests = [
   "Testing new features",
   "Learning new things",
   "Challenges",
-  "Binge Anime",
+  "Binging Anime",
   "Marvel",
 ];
 
@@ -107,7 +107,7 @@ const Header = ({ isLandscape }) => {
         <div className="home__header-content__sub">
           <div className="home__header-content__sub-interests">
             <animated.p style={props}>
-              Technology and Anime lover. I enjoy{" "}
+              Technology and Anime lover. I love{" "}
               {changeTextTransition.map(({ item, props, key }) => (
                 <animated.span key={key} style={props}>
                   {interests[item]}
