@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, withRouter } from "react-router-dom";
 import { setPage, setMessage } from "../../actions";
 
 import { DASHBOARD } from "../../constants";
@@ -37,4 +37,4 @@ const Dashboard = ({ location: { state }, setPage, setMessage }) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(Dashboard);
+export default withRouter(connect(null, mapDispatchToProps)(Dashboard));
