@@ -41,7 +41,6 @@
 
 @media screen and (min-width: 1000px) {
   @mixin color-fill($color) {
-    transform: rotate(270deg);
     float: left;
     font-size: 1em;
     margin-top: 10%;
