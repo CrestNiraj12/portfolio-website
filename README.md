@@ -1,6 +1,7 @@
 [![Awesome Badges](https://img.shields.io/badge/badges-awesome-blue.svg)](https://github.com/Naereen/badges)
 [![ISC license](https://img.shields.io/badge/License-GPL%20v3.0-green.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 ![Website](https://img.shields.io/website?color=%23141718&down_color=lightgrey&down_message=offline%20%F0%9F%91%8E&label=nirajshrestha.live&logoColor=red&up_color=green&up_message=online%20%F0%9F%91%8D&url=https%3A%2F%2Fnirajshrestha.live)
+![GitHub last commit](https://img.shields.io/github/last-commit/CrestNiraj12/portfolio-website)
 
 # Portfolio Website
 
