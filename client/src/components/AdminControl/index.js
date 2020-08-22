@@ -25,7 +25,7 @@ import FeatureHeader from "../FeatureHeader";
 import SortOption from "../SortOption";
 import Search from "../Search";
 import { Checkbox } from "react-input-checkbox";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, withRouter } from "react-router-dom";
 import { ReactComponent as Pencil } from "../../images/pencil.svg";
 import { ReactComponent as TrashIcon } from "../../images/trash.svg";
 import { sortBy } from "lodash";
@@ -438,4 +438,6 @@ const AdminControl = ({
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminControl);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(AdminControl)
+);

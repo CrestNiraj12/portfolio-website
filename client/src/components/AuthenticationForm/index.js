@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, Link, useHistory } from "react-router-dom";
+import { Redirect, Link, useHistory, withRouter } from "react-router-dom";
 import axios from "axios";
 import { ReactComponent as EyeIcon } from "./svg/eye.svg";
 import { ReactComponent as EyeCloseIcon } from "./svg/close-eye.svg";
@@ -347,4 +347,6 @@ const AuthenticationForm = ({
   );
 };
 
-export default connect(null, mapDispatchToProps)(AuthenticationForm);
+export default withRouter(
+  connect(null, mapDispatchToProps)(AuthenticationForm)
+);
