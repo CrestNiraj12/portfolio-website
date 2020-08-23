@@ -38,6 +38,7 @@ const Header = ({ isLandscape }) => {
     from: { opacity: 0, transform: "translateY(50px)" },
     opacity: 1,
     transform: "translateY(0px)",
+    config: { mass: 5, tension: 1000, friction: 100 },
     delay: 500,
   });
 
@@ -117,7 +118,7 @@ const Header = ({ isLandscape }) => {
           </div>
           <div className="home__header-content__sub-social">
             <animated.p style={props}>Find me also on</animated.p>
-            <ul>
+            <animated.ul style={props}>
               <li>
                 <a
                   href="https://www.linkedin.com/in/crestniraj"
@@ -154,7 +155,7 @@ const Header = ({ isLandscape }) => {
                   Facebook
                 </a>
               </li>
-            </ul>
+            </animated.ul>
           </div>
         </div>
       </div>

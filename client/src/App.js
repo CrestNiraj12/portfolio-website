@@ -79,9 +79,18 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
 
   const location = useLocation();
   const transitions = useTransition(location, (location) => location.pathname, {
-    from: { opacity: 0, transform: "translate3d(100%,0,0)" },
-    enter: { opacity: 1, transform: "translate3d(0%,0,0)" },
-    leave: { opacity: 0, transform: "translate3d(-50%,0,0)" },
+    from: {
+      opacity: 0,
+      transform: "translateX(100px)",
+    },
+    enter: {
+      opacity: 1,
+      transform: "translateX(0)",
+    },
+    leave: {
+      opacity: 0,
+      transform: "translateX(-100px)",
+    },
   });
 
   return (
@@ -89,10 +98,18 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
       <Flash />
       {dialogShow && <Dialog />}
 
-      {loading && <Preloader />}
       {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
       {transitions.map(({ item, props, key }) => (
-        <animated.div key={key} style={props}>
+        <animated.div
+          key={key}
+          style={{
+            ...props,
+            position: "absolute",
+            width: "100%",
+            overflowX: "hidden",
+          }}
+        >
+          {loading && <Preloader />}
           <Switch location={item}>
             {routes.map(({ path, Component, isExact }) => (
               <Route

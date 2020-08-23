@@ -5,7 +5,8 @@
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
+  height: 0px;
 }
 
 ::-webkit-scrollbar-track {
@@ -50,8 +51,4 @@ body .dribbble img {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-#root {
-  overflow: hidden;
 }
