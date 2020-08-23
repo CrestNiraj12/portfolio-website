@@ -9,12 +9,13 @@ const mapStateToProps = (state) => ({
 
 const SideTitle = ({ text, color, isLandscape }) => {
   const [{ x }, set] = useSpring(() => ({
-    x: [-100, 0],
+    x: [-500],
+    config: { mass: 5, tension: 1500, friction: 100 },
   }));
 
   useEffect(() => {
-    set({ x: [0, isLandscape ? 270 : 0] });
-  }, [set, isLandscape]);
+    set({ x: [0] });
+  }, [set]);
 
   const leftSlide = useSpring({
     from: {
@@ -29,7 +30,7 @@ const SideTitle = ({ text, color, isLandscape }) => {
       style={{
         ...leftSlide,
         transform: x.interpolate(
-          (t, r) => `translateX(${t}px) rotate(${r}deg)`
+          (t) => `translateX(${t}px) rotate(${isLandscape ? 270 : 0}deg)`
         ),
       }}
     >
