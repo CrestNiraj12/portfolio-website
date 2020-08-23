@@ -917,19 +917,9 @@ a {
     font-size: 2em;
     word-spacing: 2px;
     font-family: "Roboto Slab";
-    position: relative;
     overflow: hidden; }
-    .home__content-main__bio-content {
-      position: absolute;
-      margin-left: 10px;
-      white-space: nowrap;
-      overflow: hidden;
-      font-size: 0.6em;
-      top: 12.5px; }
-    .home__content-main__bio-emphasis {
-      color: #ff864c;
-      font-family: "Galada";
-      letter-spacing: 1px; }
+    .home__content-main__bio span {
+      color: #96cdef; }
   .home__content-main__sub-bio {
     font-size: 0.75em;
     letter-spacing: 1.2px;
@@ -1010,10 +1000,6 @@ a {
       .home__content-main__bio {
         margin: 0;
         font-size: 3.5em; }
-        .home__content-main__bio-content {
-          margin-left: 15px;
-          top: unset;
-          font-size: inherit; }
       .home__content-main__sub-bio {
         margin: 8% 0 5% 0;
         font-size: 1em;
@@ -1088,8 +1074,6 @@ a {
     display: flex;
     flex-direction: row;
     justify-content: space-between; }
-    .projects > div:nth-of-type(2) {
-      transform: translateY(-15em); }
   .card {
     width: 40%; }
     .card__img-wrapper {
@@ -1761,25 +1745,35 @@ a {
       font-family: "Quicksand", sans-serif;
       letter-spacing: 0.5px;
       font-size: 0.65em; }
-  .info__card--contact-mail > p, .info__card--contact-call > p {
-    margin: 5px 0;
-    text-transform: uppercase;
-    font-size: 0.75em;
-    letter-spacing: 2px; }
-  .info__card--contact__mail-link, .info__card--contact__call-link {
-    color: #8a8a8a;
-    text-decoration: none;
-    font-family: "Quicksand", cursive;
-    text-transform: none;
-    font-size: 0.65em;
-    font-weight: normal;
-    letter-spacing: 1px; }
-    .info__card--contact__mail-link p, .info__card--contact__call-link p {
-      margin-bottom: 15px;
-      margin-top: 0;
-      margin: 0; }
-    .info__card--contact__mail-link:hover, .info__card--contact__call-link:hover {
-      text-decoration: underline; }
+  .info__card--contact {
+    display: flex;
+    flex-direction: column; }
+    .info__card--contact-mail {
+      padding: 0 0 10px 0;
+      display: flex;
+      flex-direction: column; }
+    .info__card--contact-call {
+      display: flex;
+      flex-direction: column; }
+    .info__card--contact-mail > p, .info__card--contact-call > p {
+      margin: 5px 0;
+      text-transform: uppercase;
+      font-size: 0.75em;
+      letter-spacing: 2px; }
+    .info__card--contact__mail-link, .info__card--contact__call-link {
+      color: #8a8a8a;
+      text-decoration: none;
+      font-family: "Quicksand", cursive;
+      text-transform: none;
+      font-size: 0.65em;
+      font-weight: normal;
+      letter-spacing: 1px; }
+      .info__card--contact__mail-link p, .info__card--contact__call-link p {
+        margin-bottom: 15px;
+        margin-top: 0;
+        margin: 0; }
+      .info__card--contact__mail-link:hover, .info__card--contact__call-link:hover {
+        text-decoration: underline; }
   .info__card--icon, .info__card--social-icon {
     width: 22px;
     height: 22px; }

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Home from "./containers/Home";
@@ -26,6 +26,7 @@ import ConfirmRecoverPassword from "./containers/ConfirmRecoverPassword";
 import ResetPassword from "./containers/ResetPassword";
 import About from "./containers/About";
 import Preloader from "./components/Preloader";
+import { useTransition, animated } from "react-spring";
 
 const mapStateToProps = (state) => ({
   userDetails: state.userDetails,
@@ -76,25 +77,34 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
     { path: "/*", Component: Home, isExact: false },
   ];
 
+  const location = useLocation();
+  const transitions = useTransition(location, (location) => location.pathname, {
+    from: { opacity: 0, transform: "translate3d(100%,0,0)" },
+    enter: { opacity: 1, transform: "translate3d(0%,0,0)" },
+    leave: { opacity: 0, transform: "translate3d(-50%,0,0)" },
+  });
+
   return (
     <>
       <Flash />
       {dialogShow && <Dialog />}
 
       {loading && <Preloader />}
-      <Router>
-        {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
-        <Switch>
-          {routes.map(({ path, Component, isExact }) => (
-            <Route
-              key={path}
-              path={path}
-              exact={isExact}
-              component={Component}
-            />
-          ))}
-        </Switch>
-      </Router>
+      {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
+      {transitions.map(({ item, props, key }) => (
+        <animated.div key={key} style={props}>
+          <Switch location={item}>
+            {routes.map(({ path, Component, isExact }) => (
+              <Route
+                key={path}
+                path={path}
+                exact={isExact}
+                component={Component}
+              />
+            ))}
+          </Switch>
+        </animated.div>
+      ))}
     </>
   );
 };

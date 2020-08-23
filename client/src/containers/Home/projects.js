@@ -22,6 +22,7 @@ const Projects = () => (
       title="Profile page"
       desc="First year college project, developed with plain HTML5 and CSS"
       linkText="View Project"
+      translateY={-10}
     />
   </div>
 );
