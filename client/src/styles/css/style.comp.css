@@ -69,7 +69,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(36, 38, 39, 0.85);
+  background-color: rgba(36, 38, 39, 0.9);
   z-index: 1000;
   transition: opacity 1s ease-in; }
 
@@ -520,7 +520,7 @@
     right: 10%;
     cursor: pointer; }
   .navbar__items--portrait {
-    position: absolute;
+    position: fixed;
     background-color: #242627;
     height: 100vh;
     top: 0;
@@ -1250,10 +1250,11 @@ a {
 
 .authentication {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  height: 100vh; }
 
 .form__wrapper {
-  margin: 15% 0;
+  margin: 100px 15%;
   padding: 5% 10% 10% 10%;
   background: #fff;
   border-radius: 15px;
@@ -1261,10 +1262,8 @@ a {
   flex-direction: column;
   box-shadow: 18px 20px 1px #263133;
   align-items: center;
-  position: absolute;
-  top: 12%;
-  width: 70%;
-  color: #000; }
+  color: #000;
+  height: max-content; }
   .form__wrapper h1 {
     font-size: 1.5em;
     font-family: "Galada"; }
@@ -1324,11 +1323,10 @@ a {
         color: #96cdef;
         text-decoration: underline; }
 
-@media screen and (orientation: landscape) {
+@media screen and (min-width: 700px) {
   .form__wrapper {
-    margin: 2% 0;
-    padding: 2% 4%;
-    width: 25%; }
+    padding: 2% 40px;
+    width: 300px; }
     .form__wrapper .form__authentication input {
       margin: 5% 0; }
     .form__wrapper .form__authentication button {

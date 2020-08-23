@@ -1,10 +1,11 @@
 .authentication {
   display: flex;
   justify-content: center;
+  height: 100vh;
 }
 
 .form__wrapper {
-  margin: 15% 0;
+  margin: 100px 15%;
   padding: 5% 10% 10% 10%;
   background: #fff;
   border-radius: 15px;
@@ -12,10 +13,8 @@
   flex-direction: column;
   box-shadow: 18px 20px 1px #263133;
   align-items: center;
-  position: absolute;
-  top: 12%;
-  width: 70%;
   color: #000;
+  height: max-content;
 
   h1 {
     font-size: 1.5em;
@@ -106,11 +105,10 @@
   }
 }
 
-@media screen and (orientation: landscape) {
+@media screen and (min-width: 700px) {
   .form__wrapper {
-    margin: 2% 0;
-    padding: 2% 4%;
-    width: 25%;
+    padding: 2% 40px;
+    width: 300px;
 
     .form__authentication {
       input {
