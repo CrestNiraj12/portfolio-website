@@ -17,19 +17,21 @@ const Card = ({
   translateY,
   isLandscape,
 }) => {
+  const defaultSet = isLandscape ? [0, 50, 0.75] : [0, 0, 1];
+
   const [props, setProps] = useSpring(() => ({
-    xys: [0, 0, 1],
-    config: { mass: 3, tension: 800, friction: 40 },
+    xys: defaultSet,
+    config: { mass: 5, tension: 800, friction: 50 },
   }));
 
   const calc = (x, y) => [
-    -(y - window.innerHeight / 2) / 30,
-    (x - window.innerWidth / 2) / 30,
-    1.01,
+    -(y - window.innerHeight / 2) / 25,
+    (x - window.innerWidth / 2) / 25,
+    1,
   ];
 
   const trans = (x, y, s) =>
-    `perspective(900px) rotateX(${x}deg) rotateY(${y}deg) scale(${s}) translateY(${
+    `perspective(800px) rotateX(${x}deg) rotateY(${y}deg) scale(${s}) translateY(${
       translateY && isLandscape ? translateY : 0
     }em)`;
 
@@ -47,7 +49,7 @@ const Card = ({
       onMouseMove={({ clientX: x, clientY: y }) =>
         setProps({ xys: calc(x, y) })
       }
-      onMouseLeave={() => setProps({ xys: [0, 0, 1] })}
+      onMouseLeave={() => setProps({ xys: defaultSet })}
     >
       <a className="card" href={url}>
         <div className="card__img-wrapper">

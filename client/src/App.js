@@ -34,23 +34,31 @@ const mapStateToProps = (state) => ({
   dialogShow: state.dialog.show,
   overflowHidden: state.overflowHidden,
   loading: state.loading,
+  isLandscape: state.isLandscape,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      isLandscape: (confirm) => isLandscape(confirm),
+      setIsLandscape: (confirm) => isLandscape(confirm),
     },
     dispatch
   );
 
-const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
+const App = ({
+  page,
+  overflowHidden,
+  setIsLandscape,
+  isLandscape,
+  dialogShow,
+  loading,
+}) => {
   useEffect(() => {
     if (overflowHidden) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "visible";
 
-    isLandscape(window.innerWidth > window.innerHeight);
-  }, [page, isLandscape, overflowHidden]);
+    setIsLandscape(window.innerWidth > window.innerHeight);
+  }, [page, setIsLandscape, overflowHidden]);
 
   const routes = [
     { path: "/", Component: Home, isExact: true },
@@ -97,7 +105,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
     <>
       <Flash />
       {dialogShow && <Dialog />}
-
+      {loading && isLandscape && <Preloader />}
       {[HOME, ABOUT, ALL_POSTS, POST].includes(page) && <Navbar />}
       {transitions.map(({ item, props, key }) => (
         <animated.div
@@ -109,7 +117,7 @@ const App = ({ page, overflowHidden, isLandscape, dialogShow, loading }) => {
             overflowX: "hidden",
           }}
         >
-          {loading && <Preloader />}
+          {loading && !isLandscape && <Preloader />}
           <Switch location={item}>
             {routes.map(({ path, Component, isExact }) => (
               <Route

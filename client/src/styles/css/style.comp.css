@@ -71,6 +71,7 @@
   bottom: 0;
   background-color: rgba(36, 38, 39, 0.9);
   z-index: 1000;
+  width: 100%;
   transition: opacity 1s ease-in; }
 
 .loader {
@@ -482,6 +483,16 @@
       letter-spacing: 0.5px; }
       .more ul li:nth-child(1), .more ul li:nth-child(2) {
         border-radius: 10px; } }
+
+.sticky {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12vh !important;
+  background-color: #141718; }
+  .sticky img {
+    width: 100px; }
 
 .download__svg {
   width: 18px;
@@ -919,7 +930,7 @@ a {
     font-family: "Roboto Slab";
     overflow: hidden; }
     .home__content-main__bio span {
-      color: #96cdef; }
+      color: #ff864c; }
   .home__content-main__sub-bio {
     font-size: 0.75em;
     letter-spacing: 1.2px;
@@ -1045,7 +1056,7 @@ a {
   cursor: pointer; }
   .card__img-wrapper {
     width: 80vw;
-    height: 45vh;
+    height: 30vh;
     overflow: hidden;
     position: relative; }
     .card__img-wrapper img {

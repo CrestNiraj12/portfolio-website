@@ -10,6 +10,7 @@ import ImageOverlay from "../../components/ImageOverlay";
 import VisibilitySensor from "react-visibility-sensor";
 import Typical from "react-typical";
 import Attributions from "./attributions";
+import { useSpring, animated } from "react-spring";
 
 const mapStateToProps = (state) => ({
   posts: state.posts,
@@ -42,6 +43,7 @@ const descriptions = [
 const Content = ({ posts, setPosts }) => {
   const [featuredPost, setFeaturedPost] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [showMoreVisible, setShowMoreVisible] = useState(false);
 
   useEffect(() => {
     setIsLoadingPage(true);
@@ -59,14 +61,24 @@ const Content = ({ posts, setPosts }) => {
     e.target.style.visibility = "visible";
   };
 
+  const showMore = useSpring({
+    from: { opacity: 0, transform: "translateY(-100px)" },
+    opacity: showMoreVisible ? 1 : 0,
+    transform: showMoreVisible ? "translateY(0)" : "translateY(-100px)",
+    config: { mass: 5, tension: 2000, friction: 50 },
+  });
+
   return (
     <>
       <section className="home__content">
-        {isVisible && (
-          <SideTitle text="Who am I?" color="yellow" isVisible={isVisible} />
-        )}
+        {isVisible && <SideTitle text="Who am I?" color="yellow" />}
         <div className="home__content-main">
-          <VisibilitySensor onChange={(isVisible) => setIsVisible(isVisible)}>
+          <VisibilitySensor
+            partialVisibility
+            onChange={(visible) => {
+              if (!isVisible) setIsVisible(visible);
+            }}
+          >
             <p className="home__content-main__bio">
               I am{" "}
               <Typical loop={Infinity} steps={descriptions} wrapper="span" />
@@ -84,12 +96,18 @@ const Content = ({ posts, setPosts }) => {
       </section>
       <section className="home__projects">
         <Projects />
-        <div className="home__projects-all">
-          <h3>Want to See More?</h3>
-          <a href="https://github.com/CrestNiraj12" className="link-design">
-            View All Projects
-          </a>
-        </div>
+        <VisibilitySensor
+          onChange={(isVisible) => {
+            if (!showMoreVisible) setShowMoreVisible(isVisible);
+          }}
+        >
+          <div className="home__projects-all">
+            <animated.h3 style={showMore}>Want to See More?</animated.h3>
+            <a href="https://github.com/CrestNiraj12" className="link-design">
+              View All Projects
+            </a>
+          </div>
+        </VisibilitySensor>
       </section>
       {featuredPost && (
         <section className="home__featured">
