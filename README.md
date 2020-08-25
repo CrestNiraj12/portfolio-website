@@ -1,8 +1,8 @@
-[![Awesome Badges](https://img.shields.io/badge/badges-awesome-blue.svg)](https://github.com/Naereen/badges)
-[![GNU GPL v3 license](https://img.shields.io/badge/License-GPL%20v3.0-green.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 ![Website](https://img.shields.io/website?down_color=lightgrey&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fnirajshrestha.live)
+[![GNU GPL v3 license](https://img.shields.io/badge/License-GPL%20v3.0-green.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 ![GitHub last commit](https://img.shields.io/github/last-commit/CrestNiraj12/portfolio-website)
 [![time tracker](https://wakatime.com/badge/github/CrestNiraj12/portfolio-website.svg)](https://wakatime.com/badge/github/CrestNiraj12/portfolio-website)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/19d205d8-4f01-4cba-9bd7-552bb7c11ccb/deploy-status)](https://app.netlify.com/sites/nirajshrestha/deploys)
 
 # Portfolio Website
 
