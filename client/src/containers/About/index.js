@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { setPage, setIsLoadingPage } from "../../actions";
 import { ABOUT } from "../../constants";
 import { connect } from "react-redux";
@@ -11,25 +11,98 @@ import JS from "./js.png";
 import Footer from "../../components/Footer";
 import Collab from "../../components/Collab";
 import Attributions from "./attributions";
+import { useSpring, animated, useTrail } from "react-spring";
+import ReactVisibilitySensor from "react-visibility-sensor";
 
 const mapDispatchToProps = (dispatch) => ({
   setPage: (page) => dispatch(setPage(page)),
   setIsLoadingPage: (confirm) => dispatch(setIsLoadingPage(confirm)),
 });
 
+const skills = [
+  {
+    image: <Python className="about__content-description__skills-item__logo" />,
+    title: "Python",
+  },
+  {
+    image: <Html className="about__content-description__skills-item__logo" />,
+    title: "HTML5",
+  },
+
+  {
+    image: (
+      <img
+        src={JS}
+        alt="Javascript"
+        className="about__content-description__skills-item__logo"
+      />
+    ),
+    title: "Javascript",
+  },
+  {
+    image: <NodeJS className="about__content-description__skills-item__logo" />,
+    title: "NodeJS",
+  },
+  {
+    image: (
+      <ReactIcon className="about__content-description__skills-item__logo" />
+    ),
+    title: "React",
+  },
+  {
+    image: <Redux className="about__content-description__skills-item__logo" />,
+    title: "Redux",
+  },
+];
+
 const About = ({ setPage, setIsLoadingPage }) => {
+  const [visible, setVisible] = useState(false);
+
+  const [skillTrail, setTrail] = useTrail(skills.length, () => ({
+    opacity: 0,
+    s: 0,
+    config: { mass: 5, tension: 500, friction: 50 },
+  }));
+
   useEffect(() => {
     setIsLoadingPage(true);
     setPage(ABOUT);
     setIsLoadingPage(false);
-  }, [setPage, setIsLoadingPage]);
+
+    if (visible)
+      setTrail({
+        opacity: 1,
+        s: 1,
+      });
+  }, [setPage, setIsLoadingPage, setTrail, visible]);
+
+  const slide = useSpring({ from: { opacity: 0, x: -1000 }, opacity: 1, x: 0 });
+
+  const show = useSpring({
+    from: { opacity: 0, y: 100 },
+    opacity: 1,
+    y: 0,
+    delay: 500,
+  });
 
   return (
     <>
       <main className="about">
         <section className="about__content">
-          <p>Brief Introduction</p>
-          <h1>
+          <animated.p
+            style={{
+              opacity: slide.opacity,
+              transform: slide.x.interpolate((x) => `translateX(${x}px)`),
+            }}
+          >
+            Brief Introduction
+          </animated.p>
+          <animated.h1
+            style={{
+              opacity: show.opacity,
+              transform: show.y.interpolate((y) => `translateY(${y}px)`),
+            }}
+          >
             From{" "}
             <span role="img" aria-label="web">
               🕸
@@ -41,7 +114,7 @@ const About = ({ setPage, setIsLoadingPage }) => {
             Scripting , a{" "}
             <span className="emphasis-color-yellow">Programmer</span> and a very{" "}
             <span className="emphasis-color-blue">curious</span> individual
-          </h1>
+          </animated.h1>
           <div className="about__content-description">
             <p>
               Web developer and Programmer localized in Nepal, I am very
@@ -56,36 +129,27 @@ const About = ({ setPage, setIsLoadingPage }) => {
               provide you with the most satisfying product.
             </p>
             <p style={{ margin: "0" }}>My Skillset:</p>
-            <div className="about__content-description__skills">
-              <div className="about__content-description__skills-item">
-                <Python className="about__content-description__skills-item__logo" />
-                <p>Python</p>
+            <ReactVisibilitySensor
+              onChange={(isVisible) => {
+                if (!visible) setVisible(isVisible);
+              }}
+            >
+              <div className="about__content-description__skills">
+                {skillTrail.map(({ s, ...rest }, index) => (
+                  <animated.div
+                    key={index}
+                    className="about__content-description__skills-item"
+                    style={{
+                      ...rest,
+                      transform: s.interpolate((s) => `scale(${s})`),
+                    }}
+                  >
+                    {skills[index].image}
+                    <p>{skills[index].title}</p>
+                  </animated.div>
+                ))}
               </div>
-              <div className="about__content-description__skills-item">
-                <Html className="about__content-description__skills-item__logo" />
-                <p>HTML5</p>
-              </div>
-              <div className="about__content-description__skills-item">
-                <img
-                  src={JS}
-                  alt="Javascript"
-                  className="about__content-description__skills-item__logo"
-                />
-                <p>Javascript</p>
-              </div>
-              <div className="about__content-description__skills-item">
-                <NodeJS className="about__content-description__skills-item__logo" />
-                <p>NodeJS</p>
-              </div>
-              <div className="about__content-description__skills-item">
-                <ReactIcon className="about__content-description__skills-item__logo" />
-                <p>React</p>
-              </div>
-              <div className="about__content-description__skills-item">
-                <Redux className="about__content-description__skills-item__logo" />
-                <p>Redux</p>
-              </div>
-            </div>
+            </ReactVisibilitySensor>
           </div>
         </section>
         <Collab />
