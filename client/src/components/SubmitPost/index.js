@@ -185,8 +185,7 @@ const SubmitPost = ({
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
                     "insertdatetime media table paste imagetools code help wordcount",
-                    "casechange importcss searchreplace autosave save directionality advcode visualchars mediaembed template codesample hr pagebreak nonbreaking toc",
-                    "checklist tinymcespellchecker a11ychecker textpattern noneditable formatpainter permanentpen pageembed mentions quickbars linkchecker emoticons advtable",
+                    "importcss searchreplace autosave save directionality visualchars template codesample hr pagebreak nonbreaking toc",
                   ],
                   toolbar:
                     "undo redo | formatselect fontsizeselect | bold italic forecolor backcolor emoticons | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
