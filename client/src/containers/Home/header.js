@@ -22,7 +22,7 @@ const mapStateToProps = (state) => ({
 const Header = ({ isLandscape }) => {
   const [index, setIndex] = useState(0);
 
-  const text = `Nepali Freelancer`.split("");
+  const text = `Web Developer`.split("");
 
   useEffect(() => {
     var mounted = true;
