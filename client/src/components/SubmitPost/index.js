@@ -173,7 +173,6 @@ const SubmitPost = ({
                 value={post.content}
                 init={{
                   height: 500,
-
                   menubar: true,
                   image_caption: true,
                   a11y_advanced_options: true,
