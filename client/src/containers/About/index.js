@@ -3,10 +3,10 @@ import { setPage, setIsLoadingPage } from "../../actions";
 import { ABOUT } from "../../constants";
 import { connect } from "react-redux";
 import { ReactComponent as NodeJS } from "./svg/nodejs.svg";
-import { ReactComponent as Html } from "./svg/html.svg";
+import Laravel from "./laravel.png";
 import { ReactComponent as Python } from "./svg/python.svg";
 import { ReactComponent as ReactIcon } from "./svg/react.svg";
-import { ReactComponent as Redux } from "./svg/redux.svg";
+import Flutter from "./flutter.png";
 import JS from "./js.png";
 import Footer from "../../components/Footer";
 import Collab from "../../components/Collab";
@@ -25,8 +25,14 @@ const skills = [
     title: "Python",
   },
   {
-    image: <Html className="about__content-description__skills-item__logo" />,
-    title: "HTML5",
+    image: (
+      <img
+        src={Laravel}
+        alt="Laravel"
+        className="about__content-description__skills-item__logo"
+      />
+    ),
+    title: "Laravel",
   },
 
   {
@@ -50,8 +56,14 @@ const skills = [
     title: "React",
   },
   {
-    image: <Redux className="about__content-description__skills-item__logo" />,
-    title: "Redux",
+    image: (
+      <img
+        src={Flutter}
+        alt="Flutter"
+        className="about__content-description__skills-item__logo"
+      />
+    ),
+    title: "Flutter/Dart",
   },
 ];
 
