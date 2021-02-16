@@ -21,7 +21,8 @@
     "react-visibility-sensor": "^5.1.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "serialize-javascript": "^4.0.0"
+    "serialize-javascript": "^4.0.0",
+    "immer": ">=8.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
