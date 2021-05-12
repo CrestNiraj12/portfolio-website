@@ -18,7 +18,7 @@ const Projects = () => {
       url: "https://tbc.edu.np",
       image: TBC,
       alt: "Official Website of The British College",
-      title: "Official Website of The British College",
+      title: "TBC website",
       desc: "Official Website of The British College, developed with Laravel with ReactJS scaffolding",
       linkText: "View Project",
       translateY: -10,
