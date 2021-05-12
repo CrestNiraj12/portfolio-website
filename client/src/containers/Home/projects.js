@@ -1,16 +1,16 @@
 import React from "react";
-import CollegeProject from "../../images/project.jpg";
+import Woolwich from "../../images/woolwich.PNG";
 import TBC from "../../images/tbc.PNG";
 import Card from "../../components/Card";
 
 const Projects = () => {
   const projects = [
     {
-      url: "https://nirajshrestha01.com.np/website/index.html",
-      image: CollegeProject,
-      alt: "College Project",
-      title: "Personal Website",
-      desc: "Second year college project, developed with plain HTML5, CSS and JS with JQuery",
+      url: "https://thewoolwichpharmacy.co.uk/",
+      image: Woolwich,
+      alt: "Woolwich Pharmacy website",
+      title: "Woolwich Pharmacy website",
+      desc: "Simple Pharmacy website with dynamic booking card",
       linkText: "View Project",
       translateY: 0,
     },
