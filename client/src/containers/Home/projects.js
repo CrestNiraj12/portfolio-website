@@ -1,6 +1,6 @@
 import React from "react";
 import CollegeProject from "../../images/project.jpg";
-import AT from "../../images/at.png";
+import TBC from "../../images/tbc.PNG";
 import Card from "../../components/Card";
 
 const Projects = () => {
@@ -10,17 +10,16 @@ const Projects = () => {
       image: CollegeProject,
       alt: "College Project",
       title: "Personal Website",
-      desc:
-        "Second year college project, developed with plain HTML5, CSS and JS with JQuery",
+      desc: "Second year college project, developed with plain HTML5, CSS and JS with JQuery",
       linkText: "View Project",
       translateY: 0,
     },
     {
-      url: "https://crestniraj12.github.io/profile-page/index.html",
-      image: AT,
-      alt: "First year college project",
+      url: "https://tbc.edu.np",
+      image: TBC,
+      alt: "Official Website of The British College",
       title: "Profile page",
-      desc: "First year college project, developed with plain HTML5 and CSS",
+      desc: "Official Website of The British College, developed with Laravel with ReactJS scaffolding",
       linkText: "View Project",
       translateY: -10,
     },
