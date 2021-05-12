@@ -6,10 +6,7 @@
 
 # Portfolio Website
 
-My personal website and a personal project to challenge myself to build a website with ReactJS frontend while using Redux, Sass and NodeJS with Express for the backend after one
-or two online courses.
-
-- ⚡ Fun fact: I already have the same website made from scratch using only HTML, CSS and JS with JQuery 🤯 [HERE](https://github.com/CrestNiraj12/Final-Website-Assignment)
+My personal website and a personal project to challenge myself to build a website with ReactJS frontend while using Redux, Sass and NodeJS with Express for the backend after one or two online courses.
 
 ## Available Scripts
 
